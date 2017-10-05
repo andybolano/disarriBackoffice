@@ -1,0 +1,115 @@
+<div class="wrapper wrapper-content animated fadeIn">
+    <div class="row">
+        <div class="col-lg-7">
+            <img src="assets/img/icons/history.png" class="icons">
+            <h3 class="title">
+                Resultados encontrados: {{usuarios.length}}
+                <br><small>Consulta y administra todos lo usuarios registrados en el sistema.</small>
+            </h3>
+        </div>
+        <div class="col-lg-3">
+            <div style="margin-top:-16px;">
+                <small>Seleccionar perfil:</small>
+                <div class="input-group">
+
+                    <select [(ngModel)]="selectedPerfil" (ngModelChange)="getUsuarios()" class="form-control form-search">
+                    <option *ngFor=" let p of perfiles " value="{{p.codigo}}">{{p.nombre}}</option>
+                    </select>
+                    <span class="input-group-btn"> 
+                    <button type="button" class="btn btn-default search"><i class="fa fa-user"></i></button> 
+                </span>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-2">
+            <div class="input-group">
+                <input type="text" class="form-control form-search" placeholder="Buscar..." [(ngModel)]="filter">
+                <span class="input-group-btn"> 
+                    <button type="button" class="btn btn-default search"><i class="fa fa-search"></i></button> 
+                </span>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-lg-12">
+            <table class="table table-hover" [mfData]="usuarios | dataFilter : filter" #mf="mfDataTable" [mfRowsOnPage]="30">
+                <thead>
+                    <tr>
+                        <th>
+                            <mfDefaultSorter by="estado">Estado</mfDefaultSorter>
+                        </th>
+                        <th>
+                            <mfDefaultSorter by="user">Usuario</mfDefaultSorter>
+                        </th>
+                        <th>
+                            <mfDefaultSorter by="info">Información</mfDefaultSorter>
+                        </th>
+                        <th>
+                            <mfDefaultSorter by="username">Ultima conexión</mfDefaultSorter>
+                        </th>
+                        <th style="width:100px">
+                            <mfDefaultSorter by="username"> Opciones</mfDefaultSorter>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of mf.data">
+                        <td>
+                            <span class="badge badge-success" *ngIf="item.estado == 1">Activo</span>
+                            <span class="badge badge-danger" *ngIf="item.estado == 0">Inactivo</span>
+                        </td>
+                        <td>{{item.user}}</td>
+                        <td>
+                            <span *ngIf="item.info !== ''">{{item.info}}</span>
+                            <span *ngIf="item.info  == '' || item.info  == null ">Ninguna</span>
+                        </td>
+                        <td>2017-08-28 07:42:40</td>
+                        <td style="width:100px;text-align:center;">
+                            <a href="javascript:;" (click)="getUserById(item.codigo)" title="ver usuario"><i class="fa fa-eye ico text-blue"></i></a> &nbsp;
+                            <a href="#" title="Cambiar Contraseña" data-toggle="modal" data-target="#myModal" (click)="showBypassword(item)"><i class="fa fa-key ico text-red"></i></a> &nbsp;
+                            <a href="javascript:;" *ngIf="item.estado == 1" title="Bloquear" (click)="updateState(item.codigo, 0)"><i class="fa fa-unlock ico text-blue" ></i></a>
+                            <a href="javascript:;" *ngIf="item.estado == 0" title="Desbloquear" (click)="updateState(item.codigo, 1)"><i class="fa fa-lock ico text-red"></i></a>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="8 ">
+                            <mfBootstrapPaginator [rowsOnPageSet]="[30,40,50]"></mfBootstrapPaginator>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+        <div *ngIf="mf.data.length == 0" class="empty">
+            <div class="img-empty">
+
+            </div>
+            <h3>
+                No se encontraron usuarios
+            </h3>
+        </div>
+    </div>
+</div>
+
+<div class="modal inmodal" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content animated bounceInRight">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                <i class="fa fa-key modal-icon"></i>
+                <h4 class="modal-title">{{userpass.user}}</h4>
+                <small class="font-bold">Cambio de contraseña de usuario. </small>
+            </div>
+            <div class="modal-body">
+                <p>El cambio de contraseña a un usuario se debe hacer con previo conocimiento del mismo y bajo la debida autorización del propietario. </p>
+                <div class="form-group"><label>Ingresar nueva contraseña</label> <input type="text" placeholder="Ingresar aquí" class="form-control" [(ngModel)]="userpass.pass"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-success" (click)="updatePassword(userpass.codigo)">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>

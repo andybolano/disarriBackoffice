@@ -1,0 +1,233 @@
+<div class="wrapper wrapper-content animated fadeIn">
+    <div class="row">
+        <div class="col-lg-9">
+            <img src="assets/img/icons/grupo.png" class="icons">
+            <h3 class="title">
+                Cantidad de grupos registrados: {{grupos.length}}
+            </h3>
+            <ol class="breadcrumb">
+                <li>
+                    <a>Configuración</a>
+                </li>
+                <li class="active">
+                    <strong>Grupos</strong>
+                </li>
+            </ol>
+        </div>
+        <div class="col-lg-3">
+
+            <div class="input-group">
+                <input type="text" class="form-control form-search" placeholder="Buscar..." [(ngModel)]="filter">
+                <span class="input-group-btn"> 
+                    <button type="button" class="btn btn-default search"><i class="fa fa-search"></i></button> 
+                </span>
+            </div>
+
+
+        </div>
+    </div>
+    <hr>
+    <br>
+
+    <div class="tabs-container">
+        <ul class="nav nav-tabs">
+            <li class="active">
+                <a data-toggle="tab" href="#tab-1" aria-expanded="true">
+                    <strong *ngIf="!update">Crear grupo</strong>
+                    <strong *ngIf="update">  Actualizar grupo: {{grupo.nombre}}</strong>
+                </a>
+            </li>
+            <li class=""><a data-toggle="tab" href="#tab-2" aria-expanded="false"><strong>Consulta de grupos</strong></a></li>
+        </ul>
+        <div class="tab-content">
+            <div id="tab-1" class="tab-pane active">
+                <div class="row">
+                    <div class="col-lg-3">
+                        <br>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="fileUpload btn btn-primary">
+                                    <span><i class="fa fa-image"></i> Seleccionar imagen</span>
+                                    <input type="file" (change)="getFiles($event)" name="images" id="files" class="upload" />
+                                </div>
+                                <div class="spacer" style="height:20px;"></div>
+                                <div id="image" class="animated bounceIn">
+                                    <div class="row">
+                                        <div class="col-lg-12" style="text-align: center;">
+                                            <i class="fa fa-image ico-bg"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="spacer" style="height:20px;"></div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>franquicia:</label>
+                            <select [(ngModel)]="grupo.franquicia_codigo" class="form-control">
+                 <option *ngFor=" let f of franquicias " value="{{f.codigo}}">{{f.nombre}}</option>
+                </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Nombre:</label>
+                            <input type="text" placeholder="Escribir nombre..." [(ngModel)]="grupo.nombre" class="form-control">
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label>Regalía:</label>
+                                    <input type="number" [(ngModel)]="grupo.regalia" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label>Proporción:</label>
+                                    <input type="number" [(ngModel)]="grupo.proporcion" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label>Inversión Miníma:</label>
+                                    <input type="number" [(ngModel)]="grupo.inversionMin" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label>Inversión Maxíma:</label>
+                                    <input type="number" [(ngModel)]="grupo.inversionMax" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="spacer" style="height:15px;"></div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label>Jugadas Miníma:</label>
+                                    <input type="number" [(ngModel)]="grupo.jugadasMin" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label>Jugadas Maxíma:</label>
+                                    <input type="number" [(ngModel)]="grupo.jugadasMax" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label>Caducidad:</label>
+                                    <input type="number" [(ngModel)]="grupo.caducidad" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label>Combinadas:</label>
+                                    <input type="number" [(ngModel)]="grupo.combinadas" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label>Ganancia Maxíma:</label>
+                                    <input type="number" [(ngModel)]="grupo.gananciaMax" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label>Recarga Miníma:</label>
+                                    <input type="number" [(ngModel)]="grupo.recargaMin" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Estado:</label>
+                            <select class="form-control" [(ngModel)]="grupo.estado">
+                    <option value="1">ACTIVO</option>
+                    <option value="0">INACTIVO</option>
+                </select>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <hr>
+                <br>
+                <div class="row">
+                    <div class="text-center col-lg-12">
+                        <button class="btn btn-success  animated bounceIn" (click)="saveGrupo()" *ngIf="!update">Crear grupo</button>
+                        <button class="btn btn-warning animated fadeIn" (click)="updateGrupo()" *ngIf="update">Actualizar grupo</button>
+                        <button class="btn btn-white  btn-outline animated fadeIn" (click)="cancel()" *ngIf="update">Cancelar</button>
+                    </div>
+                </div>
+                <br>
+            </div>
+            <div id="tab-2" class="tab-pane">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <table class="table table-hover" [mfData]="grupos | dataFilter : filter" #mf="mfDataTable" [mfRowsOnPage]="25">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <mfDefaultSorter by="estado"> Estado</mfDefaultSorter>
+                                    </th>
+                                    <th>
+                                        <mfDefaultSorter by="franquicia_nombre">Franquicia</mfDefaultSorter>
+                                    </th>
+                                    <th>
+                                        <mfDefaultSorter by="nombre">Nombre</mfDefaultSorter>
+                                    </th>
+                                    <th>
+                                        <mfDefaultSorter by="regalia"> Regalía</mfDefaultSorter>
+                                    </th>
+                                    <th>
+                                        <mfDefaultSorter by="proporcion"> Proporción</mfDefaultSorter>
+                                    </th>
+                                    <th>
+                                        <mfDefaultSorter by="inverisionMin">inv. Min</mfDefaultSorter>
+                                    </th>
+                                    <th>
+                                        <mfDefaultSorter by="inversionMax"> inv. Max</mfDefaultSorter>
+                                    </th>
+                                    <th width="5%;">
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of mf.data">
+
+                                    <td *ngIf="item.codigo !== -1">
+                                        <span class="badge badge-success " *ngIf="item.estado==1 ">Activo</span>
+                                        <span class="badge badge-danger " *ngIf="item.estado==0 ">Inactivo</span>
+                                    </td>
+                                    <td *ngIf="item.codigo !== -1">{{item.franquicia_nombre}}</td>
+                                    <td *ngIf="item.codigo !== -1">{{item.nombre}}</td>
+                                    <td *ngIf="item.codigo !== -1">{{item.regalia}}</td>
+                                    <td *ngIf="item.codigo !== -1">{{item.proporcion}}</td>
+                                    <td *ngIf="item.codigo !== -1">{{item.inversionMin | currency :'USD':true:'2.0-0'}}</td>
+                                    <td *ngIf="item.codigo !== -1">{{item.inversionMax | currency :'USD':true:'2.0-0'}}</td>
+                                    <td *ngIf="item.codigo !== -1">
+                                        <a href="javascript:; " title="Editar franquicia " (click)="showGrupo(item) "><i class="fa fa-eye ico text-blue"></i> </a>&nbsp;
+                                        <a href="javascript:;" *ngIf="item.estado == 1" title="Bloquear" (click)="updateState(item.codigo, 0)"><i class="fa fa-unlock ico text-blue" ></i></a>
+                                        <a href="javascript:;" *ngIf="item.estado == 0" title="Desbloquear" (click)="updateState(item.codigo, 1)"><i class="fa fa-lock ico text-red"></i></a>
+                                    </td>
+
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="8 ">
+                                        <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25] "></mfBootstrapPaginator>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

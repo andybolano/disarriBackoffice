@@ -1,0 +1,33 @@
+<div class="wrapper wrapper-content animated fadeIn">
+    <div class="row">
+        <div class="col-lg-9">
+            <img src="assets/img/icons/geotaquillas.png" class="icons">
+            <h3 class="title">
+                Ubicación geografica
+                <br><small>Consulta la ubicacion geografica de cada taquilla activa</small>
+            </h3>
+        </div>
+        <div class="col-lg-3">
+            <div style="margin-top:-17px;">
+                <small>Filtrar por grupo</small>
+                <div class="input-group">
+                    <select [(ngModel)]="selectedGrupo" (ngModelChange)="getTaquillas()" class="form-control form-search">
+                    <option *ngFor=" let p of grupos " value="{{p.codigo}}">{{p.nombre}}</option>
+                    </select>
+                    <span class="input-group-btn"> 
+                    <button type="button" class="btn btn-default search"><i class="fa fa-users"></i></button> 
+                </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <br>
+    <div class="row">
+        <div class="col-lg-12">
+            <div id="map" style="width:100%;">
+
+            </div>
+        </div>
+    </div>
+</div>

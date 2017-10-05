@@ -1,0 +1,106 @@
+<div class="wrapper wrapper-content animated fadeIn">
+    <div class="row">
+        <div class="col-lg-4">
+            <img src="assets/img/icons/encuentros.png" class="icons">
+            <h3 class="title">
+                Encuentros Disponibles: {{encuentros.length}}
+            </h3>
+            <ol class="breadcrumb">
+                <li>
+                    <a>Configuración</a>
+                </li>
+                <li class="active">
+                    <strong>encuentros</strong>
+                </li>
+            </ol>
+        </div>
+        <div class="col-lg-3">
+            <div style="margin-top:-13px;">
+                <small>Fecha de inicio</small>
+                <div class="input-group">
+                    <input type="date" class="form-control form-search" [ngModel]="fechaDesde | date:'yyyy-MM-dd'" (ngModelChange)="onChangeFechaDesde($event)">
+                    <span class="input-group-btn"> 
+                    <button type="button" class="btn btn-default search"><i class="fa fa-calendar"></i></button> 
+                </span>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div style="margin-top:-13px;">
+                <small>Fecha final</small>
+                <div class="input-group">
+                    <input type="date" class="form-control form-search" [ngModel]="fechaHasta | date:'yyyy-MM-dd'" (ngModelChange)="onChangeFechaHasta($event)">
+                    <span class="input-group-btn"> 
+                    <button type="button" class="btn btn-default search" ><i class="fa fa-calendar"></i></button> 
+                </span>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-2">
+            <div class="input-group" style="margin-top:3px;">
+                <input type="text" class="form-control form-search" placeholder="Buscar..." [(ngModel)]="filter">
+                <span class="input-group-btn"> 
+                    <button type="button" class="btn btn-default search"><i class="fa fa-search"></i></button> 
+                </span>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-lg-12">
+            <table class="table table-hover" [mfData]="encuentros | dataFilter : filter" #mf="mfDataTable" [mfRowsOnPage]="20">
+                <thead>
+                    <tr class="text-nowrap">
+                        <th>
+                            <mfDefaultSorter by="estado">Estado</mfDefaultSorter>
+                        </th>
+                        <th>
+                            <mfDefaultSorter by="Id">Id</mfDefaultSorter>
+                        </th>
+                        <th>
+                            <mfDefaultSorter by="fecha">Fecha - Hora</mfDefaultSorter>
+                        </th>
+                        <th>
+                            <mfDefaultSorter by="DeporteNombre">Deporte</mfDefaultSorter>
+                        </th>
+                        <th>
+                            <mfDefaultSorter by="TorneoNombre">Torneo</mfDefaultSorter>
+                        </th>
+                        <th>
+                            <mfDefaultSorter by="arena">Escenario</mfDefaultSorter>
+                        </th>
+                        <th>
+                            <mfDefaultSorter by="local">Local</mfDefaultSorter>
+                        </th>
+                        <th>
+                            <mfDefaultSorter by="visitante">Visitante</mfDefaultSorter>
+                        </th>
+                        <th>Opciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of mf.data">
+                        <td>{{item.estado}}</td>
+                        <td>{{item.Id}}</td>
+                        <td>{{item.fecha | date:'yMMMdjms'}}</td>
+                        <td>{{item.DeporteNombre}}</td>
+                        <td>{{item.TorneoNombre}}</td>
+                        <td>{{item.arena}}</td>
+                        <td><span class="text-blueDark"><b>{{item.local}}</b></span></td>
+                        <td><span class="text-blueDark"><b>{{item.visitante}}</b></span></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="8 ">
+                            <mfBootstrapPaginator [rowsOnPageSet]="[20,40,60]"></mfBootstrapPaginator>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+
+
+</div>

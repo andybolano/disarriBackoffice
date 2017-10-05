@@ -1,0 +1,81 @@
+<div class="wrapper wrapper-content animated fadeIn">
+    <div class="row">
+        <div class="col-lg-8">
+            <img src="assets/img/icons/recarga.png" class="icons">
+            <h3 class="title">
+                Cantidad de solicitudes: {{solicitudes.length}}
+            </h3>
+            <ol class="breadcrumb">
+                <li>
+                    <a>Recargas</a>
+                </li>
+                <li class="active">
+                    <strong>Solicitudes</strong>
+                </li>
+            </ol>
+        </div>
+        <div class="col-lg-3">
+            <div class="input-group">
+                <input type="text" class="form-control form-search" placeholder="Buscar..." [(ngModel)]="filter">
+                <span class="input-group-btn"> 
+                    <button type="button" class="btn btn-default search"><i class="fa fa-search"></i></button> 
+                </span>
+            </div>
+        </div>
+        <div class="col-lg-1" style="text-align:right;">
+            <button class="btn btn-warning btn-circle" type="button" title="Rechazar" (click)="getSolicitudes();" style="margin-top:3px;" title="Consultar solicitudes"> 
+                                <i class="fa fa-refresh"></i>
+            </button>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-lg-12">
+            <table class="table table-hover">
+                <thead>
+                    <tr class="text-nowrap">
+                        <th>Estado</th>
+                        <th>Fecha-hora</th>
+                        <th>Cedula</th>
+                        <th>Cliente</th>
+                        <th>Taquillero solicit.</th>
+                        <th>Valor de recarga</th>
+                        <th>Saldo actual</th>
+                        <!--<th>Destino</th>-->
+                        <th>Opciónes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of solicitudes | dataFilter : filter ">
+                        <td>
+                            <span class="badge badge-warning" *ngIf="item.estado == 0">Esperando...</span>
+                        </td>
+                        <td>{{item.fecha | date:'yMMMdjms'}}</td>
+                        <td>{{item.cliente_cedula}}</td>
+                        <td>{{item.cliente_nombre}}</td>
+                        <td>{{item.username}}</td>
+                        <td><span class="text-success">{{item.saldo | currency :'USD':true:'2.0-0'}}</span></td>
+                        <td><span class="text-navy">{{item.saldo_anterior | currency :'USD':true:'2.0-0'}}</span></td>
+                        <!-- <td><span class="badge">PARLEY</span></td>-->
+                        <td>
+                            <button class="btn btn-success btn-circle btn-outline" type="button" title="Aprobar" (click)="updateState('APROBADA',1,item.codigo)">
+                                <i class="fa fa-check"></i>
+                            </button>
+                            <button class="btn btn-danger btn-circle btn-outline" type="button" title="Rechazar" (click)="updateState('RECHAZADA',2,item.codigo)"> 
+                                <i class="fa fa-times"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div *ngIf="solicitudes.length == 0" class="empty">
+            <div class="img-empty">
+
+            </div>
+            <h3>
+                No hay solicitudes de recargas
+            </h3>
+        </div>
+    </div>
+</div>

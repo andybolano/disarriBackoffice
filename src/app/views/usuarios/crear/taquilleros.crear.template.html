@@ -1,0 +1,237 @@
+<div class="wrapper wrapper-content animated fadeIn">
+    <div class="row">
+        <div class="col-lg-9">
+            <img src="assets/img/icons/user.png" class="icons">
+            <h3 class="title">
+                Gestión de usuarios taquilleros
+                <br><small>Crea nuevos taquilleros de forma masiva y administralos</small>
+            </h3>
+        </div>
+    </div>
+    <hr>
+    <br>
+    <div class="tabs-container">
+        <ul class="nav nav-tabs">
+            <li class="active"><a data-toggle="tab" href="#tab-1" aria-expanded="true"><strong>Crear taquilleros</strong></a></li>
+            <li class=""><a data-toggle="tab" href="#tab-2" aria-expanded="false"><strong>Consulta de taquilleros</strong></a></li>
+        </ul>
+        <div class="tab-content">
+            <div id="tab-1" class="tab-pane active">
+                <div class="spacer" style="height:30px"></div>
+                <div class="row">
+                    <div class="col-lg-3 b-r">
+                        <h2>Parametros para usuarios:</h2>
+                        <br>
+                        <div class="form-group">
+                            <label>Seleccionar franquicia:</label>
+                            <select class="form-control btn-rounded" [(ngModel)]="selectFranquicia" (change)="getGrupos()">
+                    <option  *ngFor="let item of franquicias" value="{{item.codigo}}">{{item.nombre}}</option>
+                </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Seleccionar Grupo:</label>
+                            <select class="form-control btn-rounded" [(ngModel)]="selectGrupo" (change)="printUsers()">
+                    <option *ngFor="let item of grupos" value="{{item.codigo}}" >{{item.nombre}}</option>
+                </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Cantidad de taquilleros a crear:</label>
+                            <input type="number" class="form-control btn-rounded" (change)="printUsers()" [(ngModel)]="nUsers">
+                        </div>
+                        <div class="form-group">
+                            <label>Porcentaje de recarga:</label>
+                            <input type="number" class="form-control btn-rounded" [(ngModel)]="percent_recarga">
+                        </div>
+                        <div class="form-group">
+                            <label>Prefíjo para usuarios:</label>
+                            <div class="input-group m-b"><span class="input-group-addon">{{prefixFranquicia}}</span>
+                                <input type="text" placeholder="Prefijo" [(ngModel)]="prefixManual" class="form-control" (change)="printUsers()">
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-lg-3">
+                        <h2>Listado de usuarios:</h2>
+                        <div class="row template" *ngIf="template">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <small>Usuario:</small>
+                                    <input type="text" class="form-control" value="user1" disabled>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <small>Contraseña:</small>
+                                    <input type="text" class="form-control" value="********" disabled>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <small>Usuario:</small>
+                                    <input type="text" class="form-control" value="user2" disabled>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <small>Contraseña:</small>
+                                    <input type="text" class="form-control" value="********" disabled>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <small>Usuario:</small>
+                                    <input type="text" class="form-control" value="user3" disabled>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <small>Contraseña:</small>
+                                    <input type="text" class="form-control" value="********" disabled>
+                                </div>
+                            </div>
+                        </div>
+                        <table>
+                            <tr *ngFor="let item of users; let i = index" id="{{i}}content">
+                                <td>
+                                    <label><i class="fa fa-user"></i> {{item.id}}. Información de usuario</label>
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <small>Usuario:</small>
+                                                <input type="text" class="form-control" value="{{item.user}}">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <small>Contraseña:</small>
+                                                <input type="text" class="form-control" value="{{item.pass}}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <tr>
+                        </table>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-lg-6  text-center">
+                        <button class="btn btn-success" (click)="save()">Crear taquilleros</button>
+                    </div>
+                </div>
+            </div>
+            <div id="tab-2" class="tab-pane">
+                <div class="spacer" style="height:30px"></div>
+                <div class="row">
+                    <div class="col-lg-3">
+                        <div class="form-group">
+                            <label>Seleccionar franquicia:</label>
+                            <select class="form-control btn-rounded" [(ngModel)]="selectFranquicia" (change)="getGruposTaquilleros()">
+                    <option  *ngFor="let item of franquicias" value="{{item.codigo}}">{{item.nombre}}</option>
+                </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="form-group">
+                            <label>Seleccionar Grupo:</label>
+                            <select class="form-control btn-rounded" [(ngModel)]="selectGrupo" (change)="getTaquilleros()">
+                                    <option *ngFor="let item of gruposTaqui" value="{{item.codigo}}" >{{item.nombre}}</option>
+                                </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-lg-offset-3">
+                        <div class="spacer" style="height:18px;"></div>
+                        <div class="input-group">
+                            <input type="text" class="form-control form-search" placeholder="Buscar..." [(ngModel)]="filter">
+                            <span class="input-group-btn"> 
+                                <button type="button" class="btn btn-default search"><i class="fa fa-search"></i></button> 
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <table class="table table-hover" [mfData]="taquilleros | dataFilter : filter" #mf="mfDataTable" [mfRowsOnPage]="10">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <mfDefaultSorter by="estado">Estado</mfDefaultSorter>
+                                    </th>
+                                    <th>
+                                        <mfDefaultSorter by="user"> Usuario</mfDefaultSorter>
+                                    </th>
+                                    <th>
+                                        <mfDefaultSorter by="bono_recarga"> Bono recargas</mfDefaultSorter>
+                                    </th>
+                                    <th>
+                                        <mfDefaultSorter by="bono_recarga_percent"> Porcentaje de recargas</mfDefaultSorter>
+                                    </th>
+                                    <th>
+                                        <mfDefaultSorter by="user"> Opciones</mfDefaultSorter>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of mf.data | dataFilter : filter ">
+                                    <td>
+                                        <span class="badge badge-success" *ngIf="item.estado == 1">Activo</span>
+                                        <span class="badge badge-danger" *ngIf="item.estado ==0 ">Inactivo</span>
+                                    </td>
+                                    <td>{{item.user}}</td>
+                                    <td><span class="text-navy">{{item.bono_recarga | currency :'USD':true:'2.0-0'}}</span></td>
+                                    <td>{{item.bono_recarga_percent }} %</td>
+                                    <td style="width:100px;text-align:center;">
+                                        <a href="#" title="Cambiar Contraseña" data-toggle="modal" data-target="#myModal" (click)="showBypassword(item)"><i class="fa fa-key ico text-red"></i></a> &nbsp;
+                                        <a href="javascript:;" *ngIf="item.estado == 1" title="Bloquear" (click)="updateState(item.codigo, 0)"><i class="fa fa-unlock ico text-blue" ></i></a>
+                                        <a href="javascript:;" *ngIf="item.estado == 0" title="Desbloquear" (click)="updateState(item.codigo, 1)"><i class="fa fa-lock ico text-red"></i></a>
+                                    </td>
+
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="5">
+                                        <mfBootstrapPaginator [rowsOnPageSet]="[10,20,30]"></mfBootstrapPaginator>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+                <div *ngIf="taquilleros.length == 0" class="empty">
+                    <div class="img-empty">
+
+                    </div>
+                    <h3>
+                        No existen taquilleros en este grupo
+                    </h3>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+<div class="modal inmodal" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content animated bounceInRight">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                <i class="fa fa-key modal-icon"></i>
+                <h4 class="modal-title">{{userpass.user}}</h4>
+                <small class="font-bold">Cambio de contraseña de usuario. </small>
+            </div>
+            <div class="modal-body">
+                <p>El cambio de contraseña a un usuario se debe hacer con previo conocimiento del mismo y bajo la debida autorización del propietario. </p>
+                <div class="form-group"><label>Ingresar nueva contraseña</label> <input type="text" placeholder="Ingresar aquí" class="form-control" [(ngModel)]="userpass.pass"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-success" (click)="updatePassword(userpass.codigo)">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>

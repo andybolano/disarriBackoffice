@@ -1,0 +1,79 @@
+<div class="wrapper wrapper-content animated fadeIn">
+    <div class="row">
+        <div class="col-lg-10">
+            <img src="assets/img/icons/actualizar-user.png" class="icons">
+            <h3 class="title">
+                {{usuario.user}}
+                <br><small>Actualiza información, permisos y grupos de este usuario.</small>
+            </h3>
+        </div>
+    </div>
+    <hr>
+    <br>
+    <div class="row">
+        <div class="col-lg-3">
+            <div class="form-group">
+                <label>perfil:</label>
+                <select class="form-control btn-rounded" [(ngModel)]="selectedPerfil" (change)="getPermisosByPerfil()">
+                    <option *ngFor="let item of perfiles" value="{{item.codigo}}" >{{item.nombre}}</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Usuario:</label>
+                <div class="form-group">
+                    <input type="text" class="form-control" [(ngModel)]="usuario.user">
+                </div>
+            </div>
+            <label>Información:</label>
+            <div class="form-group">
+                <textarea [(ngModel)]="usuario.info" class="form-control" placeholder="Escribir Información..." rows="8"></textarea>
+            </div>
+
+        </div>
+        <div class="col-lg-5">
+            <div class="row">
+                <div class="col-lg-6">
+                    <h3><i class="fa fa-unlock-alt"></i> Permisos del usuario </h3>
+                </div>
+            </div>
+            <hr>
+            <br>
+            <div class="row">
+                <div class="col-md-6" *ngFor="let item of permisos | orderBy:'permiso' | dataFilter : filterPermiso">
+                    <div class="form-group">
+                        <div class="checkbox i-checks">
+                            <label>
+                            <input type="checkbox" id="{{item.codigo}}" name="PermisosAdd[]"> {{item.permiso_nombre}}
+                          </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="row">
+                <div class="col-lg-6">
+                    <h3><i class="fa fa-users"></i> Grupos del usuario </h3>
+                </div>
+            </div>
+            <hr>
+            <br>
+            <div class="row">
+                <div class="col-lg-12">
+                    <select multiple="multiple" size="10" name="grupos_list[]" id="grupos">
+
+                </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <br>
+    <div class="row">
+        <div class="col-lg-12 text-center">
+
+            <button class="btn btn-warning " (click)="update()">Actualizar Usuario</button>
+            <button class="btn btn-white btn-outline" (click)="cancel()"><i class="fa fa-back"></i> Cancelar o volver</button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,179 @@
+<div class="wrapper wrapper-content animated fadeIn">
+    <div class="row">
+        <div class="col-lg-4">
+            <img src="assets/img/icons/ventas.png" class="icons">
+            <h3 class="title">
+                {{dataReport.nombre}}
+            </h3>
+            <ol class="breadcrumb">
+                <li>
+                    <a>Reportes</a>
+                </li>
+                <li>
+                    <a (click)="back();">Ventas</a>
+                </li>
+
+                <li class="active">
+                    <strong>Grupo  {{dataReport.nombre}}</strong>
+                </li>
+            </ol>
+        </div>
+        <div class="col-lg-3">
+            <div style="margin-top:-13px;">
+                <small>Fecha de inicio</small>
+                <div class="input-group">
+                    <input type="date" class="form-control form-search" [ngModel]="fechaDesde | date:'yyyy-MM-dd'" (ngModelChange)="onChangeFechaDesde($event)">
+                    <span class="input-group-btn"> 
+                    <button type="button" class="btn btn-default search"><i class="fa fa-calendar"></i></button> 
+                </span>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div style="margin-top:-13px;">
+                <small>Fecha final</small>
+                <div class="input-group">
+                    <input type="date" class="form-control form-search" [ngModel]="fechaHasta | date:'yyyy-MM-dd'" (ngModelChange)="onChangeFechaHasta($event)">
+                    <span class="input-group-btn"> 
+                    <button type="button" class="btn btn-default search" ><i class="fa fa-calendar"></i></button> 
+                </span>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-2">
+            <div class="input-group" style="margin-top:3px;">
+                <input type="text" class="form-control form-search" placeholder="Buscar..." [(ngModel)]="filter">
+                <span class="input-group-btn"> 
+                    <button type="button" class="btn btn-default search"><i class="fa fa-search"></i></button> 
+                </span>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="spacer" style="height:25px;"></div>
+    <div class="row text-left">
+        <div class="col-xs-2">
+            <div class=" m-l-md text-blueDark">
+                <h2 class="no-margins">$ <span class="text-degrade counter" id="{{sumas.ventas}}">0</span></h2>
+                <small class=" m-b block">Total Venta</small>
+            </div>
+        </div>
+        <div class="col-xs-2">
+            <div class=" m-l-md text-blueDark">
+                <h2 class="no-margins">$ <span class="text-degrade counter" id="{{sumas.ganadores}}">0</span></h2>
+                <small class=" m-b block">Total ganadores</small>
+            </div>
+        </div>
+        <div class="col-xs-2">
+            <div class=" m-l-md text-blueDark">
+                <h2 class="no-margins">$ <span class="text-degrade counter" id="{{sumas.enjuego}}">0</span></h2>
+                <small class=" m-b block">Total en juego</small>
+            </div>
+        </div>
+        <div class="col-xs-2 text-blueDark">
+            <h2 class="no-margins">$ <span class="text-degrade counter" id="{{sumas.porpagar}}">0</span></h2>
+            <small class=" m-b block">Total Por pagar</small>
+        </div>
+        <div class="col-xs-2 text-red">
+            <h2 class="no-margins">$ <span class="counter" id="{{sumas.pagados}}">0</span></h2>
+            <small class=" m-b block">Total Pagados</small>
+        </div>
+        <div class="col-xs-2">
+            <h2 class="no-margins text-green">$ <span class="counter" id="{{sumas.utilidad}}">0</span></h2>
+            <small class="m-b block">Total Utilidad</small>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-lg-12">
+            <table class="table table-hover" [mfData]="data | dataFilter : filter" #mf="mfDataTable" [mfRowsOnPage]="30">
+                <thead>
+                    <tr>
+                        <th>
+                            <mfDefaultSorter by="UsuarioNombre">Usuarios</mfDefaultSorter>
+                        </th>
+                        <th>
+                            <mfDefaultSorter by="Venta">Venta</mfDefaultSorter>
+                        </th>
+                        <th>
+                            <mfDefaultSorter by="Ganadores"> Ganadores</mfDefaultSorter>
+                        </th>
+                        <th>
+                            <mfDefaultSorter by="EnJuego"> En juego</mfDefaultSorter>
+                        </th>
+                        <th>
+                            <mfDefaultSorter by="PorPagar">Por pagar</mfDefaultSorter>
+                        </th>
+                        <th>
+                            <mfDefaultSorter by="Eliminados"> Eliminados</mfDefaultSorter>
+                        </th>
+                        <th>
+                            <mfDefaultSorter by="Caducados">Caducados</mfDefaultSorter>
+                        </th>
+                        <th>
+                            <mfDefaultSorter by="Pagados">Pagados</mfDefaultSorter>
+                        </th>
+                        <th>
+                            <mfDefaultSorter by="Utilidad"> Utilidad</mfDefaultSorter>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of mf.data">
+                        <td>
+                            <small>ID: {{item.UsuarioCodigo}}</small><br>
+                            <b>{{item.UsuarioNombre}}</b><br>
+                        </td>
+                        <td>
+                            <a href="javascript:;" (click)="getTicketsByTaquilla(item.UsuarioCodigo, item.UsuarioNombre, 'Vendidos');"><small>Ver {{item.VentaContador}} Tickets</small></a>
+                            <br>{{item.Venta | currency :'USD':true:'2.0-0'}}
+                        </td>
+                        <td>
+                            <a><small (click)="getTicketsByTaquilla(item.UsuarioCodigo, item.UsuarioNombre, 'Ganadores');">Ver {{item.GanadoresContador}} Tickets</small></a>
+                            <br>{{item.Ganadores | currency :'USD':true:'2.0-0'}}
+                        </td>
+                        <td>
+                            <a><small (click)="getTicketsByTaquilla(item.UsuarioCodigo, item.UsuarioNombre, 'En Juego');">Ver {{item.EnjuegoContador}} Tickets</small></a>
+                            <br> {{item.EnJuego | currency :'USD':true:'2.0-0'}}
+                        </td>
+                        <td>
+                            <a><small (click)="getTicketsByTaquilla(item.UsuarioCodigo, item.UsuarioNombre, 'Por Pagar');">Ver {{item.PorPagarContador}} Tickets</small></a>
+                            <br> {{item.PorPagar | currency :'USD':true:'2.0-0'}}
+                        </td>
+                        <td>
+                            <a href="javascript:;" (click)="getTicketsByTaquilla(item.UsuarioCodigo, item.UsuarioNombre, 'Eliminados');"><small>Ver {{item.EliminadosContador}} Tickets</small></a>
+                            <br> {{item.Eliminados | currency :'USD':true:'2.0-0'}}
+                        </td>
+                        <td>
+                            <a><small (click)="getTicketsByTaquilla(item.UsuarioCodigo, item.UsuarioNombre, 'Caducados');">Ver {{item.CaducadosContador}}  Tickets</small></a>
+                            <br> {{item.Caducados | currency :'USD':true:'2.0-0'}}
+                        </td>
+                        <td>
+                            <a><small (click)="getTicketsByTaquilla(item.UsuarioCodigo, item.UsuarioNombre, 'Pagados');">Ver {{item.PagadosContador}} Tickets</small></a><br>
+                            <b class="text-red"> {{item.Pagados | currency :'USD':true:'2.0-0'}}</b>
+                        </td>
+                        <td>
+                            <small>{{item.Utilidad | currency :'USD':true:'2.0-0'}}</small><br>
+                            <b class="text-green">{{item.UtilidadPorcentaje | round}}%</b>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="8 ">
+                            <mfBootstrapPaginator [rowsOnPageSet]="[30,40,50]"></mfBootstrapPaginator>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+        <div *ngIf="mf.data.length == 0" class="empty">
+            <div class="img-empty">
+
+            </div>
+            <h3>
+                No se encontraron reportes en estas fechas
+            </h3>
+        </div>
+    </div>
+</div>
