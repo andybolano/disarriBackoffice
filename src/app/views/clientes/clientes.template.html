@@ -1,0 +1,83 @@
+<div class="wrapper wrapper-content animated fadeIn">
+    <div class="row">
+        <div class="col-lg-8">
+            <img src="assets/img/icons/clientes.png" class="icons">
+            <h3 class="title">
+                Clientes registrados : {{clientes.length}}
+            </h3>
+            <ol class="breadcrumb">
+                <li>
+                    <a>Inicio</a>
+                </li>
+                <li class="active">
+                    <strong>Clientes</strong>
+                </li>
+            </ol>
+        </div>
+        <div class="col-lg-4">
+            <div class="input-group m-b" style="margin-top:3px;">
+                <input type="text" class="form-control" placeholder="Buscar..." [(ngModel)]="filter">
+                <span class="input-group-addon"><i class="fa fa-search"></i></span>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-lg-12">
+            <table class="table table-hover" [mfData]="clientes | dataFilter : filter" #mf="mfDataTable" [mfRowsOnPage]="10">
+                <thead>
+                    <tr class="text-nowrap">
+
+                        <th>
+                            <mfDefaultSorter by="item.id">Id</mfDefaultSorter>
+                        </th>
+                        <th>
+                            <mfDefaultSorter by="item.nombres">Nombres</mfDefaultSorter>
+                        </th>
+                        <th>
+                            <mfDefaultSorter by="item.telefono">Telefono</mfDefaultSorter>
+                        </th>
+                        <th>
+                            <mfDefaultSorter by="item.direccion">Direccion</mfDefaultSorter>
+                        </th>
+                        <th>
+                            <mfDefaultSorter by="item.pais">Pais</mfDefaultSorter>
+                        </th>
+                        <th>
+                            <mfDefaultSorter by="item.ciudad">Ciudad</mfDefaultSorter>
+                        </th>
+                        <th>
+                            <mfDefaultSorter by="item.email">Email</mfDefaultSorter>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of mf.data">
+                        <td>{{item.id}}</td>
+                        <td>{{item.nombres}} {{item.apellidos}}</td>
+                        <td>{{item.telefono}}</td>
+                        <td>{{item.direccion}}</td>
+                        <td>{{item.pais}}</td>
+                        <td>{{item.ciudad}}</td>
+                        <td>{{item.email}}</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="7">
+                            <mfBootstrapPaginator [rowsOnPageSet]="[10,20,30]"></mfBootstrapPaginator>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+        <div *ngIf="mf.data.length == 0" class="empty">
+            <div class="img-empty">
+
+            </div>
+            <h3>
+                No se encontraron clientes registrados
+            </h3>
+        </div>
+    </div>
+</div>

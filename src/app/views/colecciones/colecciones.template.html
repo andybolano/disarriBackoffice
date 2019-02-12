@@ -1,0 +1,249 @@
+<div class="wrapper wrapper-content animated fadeIn">
+    <div class="row">
+        <div class="col-lg-12">
+            <h4 style="text-transform:capitalize">
+                Colecciones registradas:{{colecciones.length}}<br>
+                <small> Gestiona de colecciones para la web</small>
+            </h4>
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <div class="row">
+                        <div class="col-xs-12 col-lg-8">
+                            <button type="button" class="btn  btn-success" data-toggle="modal" data-target="#modalColeccion" (click)="nuevo()">Nueva coleccion</button>
+                        </div>
+                        <div class="col-xs-12 col-lg-4">
+                            <div class="input-group ">
+                                <input type="text" class="form-control " placeholder="Buscar..." [(ngModel)]="filter">
+                                <span class="input-group-btn"> 
+                                                                    <button type="button" class="btn btn-default search" data-toggle="modal"><i class="fa fa-search"></i></button> 
+                                                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <table class="table table-hover" [mfData]="colecciones | dataFilter : filter" #mf="mfDataTable" [mfRowsOnPage]="10">
+                                <thead>
+                                    <tr class="text-nowrap">
+
+                                        <th>
+                                            <mfDefaultSorter by="item.id">Id</mfDefaultSorter>
+                                        </th>
+
+                                        <th>
+                                            <mfDefaultSorter by="item.nombre">Nombre</mfDefaultSorter>
+                                        </th>
+                                        <th>
+                                            <mfDefaultSorter by="estado">Estado</mfDefaultSorter>
+                                        </th>
+                                        <th>
+                                            <mfDefaultSorter by="orden">Orden</mfDefaultSorter>
+                                        </th>
+                                        <th style="text-align:center;width:150px;">Opciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of mf.data">
+                                        <td>{{item.id}}</td>
+                                        <td>{{item.nombre}}</td>
+                                        <td>
+                                            <span *ngIf="item.estado == 0" class="badge badge-danger" (click)="updateEstado(1,item)" style="cursor:pointer" title="Activar producto">Inactivo</span>
+                                            <span *ngIf="item.estado == 1" class="badge badge-primary" (click)="updateEstado(0,item)" style="cursor:pointer" title="Desactivar producto">Activo</span>
+                                        </td>
+                                        <td style="width:10%">
+                                            <input class="form-control" [(ngModel)]="item.orden" (change)="changeOrden(item.id,item.orden)">
+                                        </td>
+                                        <td style="text-align:center">
+                                            <a href="javascript:;" data-toggle="modal" data-target="#modalItems" title="Agregar items" (click)="editShowItems(item);"><i class="fa fa-align-left ico text-green"></i></a> &nbsp;
+                                            <a href="javascript:;" data-toggle="modal" data-target="#modalColeccion" title="Editar" (click)="editShow(item);"><i class="fa fa-edit ico text-warning"></i></a> &nbsp;
+                                            <a href="javascript:;" title="Eliminar" (click)="delete(item.id)"><i class="fa fa-trash ico text-red"></i></a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="5">
+                                            <mfBootstrapPaginator [rowsOnPageSet]="[10,20,30]"></mfBootstrapPaginator>
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                        <div class="col-lg-12" *ngIf="colecciones.length == 0" style="text-align:center">
+                            <img src="/assets/img/empty-box.svg" class="vacio">
+                            <h4 class="color-vacio">No hay colecciones registradas</h4>
+                            <br>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal inmodal" id="modalItems" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg" style="min-width:100%">
+        <div class="modal-content animated bounceInRight">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">{{Coleccion.nombre}}</h4>
+                <small class="font-bold">Gestion de items para la colección </small>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-5">
+                        <table class="table table-hover">
+                            <thead>
+                                <th>id</th>
+                                <th>Titulo</th>
+                                <th>Subtitulo</th>
+                                <th style="width:60px;">Orden</th>
+                                <th>Estado</th>
+                                <th>Opciones</th>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of items">
+                                    <td>{{item.id}}</td>
+                                    <td>{{item.nombre}}</td>
+                                    <td>{{item.subtitulo}}</td>
+                                    <td> <input class="form-control" [(ngModel)]="item.orden" (change)="changeOrdenItem(item.id,item.orden)"></td>
+                                    <td>
+                                        <span *ngIf="item.estado == 0" class="badge badge-danger" (click)="updateEstadoItem(1,item)" style="cursor:pointer" title="Activar item">Inactivo</span>
+                                        <span *ngIf="item.estado == 1" class="badge badge-primary" (click)="updateEstadoItem(0,item)" style="cursor:pointer" title="Desactivar item">Activo</span>
+                                    </td>
+                                    <td>
+                                        <a href="javascript:;" title="Editar" (click)="editShowItem(item);"><i class="fa fa-edit ico text-warning"></i></a> &nbsp;
+                                        <a href="javascript:;" title="Eliminar" (click)="deleteItem(item.id)"><i class="fa fa-trash ico text-red"></i></a>
+                                    </td>
+
+                                </tr>
+                            </tbody>
+
+                        </table>
+                    </div>
+                    <div class="col-lg-7">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="row">
+                                    <div class="col-lg-12" style="text-align:center">
+                                        <div class="spacer" style="height:20px;"></div>
+                                        <div id="imageItem" class="animated bounceIn">
+                                            <div class="row">
+                                                <div class="col-lg-12" style="text-align: center;">
+                                                    <i class="fa fa-image ico-bg"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="spacer" style="height:20px;"></div>
+                                        <small>Recomendacion: Imagen rectangular, tamaño recomendado 1007px X 672px.<br> Esta Imagen será la principal del producto</small>
+                                        <div class="spacer" style="height:20px;"></div>
+                                        <div class="fileUpload btn btn-primary">
+                                            <span><i class="fa fa-image"></i> Seleccionar imagen</span>
+                                            <input type="file" (change)="getFilesItem($event)" name="images" id="files" class="upload" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <label>Nombre:</label>
+                                        <small>Ingresar EN // ES</small>
+                                        <input type="text" class="form-control" placeholder="Ingresar titulo" [(ngModel)]="Item.nombre">
+                                        <br>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <label>Subtitulo:</label>
+                                        <small>Ingresar EN // ES</small>
+                                        <input type="text" class="form-control" placeholder="Ingresar subtitulo" [(ngModel)]="Item.subtitulo">
+                                        <br>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <label>Descripción:</label>
+                                        <small>Ingresar EN // ES</small>
+                                        <textarea class="form-control" placeholder="Ingresar descripcion" [(ngModel)]="Item.descripcion"></textarea>
+                                        <br>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12" style="text-align:center">
+                                    <button type="button" class="btn btn-success" (click)="saveItem()" *ngIf="!updateItem" id="guardar">Guardar</button>
+                                    <button type="button" class="btn btn-danger" (click)="updateItems()" *ngIf="updateItem" id="modificar">Actualizar</button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" data-dismiss="modal">Cerrar</button>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal inmodal" id="modalColeccion" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content animated bounceInRight">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" *ngIf="!update">Nueva colección</h4>
+                <small class="font-bold" *ngIf="!update">Crea una colección y publicala en tu página</small>
+
+                <h4 class="modal-title" *ngIf="update">{{Coleccion.nombre}}</h4>
+                <small class="font-bold" *ngIf="update">Actualiza el titulo de tu colección</small>
+
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <label>Nombre de la colección:</label>
+                                <small>Ingresar EN // ES</small>
+                                <input type="text" class="form-control" placeholder="Ingresar titulo" [(ngModel)]="Coleccion.nombre">
+                                <br>
+                            </div>
+                            <div class="col-lg-12">
+                                <label>Descripción:</label>
+                                <small>Ingresar EN // ES</small>
+                                <textarea class="form-control" placeholder="Ingresar descripcion" [(ngModel)]="Coleccion.descripcion"></textarea>
+                                <br>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="row">
+                            <div class="col-lg-12" style="text-align:center">
+                                <div class="spacer" style="height:20px;"></div>
+                                <div id="image" class="animated bounceIn">
+                                    <div class="row">
+                                        <div class="col-lg-12" style="text-align: center;">
+                                            <i class="fa fa-image ico-bg"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="spacer" style="height:20px;"></div>
+                                <small>Recomendacion: Imagen rectangular, tamaño recomendado 1007px X 672px.<br> Esta Imagen será la principal del producto</small>
+                                <div class="spacer" style="height:20px;"></div>
+                                <div class="fileUpload btn btn-primary">
+                                    <span><i class="fa fa-image"></i> Seleccionar imagen</span>
+                                    <input type="file" (change)="getFiles($event)" name="images" id="files" class="upload" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-success" (click)="save()" *ngIf="!update" id="guardar">Guardar</button>
+                <button type="button" class="btn btn-danger" (click)="updateColeccion()" *ngIf="update" id="modificar">Actualizar</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -4,8 +4,8 @@ import { Headers, RequestOptions } from '@angular/http';
 @Injectable()
 export class ServersService {
     constructor() { }
-    serverName: string = "http://backoffice.luxorcolombia.com/api"
-
+//serverName: string = "http://localhost/vistaflor/api/public/api"
+serverName: string = "http://vistaflor.com/api/public/api"
     storageGrupo(codigo_grupo) {
         localStorage.setItem('session_group', codigo_grupo);
     }

@@ -70,7 +70,6 @@ export function loading_show() {
   var element = document.getElementById("wrapper");
   element.classList.add("blur");
   jQuery('#loading').show();
-
 }
 export function loading_hide() {
   var element = document.getElementById("wrapper");

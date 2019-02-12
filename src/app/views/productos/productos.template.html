@@ -1,0 +1,218 @@
+<div class="wrapper wrapper-content animated fadeIn">
+    <div class="row">
+        <div class="col-lg-12">
+            <h4 style="text-transform:capitalize">
+                Tus Productos registrados : {{productos.length}}<br>
+                <small>
+                    Administra tus productos
+               </small>
+            </h4>
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <div class="row">
+                        <div class="col-xs-12 col-lg-8">
+                            <button type="button" class="btn  btn-success" data-toggle="modal" data-target="#modalProducto" (click)="nuevo()">Nuevo Producto</button>
+                        </div>
+                        <div class="col-xs-12 col-lg-4">
+                            <div class="input-group ">
+                                <input type="text" class="form-control " placeholder="Buscar..." [(ngModel)]="filter">
+                                <span class="input-group-btn"> 
+                                    <button type="button" class="btn btn-default search" data-toggle="modal"><i class="fa fa-search"></i></button> 
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <table class="table table-hover" [mfData]="productos | dataFilter : filter" #mf="mfDataTable" [mfRowsOnPage]="10">
+                                <thead>
+                                    <tr class="text-nowrap">
+
+                                        <th>
+                                            <mfDefaultSorter by="id">Id</mfDefaultSorter>
+                                        </th>
+
+                                        <th>
+                                            <mfDefaultSorter by="nombre">Nombre</mfDefaultSorter>
+                                        </th>
+                                        <th style="width:40px">
+                                            <mfDefaultSorter by="orden">Orden</mfDefaultSorter>
+                                        </th>
+                                        <th>
+                                            <mfDefaultSorter by="estado">Estado</mfDefaultSorter>
+                                        </th>
+                                        <th style="text-align:center;width:160px;">Opciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of mf.data">
+                                        <td>{{item.id}}</td>
+                                        <td>{{item.nombre}}</td>
+                                        <td><input type="text" [(ngModel)]="item.orden" class="form-control" (change)="changeOrden(item.id,item.orden)"></td>
+                                        <td>
+                                            <span *ngIf="item.estado == 0" class="badge badge-danger" (click)="updateEstado(1,item)" style="cursor:pointer" title="Activar producto">Inactivo</span>
+                                            <span *ngIf="item.estado == 1" class="badge badge-primary" (click)="updateEstado(0,item)" style="cursor:pointer" title="Desactivar producto">Activo</span>
+                                        </td>
+                                        <td style="text-align:center">
+                                            <a href="javascript:;" data-toggle="modal" data-target="#modalImagenes" title="Ver Imagenes" (click)="viewImagenes(item);"><i class="fa fa-image ico text-blue"></i></a>&nbsp;
+                                            <a href="javascript:;" data-toggle="modal" data-target="#modalProducto" title="Editar" (click)="editShow(item);"><i class="fa fa-edit ico text-warning"></i></a>&nbsp;
+                                            <a href="javascript:;" title="Eliminar Producto" (click)="delete(item.id)"><i class="fa fa-trash ico text-red"></i></a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="8 ">
+                                            <mfBootstrapPaginator [rowsOnPageSet]="[10,20,30]"></mfBootstrapPaginator>
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                        <div class="col-lg-12" *ngIf="productos.length == 0" style="text-align:center">
+                            <img src="/assets/img/empty-box.svg" class="vacio">
+                            <h4 class="color-vacio">No hay productos registrados</h4>
+                            <br>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal inmodal" id="modalProducto" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content animated bounceInRight">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" *ngIf="!update">Nuevo producto</h4>
+                <small class="font-bold" *ngIf="!update">Crear una nuevo producto y ponlo a la venta</small>
+
+                <h4 class="modal-title" *ngIf="update">{{Producto.nombre}}</h4>
+                <small class="font-bold" *ngIf="update">Actualiza la información de tu producto</small>
+
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <label>Nombre del producto:</label><br>
+                                <small>Obligación para este campo:</small>
+                                <small>escribir descripción EN <b>//</b> escribir descripción ES</small>
+                                <input class="form-control" placeholder="Ingresar nombre" [(ngModel)]="Producto.nombre">
+                                <br>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="row">
+                            <div class="col-lg-12" style="text-align:center">
+                                <div class="spacer" style="height:20px;"></div>
+                                <div id="image" class="animated bounceIn">
+                                    <div class="row">
+                                        <div class="col-lg-12" style="text-align: center;">
+                                            <i class="fa fa-image ico-bg"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="spacer" style="height:20px;"></div>
+                                <small>Recomendacion: Imagen cuadrada, tamaño recomendado 400px X 400px.<br> Esta Imagen será la principal del producto</small>
+                                <div class="spacer" style="height:20px;"></div>
+                                <div class="fileUpload btn btn-primary">
+                                    <span><i class="fa fa-image"></i> Seleccionar imagen</span>
+                                    <input type="file" (change)="getFiles($event)" name="images" id="files" class="upload" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-success" (click)="save()" *ngIf="!update">Guardar</button>
+                <button type="button" class="btn btn-danger" (click)="updateProducto()" *ngIf="update">Actualizar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal inmodal" id="modalImagenes" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg" style="min-width:90%">
+        <div class="modal-content animated bounceInRight">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                <i class="fa fa-image modal-icon"></i>
+                <br>
+                <h4 class="modal-title">{{Producto.nombre}}</h4>
+                <small class="font-bold">Galeria de imagenes</small>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-7">
+                        <div class="row" *ngIf="images.length == 0">
+                            <div class="col-lg-12" style="text-align: center;">
+                                <div class="spacer" style="height:20px;"></div>
+                                <i class="fa fa-square-o ico-bg"></i>
+                                <div class="spacer" style="height:20px;"></div>
+                                <p>No se econtraron imagenes registradas para este producto</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div *ngFor="let item of images" style="float: left;margin-left:5px;">
+                                    <div class="content-image" style="width:120px;height:120px" title="{{item.color}}">
+                                        <a href="javascript:;" (click)="delete_image(item)" style="position: absolute;right:5px;top:5px;" title="Eliminar imagen">
+                                            <i class="fa fa-times-circle text-danger" style="font-size:16px;"></i>
+                                        </a>
+                                        <img src="{{item.image}}">
+                                    </div>
+
+                                    <small>Orden</small><br>
+                                    <input type="number" [(ngModel)]="item.orden" style="width:120px" (change)="changeOrdenImage(item.id,item.orden)">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-5">
+                        <br>
+                        <div class="row">
+                            <div class="col-lg-12" style="text-align:center">
+                                <div class="spacer" style="height:20px;"></div>
+                                <div id="image_galeria" class="animated bounceIn">
+                                    <div class="row">
+                                        <div class="col-lg-12" style="text-align: center;">
+                                            <i class="fa fa-image ico-bg"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="spacer" style="height:20px;"></div>
+                                <small>Recomendación: Imagen cuadrada, tamaño recomendado 400px X 400px.<br> Esta Imagen hará parte de la galeria del producto</small>
+                                <div class="spacer" style="height:20px;"></div>
+                                <div class="fileUpload btn btn-primary">
+                                    <span><i class="fa fa-image"></i> Seleccionar imagen</span>
+                                    <input type="file" (change)="load_image_galeria($event)" name="images" id="files" class="upload" />
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <label>Color:</label><br>
+                                <small>Obligación para este campo:</small>
+                                <small>escribir  EN <b>//</b> escribir ES</small>
+                                <input class="form-control" placeholder="Ingresar color" [(ngModel)]="color.nombre">
+                                <br>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-success" (click)="save_image()">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>

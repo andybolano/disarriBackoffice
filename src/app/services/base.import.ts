@@ -7,13 +7,11 @@ export * from './servers.service';
 
 
 //Servicios
-export * from './retiros.service';
+export * from './productos.service';
 export * from './authentication.service';
-export * from './perfiles.service';
-export * from './franquicias.service';
-export * from './grupos.service';
-export * from './usuarios.service';
-export * from './recargas.service';
+export * from './blog.service';
+export * from './colecciones.service';
+export * from './configuracion.service';
+export * from './banner.service';
+export * from './clientes.service';
 export * from './ventas.service';
-export * from './mercados.service';
-export * from './encuentros.service';

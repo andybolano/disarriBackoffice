@@ -1,17 +1,17 @@
+
+
 import { 
     AlertService, 
     AuthenticationService ,
-    RetirosService, 
+    ProductosService, 
     HttpCacheService, 
     ServersService,
-    PerfilesService,
-    FranquiciasService,
-    GruposService,
-    UsuariosService,
-    RecargasService,
-    VentasService,
-    MercadosService,
-    EncuentrosService,
+     BlogService,
+     ColeccionService,
+     ConfiguracionService,
+     BannerService,
+      ClientesService,
+      VentasService
 } from './../services/base.import';
 import { NgModule } from '@angular/core';
 import {ToastyModule} from 'ng2-toasty';
@@ -22,17 +22,18 @@ import {ToastyModule} from 'ng2-toasty';
     providers: [
         ServersService,
         HttpCacheService,
-        RetirosService, 
+        ProductosService, 
         AlertService, 
         AuthenticationService,
-        PerfilesService,
-        FranquiciasService,
-        GruposService,
-        UsuariosService,
-        RecargasService,
-        VentasService,
-        MercadosService,
-        EncuentrosService
+        BlogService,
+        ColeccionService,
+        ConfiguracionService,
+        BannerService,
+        ClientesService,
+        VentasService
+  
     ]
 })
 export class ServicesModule { }
+
+

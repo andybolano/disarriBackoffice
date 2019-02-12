@@ -1,0 +1,159 @@
+<div class="wrapper wrapper-content animated fadeIn">
+    <div class="row">
+        <div class="col-lg-12">
+            <h4 style="text-transform:capitalize">
+                Banners registrados : {{banners.length}}<br>
+                <small>
+                                    Gestiona los banners de la web
+                                   </small>
+            </h4>
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <div class="row">
+                        <div class="col-xs-12 col-lg-8">
+                            <button type="button" class="btn  btn-success" data-toggle="modal" data-target="#modalBanner" (click)="nuevo()">Nuevo Banner</button>
+                        </div>
+                        <div class="col-xs-12 col-lg-4">
+                            <div class="input-group ">
+                                <input type="text" class="form-control " placeholder="Buscar..." [(ngModel)]="filter">
+                                <span class="input-group-btn"> 
+                                                        <button type="button" class="btn btn-default search" data-toggle="modal"><i class="fa fa-search"></i></button> 
+                                                    </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <table class="table table-hover" [mfData]="banners | dataFilter : filter" #mf="mfDataTable" [mfRowsOnPage]="10">
+                                <thead>
+                                    <tr class="text-nowrap">
+
+                                        <th>
+                                            <mfDefaultSorter by="item.id">Id</mfDefaultSorter>
+                                        </th>
+
+                                        <th>
+                                            <mfDefaultSorter by="item.nombre">Texto</mfDefaultSorter>
+                                        </th>
+                                        <th>
+                                            <mfDefaultSorter by="item.orden">Orden</mfDefaultSorter>
+                                        </th>
+                                        <th>
+                                            <mfDefaultSorter by="menu_color">Menu a color</mfDefaultSorter>
+                                        </th>
+                                        <th>
+                                            <mfDefaultSorter by="estado">Estado</mfDefaultSorter>
+                                        </th>
+                                        <th style="text-align:center;width:100px;">Opciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of mf.data">
+                                        <td>{{item.id}}</td>
+                                        <td>{{item.texto}}</td>
+                                        <td><input type="text" [(ngModel)]="item.orden" class="form-control" (change)="changeOrden(item.id,item.orden)"></td>
+                                        <td>
+                                            <span *ngIf="item.menu_color == 0" class="badge badge-danger" (click)="updateMenu(1,item)" style="cursor:pointer" title="Activar color">Inactivo</span>
+                                            <span *ngIf="item.menu_color == 1" class="badge badge-primary" (click)="updateMenu(0,item)" style="cursor:pointer" title="Desactivar color">Activo</span>
+                                        </td>
+
+                                        <td>
+                                            <span *ngIf="item.estado == 0" class="badge badge-danger" (click)="updateEstado(1,item)" style="cursor:pointer" title="Activar activar">Inactivo</span>
+                                            <span *ngIf="item.estado == 1" class="badge badge-primary" (click)="updateEstado(0,item)" style="cursor:pointer" title="Desactivar banner">Activo</span>
+                                        </td>
+                                        <td style="text-align:center">
+                                            <a href="javascript:;" data-toggle="modal" data-target="#modalBanner" title="Editar" (click)="editShow(item);"><i class="fa fa-edit ico text-warning"></i></a> &nbsp;
+                                            <a href="javascript:;" title="Eliminar Articulo" (click)="delete(item.id)"><i class="fa fa-trash ico text-red"></i></a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="8 ">
+                                            <mfBootstrapPaginator [rowsOnPageSet]="[10,20,30]"></mfBootstrapPaginator>
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                        <div class="col-lg-12" *ngIf="banners.length == 0" style="text-align:center">
+                            <img src="/assets/img/empty-box.svg" class="vacio">
+                            <h4 class="color-vacio">No hay banners registrados</h4>
+                            <br>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal inmodal" id="modalBanner" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog modal-lg" style="width:80%">
+                        <div class="modal-content animated bounceInRight">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                                <h4 class="modal-title" *ngIf="!update">Nuevo banner</h4>
+                                <small class="font-bold" *ngIf="!update">Ingresa un texto corto y publicalo en tu banner</small>
+
+                                <h4 class="modal-title" *ngIf="update">Actualizar banner</h4>
+                                <small class="font-bold" *ngIf="update">Actualiza la información de tu banner</small>
+
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-lg-4">
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <label>Texto:</label>
+                                                <br><small>Recomendado máximo 80 caracteres. ingresar EN // ES</small>
+                                                <textarea class="form-control" placeholder="Ingresar texto" [(ngModel)]="Banner.texto" rows="6"></textarea>
+                                                <br>
+                                                <div class="col-lg-12">
+                                                    <label>Enlace:</label>
+                                                    <input type="text" class="form-control" placeholder="Ingresar enlace" [(ngModel)]="Banner.enlace">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="spacer" style="height:20px;"></div>
+                                        <div id="image_pc" class="animated bounceIn">
+                                            <div class="row">
+                                                <div class="col-lg-12" style="text-align: center;">
+                                                    <i class="fa fa-image ico-bg"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="spacer" style="height:20px;"></div>
+                                        <small>Recomendación: Imagen: tamaño recomendado 1600px X 1052px.<br> para pc</small>
+                                        <div class="spacer" style="height:20px;"></div>
+                                        <div class="fileUpload btn btn-primary">
+                                            <span><i class="fa fa-image"></i> Seleccionar imagen</span>
+                                            <input type="file" (change)="getFilesPc($event)" name="images" id="files" class="upload" />
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="spacer" style="height:20px;"></div>
+                                        <div id="image_movil" class="animated bounceIn">
+                                            <div class="row">
+                                                <div class="col-lg-12" style="text-align: center;">
+                                                    <i class="fa fa-image ico-bg"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="spacer" style="height:20px;"></div>
+                                        <small>Recomendación: Imagen: tamaño recomendado 750px X 1334px.<br> para movil</small>
+                                        <div class="spacer" style="height:20px;"></div>
+                                        <div class="fileUpload btn btn-primary">
+                                            <span><i class="fa fa-image"></i> Seleccionar imagen</span>
+                                            <input type="file" (change)="getFilesMovil($event)" name="images" id="files" class="upload" />
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-white" data-dismiss="modal">Cerrar</button>
+                                <button type="button" class="btn btn-success" (click)="save()" *ngIf="!update" id="guardar">Guardar</button>
+                                <button type="button" class="btn btn-danger" (click)="updateBanner()" *ngIf="update" id="modificar">Actualizar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>

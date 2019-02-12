@@ -1,0 +1,47 @@
+<div class="wrapper wrapper-content animated fadeIn">
+    <h4 style="text-transform:capitalize">
+        Configuración de usuario<br>
+        <small>Gestiona los datos de acceso y de contacto</small>
+    </h4>
+    <div class="ibox float-e-margins">
+        <div class="ibox-content">
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <h3>Configuración de usuario</h3>
+                            <br>
+
+                            <label>Usuario:</label>
+                            <input type="text" class="form-control" placeholder="Ingresar usuario" [(ngModel)]="User.usuario">
+                            <br>
+                        </div>
+                        <div class="col-lg-12">
+                            <label>Email:</label>
+                            <input type="text" class="form-control" placeholder="Ingresar email" [(ngModel)]="User.email">
+                            <small>Aquí llegarán todos los correos de contacto, y notificaciones de compras realizadas.</small>
+                            <br>
+                            <br>
+                        </div>
+                        <div class="col-lg-12">
+                            <label>Contraseña:</label>
+                            <input type="password" class="form-control " placeholder="Ingresar contraseña " [(ngModel)]="User.pass ">
+                            <br>
+                        </div>
+                        <div class="col-lg-12 ">
+                            <label>Nueva Contraseña:</label>
+                            <input type="text " class="form-control " placeholder="Ingresar contraseña " [(ngModel)]="User.passNueva ">
+                            <small>Si desea cambiar la contraseña por una nueva llene este campo, de caso contrario dejarlo en blanco.</small>
+                            <br>
+                            <br>
+                            <br>
+                        </div>
+                        <div class="col-lg-12 ">
+                            <button type="button " class="btn btn-success " (click)="update() " id="guardar ">Guardar cambios</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
