@@ -1,14 +1,208 @@
 <div class="wrapper wrapper-content animated fadeIn">
     <div class="row">
+        <div class="col-lg-9">
+            <img src="assets/img/icons/pedidos.png" class="icons">
+            <h3 class="title">
+                Pedidos pendientes : {{pedidos.length}}
+            </h3>
+            <ol class="breadcrumb">
+                <li>
+                    <a>Inicio</a>
+                </li>
+                <li class="active">
+                    <strong>pedidos</strong>
+                </li>
+            </ol>
+        </div>
+        <div class="col-lg-3">
+            <div class="input-group m-b" style="margin-top:3px;">
+                <input type="text" class="form-control" placeholder="Buscar..." [(ngModel)]="filter">
+                <span class="input-group-addon"><i class="fa fa-search"></i></span>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
         <div class="col-lg-12">
-            <div class="text-center m-t-lg">
-                <img src="assets/img/logo-2.png">
-                <h1 class="text-blueDark">
-                    Backoffice 1.0
-                </h1>
-                <small>
-                    Bienvenido al Backoffice Atlas Bet System.
-                </small>
+            <table class="table table-hover" [mfData]="pedidos | dataFilter : filter" #mf="mfDataTable" [mfRowsOnPage]="10">
+                <thead>
+                    <tr class="text-nowrap">
+                        <th>
+                            <mfDefaultSorter by="estado_pago">Estado de pago</mfDefaultSorter>
+                        </th>
+                        <th>
+                            <mfDefaultSorter by="id">Id</mfDefaultSorter>
+                        </th>
+                        <th>
+                            <mfDefaultSorter by="orderId">N° de orden</mfDefaultSorter>
+                        </th>
+                        <th>
+                            <mfDefaultSorter by="nombres">Cliente</mfDefaultSorter>
+                        </th>
+                        <th>
+                            <mfDefaultSorter by="telefono">Teléfono</mfDefaultSorter>
+                        </th>
+                        <th>
+                            <mfDefaultSorter by="ubucacion">Ubicación</mfDefaultSorter>
+                        </th>
+                        <th>
+                            <mfDefaultSorter by="email">Email</mfDefaultSorter>
+                        </th>
+                        <th>
+                            <mfDefaultSorter by="created_at">Fecha - Hora</mfDefaultSorter>
+                        </th>
+
+                        <th>
+                            <mfDefaultSorter by="estado_pago">Estado del pedido</mfDefaultSorter>
+                        </th>
+                        <th>
+                            Ver
+                        </th>
+                        <th>
+                            Despachar
+                        </th>
+                        <th style="text-align:center;">
+                            Eliminar
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of mf.data">
+                        <td>
+                            <span *ngIf="item.estado_pago == 'NOT APPROVED' " class="badge badge-danger">{{item.estado_pago}}</span>
+                            <span *ngIf="item.estado_pago == 'DECLINED' " class="badge badge-warning">{{item.estado_pago}}</span>
+                            <span *ngIf="item.estado_pago == 'APPROVED' " class="badge badge-success">{{item.estado_pago}}</span>
+                        </td>
+                        <td>{{item.id}}</td>
+                        <td>{{item.orderId}}</td>
+                        <td>{{item.nombres}} {{item.apellidos}}</td>
+                        <td>{{item.telefono}}</td>
+                        <td>{{item.pais}} {{item.ciudad}}</td>
+                        <td>{{item.email}}</td>
+                        <td>{{item.created_at}}</td>
+
+                        <td><span class="badge badge-primary">{{item.estado}}</span></td>
+                        <td>
+                            <a href="javascript:;" data-toggle="modal" data-target="#modalPedido" title="Editar" (click)="viewPedido(item);"><i class="fa fa-eye ico text-blue"></i></a>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-success btn-circle" (click)="despachar('DESPACHADO',item);" *ngIf="item.estado_pago == 'APPROVED'" title="Aprobar pedido"><i class="fa fa-check"></i></button>
+                        </td>
+                        <td style="text-align:center;">
+                            <button class="btn btn-danger btn-circle" type="button" (click)="despachar('ELIMINADO',item);" *ngIf="item.estado_pago !== 'APPROVED'" title="Eliminar pedido"><i class="fa fa-trash"></i></button>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="13">
+                            <mfBootstrapPaginator [rowsOnPageSet]="[10,20,30]"></mfBootstrapPaginator>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+        <div *ngIf="mf.data.length == 0" class="empty">
+            <div class="img-empty">
+
+            </div>
+            <h3>
+                No se encontraron pedidos pendientes
+            </h3>
+        </div>
+    </div>
+
+</div>
+
+<div class="modal inmodal" id="modalPedido" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg" style="min-width:90%">
+        <div class="modal-content animated bounceInRight">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">Nuevo pedido</h4>
+                <small class="font-bold">Revisa el pedido, revisa el estado del pago y envialo al cliente.</small>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="row">
+                            <div class="widget p-xl">
+                                <h2>
+                                    {{Pedido.nombres}} {{Pedido.apellidos}}
+                                </h2>
+                                <ul class="list-unstyled m-t-md">
+                                    <li>
+                                        <span class="fa fa-envelope m-r-xs"></span>
+                                        <label>Email:</label> {{Pedido.email}}
+                                    </li>
+                                    <li>
+                                        <span class="fa fa-phone m-r-xs"></span>
+                                        <label>Teléfono:</label> {{Pedido.telefono}}
+                                    </li>
+                                    <li>
+                                        <span class="fa fa-phone m-r-xs"></span>
+                                        <label>Pais/ciudad:</label> {{Pedido.pais}} {{Pedido.ciudad}}
+                                    </li>
+                                    <li>
+                                        <span class="fa fa-location-arrow m-r-xs"></span>
+                                        <label>Dirección:</label> {{Pedido.direccion}}
+                                    </li>
+                                </ul>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="row">
+                            <h2>Información del pedido</h2>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="list-cart ">
+                                        <table style="width: 100%" class="table table-bordered">
+                                            <tr *ngFor="let item of productos" class="tr">
+                                                <td style="height:127px;width:120px;">
+                                                    <img src="{{item.image}}" class="img-cart">
+                                                </td>
+                                                <td valign="top ">
+                                                    <div class="content-descripcion ">
+                                                        <h4>{{item.nombre}}</h4>
+                                                        <small style="text-transform:uppercase">
+                                                                Talla: {{item.talla}}
+                                                        </small><br>
+                                                        <small style="text-transform:uppercase">
+                                                            Color: {{item.color}}
+                                                        </small><br>
+                                                        <small style="text-transform:uppercase">
+                                                            Cantidad: {{item.cantidad}}
+                                                        </small>
+                                                    </div>
+                                                </td>
+                                                <td valign="top " style="text-align:right;">
+                                                    <div class="content-precio ">
+                                                        <small>{{item.valor_unitario | currency :'USD':true:'2.0-0'}} COP / U</small>
+                                                        <h4>{{item.valor_total | currency :'USD':true:'2.0-0'}} COP</h4>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr class="total">
+                                                <td>
+                                                    <h4>TOTAL:</h4>
+                                                </td>
+                                                <td style="text-align: right" colspan="2">
+                                                    <h4>{{getTotal()| currency :'USD':true:'2.0-0'}} COP </h4>
+                                                </td>
+                                            </tr>
+                                        </table>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" data-dismiss="modal">Cerrar</button>
             </div>
         </div>
     </div>

@@ -1,0 +1,178 @@
+<div class="wrapper wrapper-content animated fadeIn">
+    <div class="row">
+        <div class="col-lg-7">
+            <img src="assets/img/icons/gallery.png" class="icons">
+            <h3 class="title">
+                Colecciones registradas:{{colecciones.length}}
+            </h3>
+            <ol class="breadcrumb">
+                <li>
+                    <a>Inicio</a>
+                </li>
+                <li class="active">
+                    <strong>Colecciones</strong>
+                </li>
+            </ol>
+        </div>
+        <div class="col-lg-2" style="text-align:right">
+            <div class="spacer" style="height:5px;"></div>
+            <button class="btn btn-success" (click)="nuevo()"><a href="#" data-toggle="modal" data-target="#modalColeccion" style="color:#FFFFFF" >Nueva colección</a></button>
+        </div>
+        <div class="col-lg-3">
+            <div class="input-group m-b" style="margin-top:3px;">
+                <input type="text" class="form-control" placeholder="Buscar..." [(ngModel)]="filter">
+                <span class="input-group-addon"><i class="fa fa-search"></i></span>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-lg-12">
+            <table class="table table-hover" [mfData]="colecciones | dataFilter : filter" #mf="mfDataTable" [mfRowsOnPage]="10">
+                <thead>
+                    <tr class="text-nowrap">
+
+                        <th>
+                            <mfDefaultSorter by="item.id">Id</mfDefaultSorter>
+                        </th>
+
+                        <th>
+                            <mfDefaultSorter by="item.nombre">Nombre</mfDefaultSorter>
+                        </th>
+                        <th>
+                            <mfDefaultSorter by="estado">Estado</mfDefaultSorter>
+                        </th>
+                        <th style="text-align:center;width:100px;">Opciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of mf.data">
+                        <td>{{item.id}}</td>
+                        <td>{{item.nombre}}</td>
+                        <td>
+                            <span *ngIf="item.estado == 0" class="badge badge-danger" (click)="updateEstado(1,item)" style="cursor:pointer" title="Activar producto">Inactivo</span>
+                            <span *ngIf="item.estado == 1" class="badge badge-primary" (click)="updateEstado(0,item)" style="cursor:pointer" title="Desactivar producto">Activo</span>
+                        </td>
+                        <td style="text-align:center">
+                            <a href="javascript:;" data-toggle="modal" data-target="#modalImagenes" title="Ver Imagenes" (click)="viewImagenes(item);"><i class="fa fa-image ico text-blue"></i></a> &nbsp;
+                            <a href="javascript:;" data-toggle="modal" data-target="#modalColeccion" title="Editar" (click)="editShow(item);"><i class="fa fa-edit ico text-warning"></i></a> &nbsp;
+                            <a href="javascript:;" title="Eliminar" (click)="delete(item.id)"><i class="fa fa-trash ico text-red"></i></a>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="4 ">
+                            <mfBootstrapPaginator [rowsOnPageSet]="[10,20,30]"></mfBootstrapPaginator>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+        <div *ngIf="mf.data.length == 0" class="empty">
+            <div class="img-empty">
+
+            </div>
+            <h3>
+                No se encontraron colecciones registradas
+            </h3>
+        </div>
+    </div>
+</div>
+
+<div class="modal inmodal" id="modalColeccion" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content animated bounceInRight">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" *ngIf="!update">Nueva colección</h4>
+                <small class="font-bold" *ngIf="!update">Crea una colección y publicala en tu página</small>
+
+                <h4 class="modal-title" *ngIf="update">{{Coleccion.nombre}}</h4>
+                <small class="font-bold" *ngIf="update">Actualiza el titulo de tu colección</small>
+
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <label>Nombre de la colección:</label>
+                                <input type="text" class="form-control" placeholder="Ingresar titulo" [(ngModel)]="Coleccion.nombre">
+                                <br>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-success" (click)="save()" *ngIf="!update" id="guardar">Guardar</button>
+                <button type="button" class="btn btn-danger" (click)="updateColeccion()" *ngIf="update" id="modificar">Actualizar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal inmodal" id="modalImagenes" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg" style="min-width:90%">
+        <div class="modal-content animated bounceInRight">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                <small class="font-bold">Galeria de imagenes</small>
+                <h4 class="modal-title">{{Coleccion.nombre}}</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="row" *ngIf="images.length == 0">
+                            <div class="col-lg-12" style="text-align: center;">
+                                <div class="spacer" style="height:20px;"></div>
+                                <i class="fa fa-square-o ico-bg"></i>
+                                <div class="spacer" style="height:20px;"></div>
+                                <p>No se econtraron imagenes registradas para esta colección</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div *ngFor="let item of images" style="float: left;margin-left:5px;">
+                                    <div class="content-image" style="width:120px;height:120px">
+                                        <a href="javascript:;" (click)="delete_image(item)" style="position: absolute;right:5px;top:5px;" title="Eliminar imagen">
+                                            <i class="fa fa-times-circle text-danger" style="font-size:16px;"></i>
+                                        </a>
+                                        <img src="{{item.url}}">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="row">
+                            <div class="col-lg-12" style="text-align:center">
+                                <div class="spacer" style="height:20px;"></div>
+                                <div id="image_galeria" class="animated bounceIn">
+                                    <div class="row">
+                                        <div class="col-lg-12" style="text-align: center;">
+                                            <i class="fa fa-image ico-bg"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="spacer" style="height:20px;"></div>
+                                <small>Recomendación:Subir las imagenes en el orden de visibilidad deseado para la página<br> Esta Imagen hará parte de la galeria de la colección</small>
+                                <div class="spacer" style="height:20px;"></div>
+                                <div class="fileUpload btn btn-primary">
+                                    <span><i class="fa fa-image"></i> Seleccionar imagen</span>
+                                    <input type="file" (change)="save_image($event)" name="images" id="files" class="upload" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>

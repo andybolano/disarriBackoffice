@@ -1,37 +1,38 @@
 <div class="spacer" style="height:20%;"></div>
-<div class="loginColumns  sombra-box" style="height:50%;background-color:#FFFFFF;">
+<div class="loginColumns sombra-box" style="height:55%;background-color:#FFFFFF;">
     <div class="row" style="padding:0;margin:0;height:100%">
         <div class="col-md-6 animated fadeIn" style="padding:50px;height:100%">
-            <h3 class="text-blueDark">Backoffice</h3>
+            <h3 class="text-blueDark">Administrador</h3>
             <h2 class="text-degrade">
                 Inicio de sesión
             </h2>
             <form (ngSubmit)="f.form.valid && login()" #f="ngForm" class="m-t" role="form" novalidate>
                 <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !username.valid }">
-                    <input type="text" [readonly]="loading" class="form-control btn-rounded" placeholder="Usuario" [(ngModel)]="model.username" #username="ngModel" name="username" required>
+                    <input type="text" [readonly]="loading" class="form-control" placeholder="Usuario" [(ngModel)]="model.username" #username="ngModel" name="username" required>
                     <span *ngIf="f.submitted && !username.valid" class="help-block m-b-none" style="font-size: 10px;">Este campo es obligatorio</span>
                 </div>
                 <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !password.valid }">
-                    <input type="password" [readonly]="loading" class="form-control btn-rounded" placeholder="Contraseña" [(ngModel)]="model.password" #password="ngModel" name="password" required>
+                    <input type="password" [readonly]="loading" class="form-control" placeholder="Contraseña" [(ngModel)]="model.password" #password="ngModel" name="password" required>
                     <span *ngIf="f.submitted && !password.valid" class="help-block m-b-none" style="font-size: 10px;">Este campo es obligatorio</span>
                 </div>
                 <div class="full-width text-right">
-                    <button type="submit" class="btn btn-success btn-rounded ">Iniciar Sesión</button>
+                    <button type="submit" class="btn btn-success ">Iniciar Sesión</button>
                 </div>
             </form>
             <p class="m-t" style="position:absolute;bottom:0px;">
-                <small>Backoffice Atlas 1.0  &copy; 2017</small>
+                <small>Administrador DE IRISARRI 1.0  &copy; 2017</small>
             </p>
         </div>
+        <!--
         <div class="col-md-6 bg-login" style="background-color:#002538;padding:30px;height:100%">
-            <img src="assets/img/logo.png" style="width:100px;">
+            <img src="assets/img/logo.png" style="width:150px;">
+            <div class="spacer" style="height:20px;"></div>
             <div style="height:100%;">
-
-                <h2 style="color:#FFFFFF">Bienvenido a <span class="font-bold">Atlas System</span></h2>
-                <p style="color:#FFFFFF">Perfectamente preparado y diseñado con precisión.<br> Inicia sesión.</p>
+                <h3 style="color:#FFFFFF;padding:10px;">Bienvenido a <span class="font-bold">DE IRISARRI admin</span></h3>
+                <p style="color:#FFFFFF;padding:10px">Perfectamente preparado y diseñado con precisión.<br> Inicia sesión.</p>
                 <div class="row" style="color:#FFFFFF;position:absolute;bottom:10px;width:90%">
                     <div class="col-md-6">
-                        Atlas System 1.0
+                        DE IRISARRI 1.0
                     </div>
                     <div class="col-md-6 text-right ">
                         <small>© 2017</small>
@@ -40,6 +41,6 @@
             </div>
             <div class="circle-login bg-check animated bounceInRight">
             </div>
-        </div>
+        </div>-->
     </div>
 </div>

@@ -1,0 +1,115 @@
+<div class="wrapper wrapper-content animated fadeIn">
+    <div class="row">
+        <div class="col-lg-7">
+            <img src="assets/img/icons/banner.png" class="icons">
+            <h3 class="title">
+                Banners registrados : {{banners.length}}
+            </h3>
+            <ol class="breadcrumb">
+                <li>
+                    <a>Inicio</a>
+                </li>
+                <li class="active">
+                    <strong>banners</strong>
+                </li>
+            </ol>
+        </div>
+        <div class="col-lg-2" style="text-align:right">
+            <div class="spacer" style="height:5px;"></div>
+            <button class="btn btn-success" (click)="nuevo()"><a href="#" data-toggle="modal" data-target="#modalBanner" style="color:#FFFFFF" >Nuevo banner</a></button>
+        </div>
+        <div class="col-lg-3">
+            <div class="input-group m-b" style="margin-top:3px;">
+                <input type="text" class="form-control" placeholder="Buscar..." [(ngModel)]="filter">
+                <span class="input-group-addon"><i class="fa fa-search"></i></span>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-lg-12">
+            <table class="table table-hover" [mfData]="banners | dataFilter : filter" #mf="mfDataTable" [mfRowsOnPage]="10">
+                <thead>
+                    <tr class="text-nowrap">
+
+                        <th>
+                            <mfDefaultSorter by="item.id">Id</mfDefaultSorter>
+                        </th>
+
+                        <th>
+                            <mfDefaultSorter by="item.nombre">Texto</mfDefaultSorter>
+                        </th>
+                        <th>
+                            <mfDefaultSorter by="estado">Estado</mfDefaultSorter>
+                        </th>
+                        <th style="text-align:center;width:100px;">Opciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of mf.data">
+                        <td>{{item.id}}</td>
+                        <td>{{item.texto}}</td>
+                        <td>
+                            <span *ngIf="item.estado == 0" class="badge badge-danger" (click)="updateEstado(1,item)" style="cursor:pointer" title="Activar activar">Inactivo</span>
+                            <span *ngIf="item.estado == 1" class="badge badge-primary" (click)="updateEstado(0,item)" style="cursor:pointer" title="Desactivar banner">Activo</span>
+                        </td>
+                        <td style="text-align:center">
+                            <a href="javascript:;" data-toggle="modal" data-target="#modalBanner" title="Editar" (click)="editShow(item);"><i class="fa fa-edit ico text-warning"></i></a> &nbsp;
+                            <a href="javascript:;" title="Eliminar Articulo" (click)="delete(item.id)"><i class="fa fa-trash ico text-red"></i></a>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="8 ">
+                            <mfBootstrapPaginator [rowsOnPageSet]="[10,20,30]"></mfBootstrapPaginator>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+        <div *ngIf="mf.data.length == 0" class="empty">
+            <div class="img-empty">
+
+            </div>
+            <h3>
+                No se encontraron banners registrados
+            </h3>
+        </div>
+    </div>
+</div>
+
+<div class="modal inmodal" id="modalBanner" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content animated bounceInRight">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" *ngIf="!update">Nuevo banner</h4>
+                <small class="font-bold" *ngIf="!update">Ingresa un texto corto y publicalo en tu banner</small>
+
+                <h4 class="modal-title" *ngIf="update">Actualizar banner</h4>
+                <small class="font-bold" *ngIf="update">Actualiza la información de tu banner</small>
+
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <label>Texto:<small>Recomendado máximo 80 caracteres.</small></label>
+                                <textarea class="form-control" placeholder="Ingresar texto" [(ngModel)]="Banner.texto"></textarea>
+                                <br>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-success" (click)="save()" *ngIf="!update" id="guardar">Guardar</button>
+                <button type="button" class="btn btn-danger" (click)="updateBanner()" *ngIf="update" id="modificar">Actualizar</button>
+            </div>
+        </div>
+    </div>
+</div>

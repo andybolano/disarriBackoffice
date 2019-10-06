@@ -23,7 +23,9 @@
             "../node_modules/sweetalert2/dist/sweetalert2.css",
             "../node_modules/animate.css/animate.min.css",
             "assets/styles/styles.css",
+            "assets/styles/tags/bootstrap-tagsinput.css",
             "assets/styles/icheck/custom.css",
+            "assets/styles/summernote/summernote.css",
             "assets/styles/duallistbox/duallistbox.css"
         ],
         "scripts": [
@@ -33,7 +35,9 @@
             "../node_modules/bootstrap/dist/js/bootstrap.min.js",
             "../node_modules/sweetalert2/dist/sweetalert2.js",
             "assets/js/icheck.min.js",
-            "assets/js/duallistbox.js"
+            "assets/js/summernote.js",
+            "assets/js/duallistbox.js",
+            "assets/js/bootstrap-tagsinput.min.js"
         ],
         "environmentSource": "environments/environment.ts",
         "environments": {

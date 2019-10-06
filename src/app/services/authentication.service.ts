@@ -39,12 +39,10 @@ export class AuthenticationService {
             password: password
         };
 
-        return this.http.post(this.servers.serverName + '/usuario/login', dataloggin, options)
+        return this.http.post(this.servers.serverName + '/authenticate', dataloggin, options)
             .map((response: Response) => {
                 let res: Result = response.json();
                 if (res && res.isOk) {
-                    //res.Content.Menus = this.makeMenu(res.Content.Menus);
-                    localStorage.setItem('auth_token', res.Content.token);
                     localStorage.setItem('auth_item', JSON.stringify(res.Content));
                 }
 
@@ -54,46 +52,7 @@ export class AuthenticationService {
 
     logout() {
         // remove user from local storage to log user out
-        localStorage.removeItem('auth_token');
         localStorage.removeItem('auth_item');
-    }
-
-    makeMenu(menu: any) {
-        let realMenu = [];
-        menu.filter(x => x.Route).map(function (element) {
-            let splitMenu = element.ShowName.split(';');
-            if (splitMenu.length > 1) {
-                let subm = realMenu.filter(x => x.ShowName == splitMenu[0]);
-                if (subm.length > 0) {
-                    realMenu.find(x => x.ShowName == splitMenu[0]).Sub.push({
-                        'Route': element.Route,
-                        'ShowName': splitMenu[1],
-                        'Params': element.Param.split(';'),
-                    });
-                } else {
-                    realMenu.push({
-                        'Route': element.Route.split('/')[1],
-                        'ShowName': splitMenu[0],
-                        'Icon': element.Icon,
-                        'Sub': [{
-                            'Route': element.Route,
-                            'ShowName': splitMenu[1],
-                            'Params': element.Param.split(';')
-                        }]
-                    });
-                }
-            } else {
-                realMenu.push({
-                    'Route': element.Route,
-                    'ShowName': element.ShowName,
-                    'Params': element.Param.split(';'),
-                    'Icon': element.Icon,
-                    'Sub': null,
-                });
-            }
-        });
-
-        return realMenu;
     }
 }
 
