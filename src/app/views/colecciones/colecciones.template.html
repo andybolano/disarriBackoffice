@@ -42,9 +42,12 @@
                         <th>
                             <mfDefaultSorter by="estado">Estado</mfDefaultSorter>
                         </th>
+<<<<<<< HEAD
                         <td>
                             Orden
                         </td>
+=======
+>>>>>>> d0cc4a29bccc6ce7e8791a92a111c7ecdd3d657e
                         <th style="text-align:center;width:100px;">Opciones</th>
                     </tr>
                 </thead>
@@ -56,9 +59,12 @@
                             <span *ngIf="item.estado == 0" class="badge badge-danger" (click)="updateEstado(1,item)" style="cursor:pointer" title="Activar producto">Inactivo</span>
                             <span *ngIf="item.estado == 1" class="badge badge-primary" (click)="updateEstado(0,item)" style="cursor:pointer" title="Desactivar producto">Activo</span>
                         </td>
+<<<<<<< HEAD
                         <td style="width:10%">
                             <input class="form-control" [(ngModel)]="item.orden" (change)="changeOrden(item.id,item.orden)">
                         </td>
+=======
+>>>>>>> d0cc4a29bccc6ce7e8791a92a111c7ecdd3d657e
                         <td style="text-align:center">
                             <a href="javascript:;" data-toggle="modal" data-target="#modalImagenes" title="Ver Imagenes" (click)="viewImagenes(item);"><i class="fa fa-image ico text-blue"></i></a> &nbsp;
                             <a href="javascript:;" data-toggle="modal" data-target="#modalColeccion" title="Editar" (click)="editShow(item);"><i class="fa fa-edit ico text-warning"></i></a> &nbsp;

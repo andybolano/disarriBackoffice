@@ -20,9 +20,22 @@ export class mainViewComponent {
    
     public filter = "";
     public pedidos = [];
+<<<<<<< HEAD
     Pedido : any = {};
 
     public envio_ = "";
+=======
+    public Pedido = {
+        nombres:"",
+        apellidos:"",
+        email:"",
+        telefono:"",
+        pais:"",
+        ciudad:"",
+        direccion:""
+
+    };
+>>>>>>> d0cc4a29bccc6ce7e8791a92a111c7ecdd3d657e
     public productos = [];
 
     
@@ -38,27 +51,39 @@ export class mainViewComponent {
             loading_hide();
             if (data.isOk) {
                 this.pedidos = data.Content;
+<<<<<<< HEAD
              
+=======
+>>>>>>> d0cc4a29bccc6ce7e8791a92a111c7ecdd3d657e
             }
 
         });
     }
 
     viewPedido(item){
+<<<<<<< HEAD
         console.log(item)
      this.Pedido = item;
      this.envio_ = item.envio;
+=======
+     this.Pedido = item;
+>>>>>>> d0cc4a29bccc6ce7e8791a92a111c7ecdd3d657e
         loading_show();
         this.ventasService.getProductosVenta(item.id,(data: Result) => {
             loading_hide();
             if (data.isOk) {
+<<<<<<< HEAD
 
+=======
+                console.log(data)
+>>>>>>> d0cc4a29bccc6ce7e8791a92a111c7ecdd3d657e
                 this.productos = data.Content;
             }
 
         });
     }
 
+<<<<<<< HEAD
      getSubTotal() {
                 var total = 0;
                 for (var i = 0; i < this.productos.length; i++) {
@@ -73,13 +98,23 @@ export class mainViewComponent {
                     total += parseInt(this.productos[i].valor_total);
                 }
             total += parseInt(this.envio_);
+=======
+     getTotal() {
+                var total = 0;
+                for (var i = 0; i < this.productos.length; i++) {
+                    total += this.productos[i].valor_total;
+                }
+>>>>>>> d0cc4a29bccc6ce7e8791a92a111c7ecdd3d657e
                 return total;
             }
 
 
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> d0cc4a29bccc6ce7e8791a92a111c7ecdd3d657e
     despachar(state: String, item: any){
         var element = document.getElementById("wrapper");
         element.classList.add("blur");

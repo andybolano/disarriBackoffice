@@ -19,10 +19,13 @@ export class ColeccionService {
         return this.http.post(0, this.servers.serverName + '/coleccion/update', object, callback);
     }
 
+<<<<<<< HEAD
     updateOrden(object,callback:any){
         return this.http.post(0, this.servers.serverName + '/coleccion/update/orden',object,callback);
       }
 
+=======
+>>>>>>> d0cc4a29bccc6ce7e8791a92a111c7ecdd3d657e
     eliminar(id:Number,callback: any){
         return this.http.get(0, this.servers.serverName + '/coleccion/delete/'+id, callback);
     }

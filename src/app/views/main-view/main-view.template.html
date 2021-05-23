@@ -24,8 +24,12 @@
     <hr>
     <div class="row">
         <div class="col-lg-12">
+<<<<<<< HEAD
             <table class="table table-hover" [mfData]="pedidos | dataFilter : filter" #mf="mfDataTable"
                 [mfRowsOnPage]="10">
+=======
+            <table class="table table-hover" [mfData]="pedidos | dataFilter : filter" #mf="mfDataTable" [mfRowsOnPage]="10">
+>>>>>>> d0cc4a29bccc6ce7e8791a92a111c7ecdd3d657e
                 <thead>
                     <tr class="text-nowrap">
                         <th>
@@ -35,18 +39,25 @@
                             <mfDefaultSorter by="id">Id</mfDefaultSorter>
                         </th>
                         <th>
+<<<<<<< HEAD
                             <mfDefaultSorter by="orderId">Reference PayU</mfDefaultSorter>
                         </th>
                         <th>
                             <mfDefaultSorter by="orderId">Referencia de venta</mfDefaultSorter>
+=======
+                            <mfDefaultSorter by="orderId">N° de orden</mfDefaultSorter>
+>>>>>>> d0cc4a29bccc6ce7e8791a92a111c7ecdd3d657e
                         </th>
                         <th>
                             <mfDefaultSorter by="nombres">Cliente</mfDefaultSorter>
                         </th>
                         <th>
+<<<<<<< HEAD
                             <mfDefaultSorter by="cedula">Cedula</mfDefaultSorter>
                         </th>
                         <th>
+=======
+>>>>>>> d0cc4a29bccc6ce7e8791a92a111c7ecdd3d657e
                             <mfDefaultSorter by="telefono">Teléfono</mfDefaultSorter>
                         </th>
                         <th>
@@ -60,7 +71,11 @@
                         </th>
 
                         <th>
+<<<<<<< HEAD
                             <mfDefaultSorter by="estado">Estado del pedido</mfDefaultSorter>
+=======
+                            <mfDefaultSorter by="estado_pago">Estado del pedido</mfDefaultSorter>
+>>>>>>> d0cc4a29bccc6ce7e8791a92a111c7ecdd3d657e
                         </th>
                         <th>
                             Ver
@@ -76,6 +91,7 @@
                 <tbody>
                     <tr *ngFor="let item of mf.data">
                         <td>
+<<<<<<< HEAD
                             <span *ngIf="item.response_message_pol !== 'APPROVED' "
                                 class="badge badge-danger">{{item.response_message_pol}}</span>
                             <span *ngIf="item.response_message_pol == 'APPROVED' "
@@ -105,12 +121,39 @@
                             <button class="btn btn-danger btn-circle" type="button"
                                 (click)="despachar('ELIMINADO',item);" *ngIf="item.response_message_pol !== 'APPROVED'"
                                 title="Eliminar pedido"><i class="fa fa-trash"></i></button>
+=======
+                            <span *ngIf="item.estado_pago == 'NOT APPROVED' " class="badge badge-danger">{{item.estado_pago}}</span>
+                            <span *ngIf="item.estado_pago == 'DECLINED' " class="badge badge-warning">{{item.estado_pago}}</span>
+                            <span *ngIf="item.estado_pago == 'APPROVED' " class="badge badge-success">{{item.estado_pago}}</span>
+                        </td>
+                        <td>{{item.id}}</td>
+                        <td>{{item.orderId}}</td>
+                        <td>{{item.nombres}} {{item.apellidos}}</td>
+                        <td>{{item.telefono}}</td>
+                        <td>{{item.pais}} {{item.ciudad}}</td>
+                        <td>{{item.email}}</td>
+                        <td>{{item.created_at}}</td>
+
+                        <td><span class="badge badge-primary">{{item.estado}}</span></td>
+                        <td>
+                            <a href="javascript:;" data-toggle="modal" data-target="#modalPedido" title="Editar" (click)="viewPedido(item);"><i class="fa fa-eye ico text-blue"></i></a>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-success btn-circle" (click)="despachar('DESPACHADO',item);" *ngIf="item.estado_pago == 'APPROVED'" title="Aprobar pedido"><i class="fa fa-check"></i></button>
+                        </td>
+                        <td style="text-align:center;">
+                            <button class="btn btn-danger btn-circle" type="button" (click)="despachar('ELIMINADO',item);" *ngIf="item.estado_pago !== 'APPROVED'" title="Eliminar pedido"><i class="fa fa-trash"></i></button>
+>>>>>>> d0cc4a29bccc6ce7e8791a92a111c7ecdd3d657e
                         </td>
                     </tr>
                 </tbody>
                 <tfoot>
                     <tr>
+<<<<<<< HEAD
                         <td colspan="14">
+=======
+                        <td colspan="13">
+>>>>>>> d0cc4a29bccc6ce7e8791a92a111c7ecdd3d657e
                             <mfBootstrapPaginator [rowsOnPageSet]="[10,20,30]"></mfBootstrapPaginator>
                         </td>
                     </tr>
@@ -133,8 +176,12 @@
     <div class="modal-dialog modal-lg" style="min-width:90%">
         <div class="modal-content animated bounceInRight">
             <div class="modal-header">
+<<<<<<< HEAD
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span
                         class="sr-only">Close</span></button>
+=======
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+>>>>>>> d0cc4a29bccc6ce7e8791a92a111c7ecdd3d657e
                 <h4 class="modal-title">Nuevo pedido</h4>
                 <small class="font-bold">Revisa el pedido, revisa el estado del pago y envialo al cliente.</small>
             </div>
@@ -144,11 +191,16 @@
                         <div class="row">
                             <div class="widget p-xl">
                                 <h2>
+<<<<<<< HEAD
                                     {{Pedido.nombres}}
                                 </h2>
                                 <h3>
                                     CC: {{Pedido.cedula}}
                                 </h3>
+=======
+                                    {{Pedido.nombres}} {{Pedido.apellidos}}
+                                </h2>
+>>>>>>> d0cc4a29bccc6ce7e8791a92a111c7ecdd3d657e
                                 <ul class="list-unstyled m-t-md">
                                     <li>
                                         <span class="fa fa-envelope m-r-xs"></span>
@@ -186,10 +238,17 @@
                                                     <div class="content-descripcion ">
                                                         <h4>{{item.nombre}}</h4>
                                                         <small style="text-transform:uppercase">
+<<<<<<< HEAD
                                                             Talla: {{item.id_talla}}
                                                         </small><br>
                                                         <small style="text-transform:uppercase">
                                                             Color: {{item.id_color}}
+=======
+                                                                Talla: {{item.talla}}
+                                                        </small><br>
+                                                        <small style="text-transform:uppercase">
+                                                            Color: {{item.color}}
+>>>>>>> d0cc4a29bccc6ce7e8791a92a111c7ecdd3d657e
                                                         </small><br>
                                                         <small style="text-transform:uppercase">
                                                             Cantidad: {{item.cantidad}}
@@ -198,12 +257,17 @@
                                                 </td>
                                                 <td valign="top " style="text-align:right;">
                                                     <div class="content-precio ">
+<<<<<<< HEAD
                                                         <small>{{item.valor_unitario | currency :'USD':true:'2.0-0'}}
                                                             COP / U</small>
+=======
+                                                        <small>{{item.valor_unitario | currency :'USD':true:'2.0-0'}} COP / U</small>
+>>>>>>> d0cc4a29bccc6ce7e8791a92a111c7ecdd3d657e
                                                         <h4>{{item.valor_total | currency :'USD':true:'2.0-0'}} COP</h4>
                                                     </div>
                                                 </td>
                                             </tr>
+<<<<<<< HEAD
                                             <tr>
                                                 <td>
                                                     <h4>SUBTOTAL:</h4>
@@ -230,13 +294,19 @@
                                                     <h4>{{Pedido.descuento | currency :'USD':true:'2.0-0'}} </h4>
                                                 </td>
                                             </tr>
+=======
+>>>>>>> d0cc4a29bccc6ce7e8791a92a111c7ecdd3d657e
                                             <tr class="total">
                                                 <td>
                                                     <h4>TOTAL:</h4>
                                                 </td>
                                                 <td style="text-align: right" colspan="2">
+<<<<<<< HEAD
                                                     <h4>{{ getTotal() - Pedido.descuento | currency :'USD':true:'2.0-0'}}
                                                     </h4>
+=======
+                                                    <h4>{{getTotal()| currency :'USD':true:'2.0-0'}} COP </h4>
+>>>>>>> d0cc4a29bccc6ce7e8791a92a111c7ecdd3d657e
                                                 </td>
                                             </tr>
                                         </table>

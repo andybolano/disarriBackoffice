@@ -200,7 +200,11 @@ export class blogComponent {
 
         jQuery('#modificar').attr("disabled", true);
         loading_show();
+<<<<<<< HEAD
         
+=======
+
+>>>>>>> d0cc4a29bccc6ce7e8791a92a111c7ecdd3d657e
         this.blogService.update(formData, (data: Result) => {
             loading_hide();
             if (data.isOk) {

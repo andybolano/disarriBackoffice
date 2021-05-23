@@ -20,6 +20,7 @@ export class ProductosService{
      return this.http.post(0, this.servers.serverName + '/productos/update/state',object,callback);
    }
 
+<<<<<<< HEAD
    updateOrden(object,callback:any){
     return this.http.post(0, this.servers.serverName + '/producto/update/orden',object,callback);
   }
@@ -38,6 +39,8 @@ export class ProductosService{
 
  
 
+=======
+>>>>>>> d0cc4a29bccc6ce7e8791a92a111c7ecdd3d657e
     updateDisponible(object:any,callback:any){
      return this.http.post(0, this.servers.serverName + '/productos/update/disponible',object,callback);
    }
@@ -53,6 +56,7 @@ export class ProductosService{
    getImages(id:Number, callback:any){
      return this.http.get(0, this.servers.serverName + '/producto/images/'+id,callback);
    }
+<<<<<<< HEAD
    
    getImagesMovil(id:Number, callback:any){
     return this.http.get(0, this.servers.serverName + '/producto/images/movil/'+id,callback);
@@ -69,11 +73,18 @@ export class ProductosService{
   deleteImageMovil(object, callback:any){
     return this.http.post(0, this.servers.serverName + '/producto/images/movil/delete',object,callback);
   }
+=======
+
+    saveImage(object, callback:any){
+     return this.http.post(0, this.servers.serverName + '/producto/images',object,callback);
+   }
+>>>>>>> d0cc4a29bccc6ce7e8791a92a111c7ecdd3d657e
 
    deleteImage(object, callback:any){
      return this.http.post(0, this.servers.serverName + '/producto/images/delete',object,callback);
    }
 
+<<<<<<< HEAD
    updateColor(object, callback:any){
     return this.http.post(0, this.servers.serverName + '/producto/images/color',object,callback);
    }
@@ -82,6 +93,10 @@ export class ProductosService{
    updateColorMobil(object, callback:any){
     return this.http.post(0, this.servers.serverName + '/producto/images/mobil/color',object,callback);
    }
+=======
+  
+
+>>>>>>> d0cc4a29bccc6ce7e8791a92a111c7ecdd3d657e
 
     
    

@@ -10953,6 +10953,7 @@ th {
 
 .swal2-container {
     z-index: 4000;
+<<<<<<< HEAD
 }
 
 .color {
@@ -10961,4 +10962,6 @@ th {
     height: 37px;
     background-color: #FFF;
     float: left;
+=======
+>>>>>>> d0cc4a29bccc6ce7e8791a92a111c7ecdd3d657e
 }

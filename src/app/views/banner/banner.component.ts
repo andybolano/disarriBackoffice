@@ -24,13 +24,17 @@ export class bannerComponent {
     public Banner = {id:0,texto:"", estado:""};
     public update = false;
     public filter="";
+<<<<<<< HEAD
     files: FileList;
     files_movil: FileList;
+=======
+>>>>>>> d0cc4a29bccc6ce7e8791a92a111c7ecdd3d657e
     ngOnInit() {
        this.getAll();
     }
 
  nuevo() {
+<<<<<<< HEAD
 
     document.getElementById("image_pc").innerHTML = '<div class="row">' +
     '<div class="col-lg-12" style="text-align: center;">' +
@@ -43,13 +47,19 @@ export class bannerComponent {
     '<i class="fa fa-image ico-bg"></i>' +
     '</div>' +
     '</div>';
+=======
+>>>>>>> d0cc4a29bccc6ce7e8791a92a111c7ecdd3d657e
         this.update = false;
         this.Banner = {
              id:0,
              texto: "",
              estado:""
         };
+<<<<<<< HEAD
 }
+=======
+    }
+>>>>>>> d0cc4a29bccc6ce7e8791a92a111c7ecdd3d657e
 
      getAll() {
             loading_show();
@@ -62,6 +72,7 @@ export class bannerComponent {
                 }
 
             });
+<<<<<<< HEAD
      }
 
     save(){
@@ -72,6 +83,13 @@ export class bannerComponent {
         formData.append('banner', JSON.stringify(this.Banner));
          loading_show();
         this.bannerService.save(formData,(data: Result) => {
+=======
+    }
+
+    save(){
+         loading_show();
+        this.bannerService.save(this.Banner,(data: Result) => {
+>>>>>>> d0cc4a29bccc6ce7e8791a92a111c7ecdd3d657e
             loading_hide();
             if (data.isOk) {
                       this.alertService.success(data.Mensaje);
@@ -119,6 +137,7 @@ export class bannerComponent {
     }
 
      editShow(item) {
+<<<<<<< HEAD
          console.log(item)
         this.update = true;
         this.Banner = item;
@@ -128,11 +147,24 @@ export class bannerComponent {
 
     updateBanner() {
        
+=======
+        this.update = true;
+        this.Banner = item;
+    }
+
+    updateBanner() {
+        if (!this.Banner.texto) {
+            this.alertService.warning("Ingresar texto!");
+            return;
+        }
+
+>>>>>>> d0cc4a29bccc6ce7e8791a92a111c7ecdd3d657e
         var object = {
             id: this.Banner.id,
             texto: this.Banner.texto,
         }
 
+<<<<<<< HEAD
         let formData: FormData = new FormData();
         if(this.files){
             formData.append('imagen_pc', this.files[0]);
@@ -146,6 +178,9 @@ export class bannerComponent {
         loading_show();
 
         this.bannerService.update(formData, (data: Result) => {
+=======
+        this.bannerService.update(object, (data: Result) => {
+>>>>>>> d0cc4a29bccc6ce7e8791a92a111c7ecdd3d657e
             loading_hide();
             if (data.isOk) {
                 this.alertService.success(data.Mensaje);
@@ -158,6 +193,10 @@ export class bannerComponent {
         });
     }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> d0cc4a29bccc6ce7e8791a92a111c7ecdd3d657e
      updateEstado(state: Number, item: any) {
         loading_show();
         item.estado = state;
@@ -169,6 +208,7 @@ export class bannerComponent {
 
         });
     }
+<<<<<<< HEAD
 
 
     getFilesPc(event: any) {
@@ -205,6 +245,8 @@ export class bannerComponent {
         }
     }
 
+=======
+>>>>>>> d0cc4a29bccc6ce7e8791a92a111c7ecdd3d657e
     
 
 }
