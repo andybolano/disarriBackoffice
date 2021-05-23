@@ -20,22 +20,9 @@ export class mainViewComponent {
    
     public filter = "";
     public pedidos = [];
-<<<<<<< HEAD
     Pedido : any = {};
 
     public envio_ = "";
-=======
-    public Pedido = {
-        nombres:"",
-        apellidos:"",
-        email:"",
-        telefono:"",
-        pais:"",
-        ciudad:"",
-        direccion:""
-
-    };
->>>>>>> d0cc4a29bccc6ce7e8791a92a111c7ecdd3d657e
     public productos = [];
 
     

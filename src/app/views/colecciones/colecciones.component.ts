@@ -216,7 +216,6 @@ export class coleccionComponent {
         });
     }
 
-<<<<<<< HEAD
     changeOrden(id, orden){
         loading_show();
         if(orden == ""){
@@ -236,8 +235,6 @@ export class coleccionComponent {
     }
 
 
-=======
->>>>>>> d0cc4a29bccc6ce7e8791a92a111c7ecdd3d657e
     delete_image(image: any) {
         this.coleccionService.deleteImage(image, (data: Result) => {
             loading_hide();

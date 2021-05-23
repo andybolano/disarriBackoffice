@@ -27,7 +27,6 @@ export class configuracionComponent {
         pass: "",
         email: "",
         passNueva: "",
-<<<<<<< HEAD
         envioCO: 0,
         envioCO_usd: 0,
         envioIN: 0,
@@ -36,8 +35,6 @@ export class configuracionComponent {
         envioBO_usd: 0,
         valor_min_cop: 0,
         valor_min_usd: 0
-=======
->>>>>>> d0cc4a29bccc6ce7e8791a92a111c7ecdd3d657e
     };
 
     ngOnInit() {
@@ -73,11 +70,7 @@ export class configuracionComponent {
             loading_hide();
             if (data.isOk) {
                 this.alertService.success(data.Mensaje);
-<<<<<<< HEAD
                 localStorage.setItem('auth_item', JSON.stringify(data.Content));
-=======
-                localStorage.setItem('auth_item',JSON.stringify(data.Content));
->>>>>>> d0cc4a29bccc6ce7e8791a92a111c7ecdd3d657e
                 this.User.passNueva = "";
                 this.User.pass = "";
             } else {

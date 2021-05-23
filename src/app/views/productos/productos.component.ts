@@ -28,16 +28,12 @@ export class productosComponent {
     public filter = "";
     public productos = [];
     public images = [];
-<<<<<<< HEAD
     public images_movil = [];
-=======
->>>>>>> d0cc4a29bccc6ce7e8791a92a111c7ecdd3d657e
     public Producto = {
         id: 0,
         nombre: "",
         descripcion: "",
         tallas: ['XS', 'S', 'M'],
-<<<<<<< HEAD
         descuentos: [],
         colores: [
             {
@@ -57,24 +53,11 @@ export class productosComponent {
     public colorSelected = "";
     files: FileList;
     files_imgs: FileList;
-=======
-        colores: [
-            {
-                nombre:"",
-                color:0
-            }
-        ],
-        precio: 0,
-        image: ""
-    }
-    files: FileList;
->>>>>>> d0cc4a29bccc6ce7e8791a92a111c7ecdd3d657e
 
     public update = false;
 
     addColor() {
         let num = Math.floor(Math.random() * 10000);
-<<<<<<< HEAD
         this.Producto.colores.push({ nombre: "", color: num });
     }
 
@@ -109,11 +92,6 @@ export class productosComponent {
 
 
 
-=======
-        this.Producto.colores.push({nombre:"", color:num});
-    }
-
->>>>>>> d0cc4a29bccc6ce7e8791a92a111c7ecdd3d657e
     deleteColor(index) {
         this.Producto.colores.splice(index, 1);
     }
@@ -129,7 +107,6 @@ export class productosComponent {
         });
     }
 
-<<<<<<< HEAD
     changeOrden(id, orden) {
         loading_show();
         if (orden == "") {
@@ -148,8 +125,6 @@ export class productosComponent {
         });
     }
 
-=======
->>>>>>> d0cc4a29bccc6ce7e8791a92a111c7ecdd3d657e
     updateEstado(state: Number, item: any) {
         loading_show();
         item.estado = state;
@@ -162,11 +137,7 @@ export class productosComponent {
         });
     }
 
-<<<<<<< HEAD
     updateDisponible(state: Number, item: any) {
-=======
-     updateDisponible(state: Number, item: any) {
->>>>>>> d0cc4a29bccc6ce7e8791a92a111c7ecdd3d657e
         loading_show();
         item.disponible = state;
         this.productosService.updateDisponible(item, (data: Result) => {
@@ -205,13 +176,10 @@ export class productosComponent {
             this.alertService.warning('Por favor ingresar el precio del producto');
             return;
         }
-<<<<<<< HEAD
         if (!this.Producto.precio_usd || this.Producto.precio_usd == 0) {
             this.alertService.warning('Por favor ingresar el precio en dolares del producto');
             return;
         }
-=======
->>>>>>> d0cc4a29bccc6ce7e8791a92a111c7ecdd3d657e
         if (!this.Producto.descripcion || this.Producto.descripcion == "") {
             this.alertService.warning('Por favor ingresar la descripcion del producto');
             return;
@@ -222,7 +190,6 @@ export class productosComponent {
         }
         let colores = this.Producto.colores;
         this.Producto.colores = [];
-<<<<<<< HEAD
         let nombre_color = "";
         for (let i = 0; i < colores.length; i++) {
             nombre_color = jQuery('#nombre_' + i).val().replace(/\s/g, "_");
@@ -233,27 +200,15 @@ export class productosComponent {
 
 
 
-=======
-        for (let i = 0; i < colores.length; i++) {
-            this.Producto.colores.push({nombre:jQuery('#color_' + i).val(),color:jQuery('#color_' + i).val()});
-        }
-        formData.append('imagen', this.files[0]);
-        var tallas = jQuery('#tallas').val().split(",");
->>>>>>> d0cc4a29bccc6ce7e8791a92a111c7ecdd3d657e
         var object = {
             nombre: this.Producto.nombre.toUpperCase(),
             tallas: tallas,
             precio: this.Producto.precio,
-<<<<<<< HEAD
             precio_usd: this.Producto.precio_usd,
             descripcion: this.Producto.descripcion,
             colores: this.Producto.colores,
             compra_min: this.Producto.compra_min,
             descuentos: this.Producto.descuentos
-=======
-            descripcion: this.Producto.descripcion,
-            colores: this.Producto.colores
->>>>>>> d0cc4a29bccc6ce7e8791a92a111c7ecdd3d657e
         }
 
         formData.append('producto', JSON.stringify(object));
@@ -267,24 +222,7 @@ export class productosComponent {
                     '<i class="fa fa-image ico-bg"></i>' +
                     '</div>' +
                     '</div>';
-<<<<<<< HEAD
                 this.init_producto();
-=======
-                this.Producto = {
-                    id: 0,
-                    nombre: "",
-                    descripcion: "",
-                    tallas: ['XS', 'S', 'M'],
-                    colores: [
-                        {
-                            nombre:"",
-                            color:0
-                        }
-                    ],
-                    precio: 0,
-                    image: ""
-                }
->>>>>>> d0cc4a29bccc6ce7e8791a92a111c7ecdd3d657e
                 jQuery('#tallas').tagsinput('refresh');
                 this.getProductos();
             } else {
@@ -294,7 +232,6 @@ export class productosComponent {
         });
     }
 
-<<<<<<< HEAD
     saveStock(id) {
         if (!this.Stock.talla) {
             this.alertService.error("Seleccionar talla");
@@ -404,28 +341,11 @@ export class productosComponent {
 
 
 
-=======
-    editShow(item) {
-        this.update = true;
-        this.Producto = item.propiedades;
-        console.log(item.colores.length)
-        if(item.colores.length == 0){
-             this.Producto.colores = [{nombre:"",color:0}]
-        }else{
-           this.Producto.colores = item.colores;
-        }
-       
-        console.log(item)
->>>>>>> d0cc4a29bccc6ce7e8791a92a111c7ecdd3d657e
         let tallas = "";
         jQuery('#tallas').tagsinput('removeAll');
         document.getElementById("image").innerHTML = ['<img class="animated bounceIn" style="width:60%;" src="' + item.propiedades.image + '" />'].join('');
         for (let i = 0; i < item.tallas.length; i++) {
-<<<<<<< HEAD
             jQuery('#tallas').tagsinput('add', item.tallas[i].talla);
-=======
-            jQuery('#tallas').tagsinput('add', item.tallas[i]);
->>>>>>> d0cc4a29bccc6ce7e8791a92a111c7ecdd3d657e
         }
 
 
@@ -434,7 +354,6 @@ export class productosComponent {
     }
 
     viewImagenes(item) {
-<<<<<<< HEAD
         loading_show();
         this.Producto = item.propiedades;
         this.Producto.colores = item.colores;
@@ -448,11 +367,6 @@ export class productosComponent {
         this.Producto.colores = item.colores;
         this.getImagesMovil(this.Producto.id);
         console.log(this.Producto)
-=======
-        this.Producto = item.propiedades;
-        loading_show();
-        this.getImages(this.Producto.id);
->>>>>>> d0cc4a29bccc6ce7e8791a92a111c7ecdd3d657e
     }
 
     getImages(id) {
@@ -465,7 +379,6 @@ export class productosComponent {
         });
     }
 
-<<<<<<< HEAD
     getImagesMovil(id) {
         this.productosService.getImagesMovil(id, (data: Result) => {
             loading_hide();
@@ -476,8 +389,6 @@ export class productosComponent {
         });
     }
 
-=======
->>>>>>> d0cc4a29bccc6ce7e8791a92a111c7ecdd3d657e
     nuevo() {
 
         document.getElementById("image").innerHTML = '<div class="row">' +
@@ -486,24 +397,7 @@ export class productosComponent {
             '</div>' +
             '</div>';
         this.update = false;
-<<<<<<< HEAD
         this.init_producto();
-=======
-        this.Producto = {
-            id: 0,
-            nombre: "",
-            descripcion: "",
-            tallas: ['XS', 'S', 'M'],
-            colores: [
-            {
-                nombre:"",
-                color:0
-            }
-        ],
-            precio: 0,
-            image: ""
-        }
->>>>>>> d0cc4a29bccc6ce7e8791a92a111c7ecdd3d657e
     }
 
     delete(id: number) {
@@ -550,13 +444,10 @@ export class productosComponent {
             this.alertService.warning('Por favor ingresar el precio del producto');
             return;
         }
-<<<<<<< HEAD
         if (!this.Producto.precio_usd || this.Producto.precio_usd == 0) {
             this.alertService.warning('Por favor ingresar el precio del producto');
             return;
         }
-=======
->>>>>>> d0cc4a29bccc6ce7e8791a92a111c7ecdd3d657e
         if (!this.Producto.descripcion || this.Producto.descripcion == "") {
             this.alertService.warning('Por favor ingresar la descripcion del producto');
             return;
@@ -564,15 +455,10 @@ export class productosComponent {
 
         let colores = this.Producto.colores;
         this.Producto.colores = [];
-<<<<<<< HEAD
         let nombre_color = "";
         for (let i = 0; i < colores.length; i++) {
             nombre_color = jQuery('#nombre_' + i).val().replace(/\s/g, "_");
             this.Producto.colores.push({ nombre: nombre_color, color: jQuery('#color_' + i).val() });
-=======
-        for (let i = 0; i < colores.length; i++) {
-            this.Producto.colores.push({color:jQuery('#color_' + i).val(),nombre:jQuery('#nombre_' + i).val()});
->>>>>>> d0cc4a29bccc6ce7e8791a92a111c7ecdd3d657e
         }
 
         if (!this.files) {
@@ -582,17 +468,13 @@ export class productosComponent {
         }
 
         var tallas = jQuery('#tallas').val().split(",");
-<<<<<<< HEAD
 
 
-=======
->>>>>>> d0cc4a29bccc6ce7e8791a92a111c7ecdd3d657e
         var object = {
             id: this.Producto.id,
             nombre: this.Producto.nombre.toUpperCase(),
             tallas: tallas,
             precio: this.Producto.precio,
-<<<<<<< HEAD
             precio_usd: this.Producto.precio_usd,
             descripcion: this.Producto.descripcion,
             colores: this.Producto.colores,
@@ -601,15 +483,6 @@ export class productosComponent {
             descuentos: this.Producto.descuentos
         }
 
-=======
-            descripcion: this.Producto.descripcion,
-            colores: this.Producto.colores,
-            imagen: this.Producto.image
-        }
-
-
-
->>>>>>> d0cc4a29bccc6ce7e8791a92a111c7ecdd3d657e
         formData.append('producto', JSON.stringify(object));
         loading_show();
         this.productosService.updateProducto(formData, (data: Result) => {
@@ -633,13 +506,8 @@ export class productosComponent {
 
     save_image(event: any) {
 
-<<<<<<< HEAD
         this.files_imgs = event.target.files;
         for (var i = 0, f; f = this.files_imgs[i]; i++) {
-=======
-        var files = event.target.files;
-        for (var i = 0, f; f = files[i]; i++) {
->>>>>>> d0cc4a29bccc6ce7e8791a92a111c7ecdd3d657e
             if (!f.type.match('image.*')) {
                 continue;
             }
@@ -652,7 +520,6 @@ export class productosComponent {
             reader.readAsDataURL(f);
         }
 
-<<<<<<< HEAD
     }
 
     save_image_movil(event: any) {
@@ -688,12 +555,6 @@ export class productosComponent {
         formData.append('producto', JSON.stringify(this.Producto.id));
         formData.append('color', color[1]);
         loading_show();
-=======
-        var formData = new FormData();
-        formData.append('imagen', files[0]);
-        formData.append('producto', JSON.stringify(this.Producto.id));
-
->>>>>>> d0cc4a29bccc6ce7e8791a92a111c7ecdd3d657e
         this.productosService.saveImage(formData, (data: Result) => {
             loading_hide();
             if (data.isOk) {
@@ -703,7 +564,6 @@ export class productosComponent {
                     '<i class="fa fa-image ico-bg"></i>' +
                     '</div>' +
                     '</div>';
-<<<<<<< HEAD
                 jQuery("#color").css("background-color", '#FFF');
                 this.colorSelected = "";
                 this.getImages(this.Producto.id);
@@ -741,10 +601,6 @@ export class productosComponent {
                 jQuery("#color").css("background-color", '#FFF');
                 this.colorSelected = "";
                 this.getImagesMovil(this.Producto.id);
-=======
-
-                this.getImages(this.Producto.id);
->>>>>>> d0cc4a29bccc6ce7e8791a92a111c7ecdd3d657e
             } else {
                 this.alertService.error(data.Mensaje);
             }
@@ -753,10 +609,7 @@ export class productosComponent {
     }
 
     delete_image(image: any) {
-<<<<<<< HEAD
         loading_show();
-=======
->>>>>>> d0cc4a29bccc6ce7e8791a92a111c7ecdd3d657e
         this.productosService.deleteImage(image, (data: Result) => {
             loading_hide();
             if (data.isOk) {
@@ -769,7 +622,6 @@ export class productosComponent {
         });
     }
 
-<<<<<<< HEAD
     delete_image_movil(image: any) {
         loading_show();
         this.productosService.deleteImageMovil(image, (data: Result) => {
@@ -835,7 +687,5 @@ export class productosComponent {
         jQuery("#color").css("background-color", color[0]);
     }
 
-=======
->>>>>>> d0cc4a29bccc6ce7e8791a92a111c7ecdd3d657e
 
 }
