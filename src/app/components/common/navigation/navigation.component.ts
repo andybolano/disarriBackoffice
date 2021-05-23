@@ -15,7 +15,7 @@ export class NavigationComponent {
   }
   
 public user = {
-    username:"",
+    usuario:"",
     rol:""
 }; 
 

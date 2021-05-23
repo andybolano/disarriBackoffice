@@ -1,0 +1,576 @@
+<div class="wrapper wrapper-content animated fadeIn">
+    <div class="row">
+        <div class="col-lg-7">
+            <img src="assets/img/icons/producto.png" class="icons">
+            <h3 class="title">
+                Productos Registrados: {{productos.length}}
+            </h3>
+            <ol class="breadcrumb">
+                <li>
+                    <a>Inicio</a>
+                </li>
+                <li class="active">
+                    <strong>productos</strong>
+                </li>
+            </ol>
+        </div>
+        <div class="col-lg-2" style="text-align:right">
+            <div class="spacer" style="height:5px;"></div>
+            <button class="btn btn-success" (click)="nuevo()"><a href="#" data-toggle="modal"
+                    data-target="#modalProducto" style="color:#FFFFFF">Nueva producto</a></button>
+        </div>
+        <div class="col-lg-3">
+            <div class="input-group m-b" style="margin-top:3px;">
+                <input type="text" class="form-control" placeholder="Buscar..." [(ngModel)]="filter">
+                <span class="input-group-addon"><i class="fa fa-search"></i></span>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-lg-12">
+            <table class="table table-hover" [mfData]="productos | dataFilter : filter" #mf="mfDataTable"
+                [mfRowsOnPage]="10">
+                <thead>
+                    <tr class="text-nowrap">
+
+                        <th>
+                            <mfDefaultSorter by="propiedades.id">Id</mfDefaultSorter>
+                        </th>
+
+                        <th>
+                            <mfDefaultSorter by="propiedades.nombre">Nombre</mfDefaultSorter>
+                        </th>
+                        <th>
+                            <mfDefaultSorter by="propiedades.estado">Estado</mfDefaultSorter>
+                        </th>
+                        <th>
+                            <mfDefaultSorter by="propiedades.estado">disponible</mfDefaultSorter>
+                        </th>
+                        <th>
+                            <mfDefaultSorter by="propiedades.orden">Orden</mfDefaultSorter>
+                        </th>
+                        <th style="text-align:center;">Opciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of mf.data">
+                        <td>{{item.propiedades.id}}</td>
+                        <td>{{item.propiedades.nombre}}</td>
+                        <!--<td>{{item.descripcion}}</td>-->
+                        <!--<td>{{item.created_at | date:'yMMMdjms'}}</td>-->
+                        <td>
+                            <span *ngIf="item.propiedades.estado == 0" class="badge badge-danger"
+                                (click)="updateEstado(1,item.propiedades)" style="cursor:pointer"
+                                title="Activar producto">Inactivo</span>
+                            <span *ngIf="item.propiedades.estado == 1" class="badge badge-primary"
+                                (click)="updateEstado(0,item.propiedades)" style="cursor:pointer"
+                                title="Desactivar producto">Activo</span>
+                        </td>
+                        <td>
+                            <span *ngIf="item.propiedades.disponible == 0" class="badge badge-danger"
+                                (click)="updateDisponible(1,item.propiedades)" style="cursor:pointer"
+                                title="Activar producto">NO</span>
+                            <span *ngIf="item.propiedades.disponible == 1" class="badge badge-primary"
+                                (click)="updateDisponible(0,item.propiedades)" style="cursor:pointer"
+                                title="Desactivar producto">SI</span>
+                        </td>
+                        <td style="width:10%">
+                            <input class="form-control" [(ngModel)]="item.propiedades.orden"
+                                (change)="changeOrden(item.propiedades.id,item.propiedades.orden)">
+                        </td>
+                        <td style="text-align:center" style="width:15%;">
+                            <a href="javascript:;" data-toggle="modal" data-target="#modalStock" title="Stock"
+                                (click)="viewStock(item);"><i class="fa fa-calculator ico text-green"></i></a> &nbsp;
+                            <a href="javascript:;" data-toggle="modal" data-target="#modalImagenes"
+                                title="Ver Imagenes pc" (click)="viewImagenes(item);"><i
+                                    class="fa fa-image ico text-blue"></i></a> &nbsp;
+                            <a href="javascript:;" data-toggle="modal" data-target="#modalImagenesMovil"
+                                title="Ver Imagenes Moviles" (click)="viewImagenesMovil(item);"><i
+                                    class="fa fa-mobile ico text-red" style="font-size:22px;"></i></a> &nbsp;
+                            <a href="javascript:;" data-toggle="modal" data-target="#modalProducto" title="Editar"
+                                (click)="editShow(item);"><i class="fa fa-edit ico text-warning"></i></a> &nbsp;
+                            <a href="javascript:;" title="Eliminar" (click)="delete(item.propiedades.id)"><i
+                                    class="fa fa-trash ico text-red"></i></a>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="8 ">
+                            <mfBootstrapPaginator [rowsOnPageSet]="[10,20,30]"></mfBootstrapPaginator>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+        <div *ngIf="mf.data.length == 0" class="empty">
+            <div class="img-empty">
+
+            </div>
+            <h3>
+                No se encontraron productos registrados
+            </h3>
+        </div>
+    </div>
+</div>
+<div class="modal inmodal" id="modalStock" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg" style="min-width:90%">
+        <div class="modal-content animated bounceInRight">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span
+                        class="sr-only">Close</span></button>
+                <h4 class="modal-title">{{Producto.nombre}}</h4>
+                <h5>Entrada de stock</h5>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-3">
+                        <h4>Nueva entrada</h4>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <label>Color:</label><br>
+                                <select class="form-control" [(ngModel)]="Stock.color">
+                                    <option value="" disabled>COLOR</option>
+                                    <option *ngFor="let i of Producto.colores" value="{{i.id_color}}">
+                                        {{i.nombre}}
+                                    </option>
+                                </select>
+                                <br>
+                            </div>
+
+                            <div class="col-lg-12">
+                                <label>Talla:</label><br>
+                                <select class="form-control" [(ngModel)]="Stock.talla">
+                                    <option value="" disabled>TALLA</option>
+                                    <option *ngFor="let i of Producto.tallas" value="{{i.id_talla}}">
+                                        {{i.talla}}
+                                    </option>
+                                </select>
+                                <br>
+                            </div>
+                            <div class="col-lg-12">
+                                <label>Cantidad:</label><br>
+                                <input type="number" class="form-control" placeholder="0" [(ngModel)]="Stock.cantidad">
+                                <br>
+                                <button type="button" class="btn btn-success pull-right"
+                                    (click)="saveStock(Producto.id)">Registrar Entrada</button>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="col-lg-9">
+                        <h4>Historial de entradas</h4>
+                        <table class="table table-hover">
+                            <thead>
+                                <th>
+                                    #
+                                </th>
+                                <th>
+                                    Color
+                                </th>
+                                <th>
+                                    Talla
+                                </th>
+                                <th>
+                                    Cantidad
+                                </th>
+
+                                <th>
+                                    Fecha de registro
+                                </th>
+                                <th>
+                                    Eliminar
+                                </th>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of entradas">
+                                    <td>{{item.id_entrada}}</td>
+                                    <td>{{item.color}}</td>
+                                    <td>
+                                        {{item.talla}}
+                                    </td>
+                                    <td>
+                                        {{item.cantidad_total}}
+                                    </td>
+                                    <td>
+                                        {{item.created_at}}
+                                    </td>
+                                    <td><a href="javascript:;" title="Eliminar"
+                                            (click)="deleteStock(item.id_talla, item.id_color)"><i
+                                                class="fa fa-trash ico text-red"></i></a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div *ngIf="entradas.length == 0" style="text-align:center;width:100%;margin-top:100px;">
+                            <h4 style="color:#c4c4c4">
+                                No se encontraron entradas registradas
+                            </h4>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" data-dismiss="modal">Cerrar</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal inmodal" id="modalProducto" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg" style="min-width:90%">
+        <div class="modal-content animated bounceInRight">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span
+                        class="sr-only">Close</span></button>
+                <h4 class="modal-title" *ngIf="!update">Nuevo producto</h4>
+                <small class="font-bold" *ngIf="!update">Crear una nuevo producto y ponlo a la venta</small>
+
+                <h4 class="modal-title" *ngIf="update">{{Producto.nombre}}</h4>
+                <small class="font-bold" *ngIf="update">Actualiza la información de tu producto</small>
+
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <label>Nombre del producto:</label><br>
+                                <small>Obligación para este campo:</small>
+                                <small>escribir descripción ES <b>//</b> escribir descripción EN</small>
+                                <input class="form-control" placeholder="Ingresar nombre" [(ngModel)]="Producto.nombre">
+                                <br>
+                            </div>
+                            <div class="col-lg-12">
+                                <label>Tallas:</label><br>
+                                <input type="text" data-role="tagsinput" class="form-control" id="tallas"
+                                    value="XS,S,M">
+                                <br>
+                            </div>
+
+                            <div class="col-lg-12">
+                                <br>
+                                <label>Colores:</label>
+                                <div class="row">
+                                    <div class="col-xs-2" *ngFor="let item of Producto.colores ; let i = index ">
+                                        <input type="color" name="favcolor" id="color_{{i}}" value="{{item.color}}"
+                                            class="form-control" style="padding:0">
+                                        <a href="javascript:;" (click)="deleteColor(i);"><i
+                                                class="fa fa-minus-square ico text-red"
+                                                style="position:absolute;top:-5px"></i></a>
+                                        <input type="text" class="form-control" id="nombre_{{i}}"
+                                            value="{{item.nombre}}" placeholder="Nombre">
+                                        <!-- <br>
+                                        <label>Stocks:</label><br>
+                                        <input type="text" class="form-control" id="stock_{{i}}" value="{{item.stock}}" placeholder="Stock" *ngIf="update" (change)="updateStock(item.id_color,$event);">-->
+                                    </div>
+                                    <div class="col-xs-2" style="text-align:center;">
+                                        <a href="javascript:;" (click)="addColor();"><i
+                                                class="fa fa-plus-square ico text-blue" style="margin-top:8px;"></i></a>
+                                    </div>
+                                </div>
+
+                                <br>
+                            </div>
+                            <div class="col-lg-12">
+                                <br>
+                                <label>Descuentos:</label>
+                                <div class="row" *ngFor="let item of Producto.descuentos; let i = index ">
+                                    <div class="col-xs-5">
+                                        <label>Cantidad de unidades</label>
+                                        <input type="number" name="cantidad" class="form-control" placeholder="Cantidad"
+                                            [(ngModel)]="item.cantidad">
+                                    </div>
+                                    <div class="col-xs-5">
+                                        <label>Porcentaje de descuento</label>
+                                        <div class="input-group m-b">
+                                            <input type="number" name="descuento" class="form-control"
+                                                placeholder="Procentaje" [(ngModel)]="item.descuento">
+                                            <span class="input-group-addon">%</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-2">
+                                        <a href="javascript:;" (click)="deleteDescuento(i);"><i
+                                                class="fa fa-minus-square ico text-red"></i></a>
+                                    </div>
+                                </div>
+                                <a href="javascript:;" (click)="addDescuento();">Agregar Descuento</a>
+                                <br>
+                                <br>
+                            </div>
+                            <div class="col-lg-4">
+                                <label>Precio COP:</label>
+                                <div class="input-group m-b">
+                                    <span class="input-group-addon">$</span>
+                                    <input type="number" class="form-control" placeholder="0"
+                                        [(ngModel)]="Producto.precio">
+                                </div>
+                                <br>
+                            </div>
+                            <div class="col-lg-4">
+                                <label>Precio USD:</label>
+                                <div class="input-group m-b">
+                                    <span class="input-group-addon">$</span>
+                                    <input type="number" class="form-control" placeholder="0"
+                                        [(ngModel)]="Producto.precio_usd">
+                                </div>
+                                <br>
+                            </div>
+                            <div class="col-lg-4">
+                                <label>Compra minima:</label>
+                                <div class="input-group m-b">
+                                    <input type="number" class="form-control" placeholder="0"
+                                        [(ngModel)]="Producto.compra_min">
+                                </div>
+                                <br>
+                            </div>
+                            <div class="col-lg-12">
+                                <label>Descripción:</label><br>
+                                <small>Obligación para este campo:</small>
+                                <small>escribir descripción ES <b>//</b> escribir descripción EN</small>
+                                <textarea class="form-control" placeholder="Ingresar descripción..." rows="6"
+                                    [(ngModel)]="Producto.descripcion"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="row">
+                            <div class="col-lg-12" style="text-align:center">
+                                <div class="spacer" style="height:20px;"></div>
+                                <div id="image" class="animated bounceIn">
+                                    <div class="row">
+                                        <div class="col-lg-12" style="text-align: center;">
+                                            <i class="fa fa-image ico-bg"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="spacer" style="height:20px;"></div>
+                                <small>Recomendacion: Imagen horizontal, tamaño recomendado 287px X 430px.<br> Esta
+                                    Imagen será la principal del producto</small>
+                                <div class="spacer" style="height:20px;"></div>
+                                <div class="fileUpload btn btn-primary">
+                                    <span><i class="fa fa-image"></i> Seleccionar imagen</span>
+                                    <input type="file" (change)="getFiles($event)" name="images" id="files"
+                                        class="upload" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-success" (click)="save()" *ngIf="!update">Guardar</button>
+                <button type="button" class="btn btn-danger" (click)="updateProducto()"
+                    *ngIf="update">Actualizar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal inmodal" id="modalImagenes" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg" style="min-width:90%">
+        <div class="modal-content animated bounceInRight">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span
+                        class="sr-only">Close</span></button>
+                <i class="fa fa-laptop modal-icon"></i>
+                <br>
+                <h4 class="modal-title">{{Producto.nombre}}</h4>
+                <small class="font-bold">Galeria de imagenes para pc's</small>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-7">
+                        <div class="row" *ngIf="images.length == 0">
+                            <div class="col-lg-12" style="text-align: center;">
+                                <div class="spacer" style="height:20px;"></div>
+                                <i class="fa fa-square-o ico-bg"></i>
+                                <div class="spacer" style="height:20px;"></div>
+                                <p>No se econtraron imagenes registradas para este producto</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div *ngFor="let item of images" style="float: left;margin-left:5px;">
+                                    <div class="content-image" style="width:120px;height:120px" title="{{item.color}}">
+                                        <a href="javascript:;" (click)="delete_image(item)"
+                                            style="position: absolute;right:5px;top:5px;" title="Eliminar imagen">
+                                            <i class="fa fa-times-circle text-danger" style="font-size:16px;"></i>
+                                        </a>
+                                        <img src="{{item.url}}">
+                                    </div>
+                                    <label>Color: {{item.color}}</label>
+                                    <select class="input-text" (change)="colorUpdate($event)" style="width:100%; ">
+                                        <option value="" disabled>COLOR</option>
+                                        <option *ngFor="let i of Producto.colores" value="{{i.nombre}};{{item.id}}">
+                                            {{i.nombre}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-5">
+                        <br>
+                        <div class="row">
+                            <div class="col-lg-12" style="text-align:center">
+                                <div class="spacer" style="height:20px;"></div>
+                                <div id="image_galeria" class="animated bounceIn">
+                                    <div class="row">
+                                        <div class="col-lg-12" style="text-align: center;">
+                                            <i class="fa fa-image ico-bg"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="spacer" style="height:20px;"></div>
+                                <small>Recomendación: Imagen cuadrada, tamaño recomendado 600px X 440px.<br> Esta Imagen
+                                    hará parte de la galeria del producto es equipos de pc</small>
+                                <div class="spacer" style="height:20px;"></div>
+                                <div class="fileUpload btn btn-primary">
+                                    <span><i class="fa fa-image"></i> Seleccionar imagen</span>
+                                    <input type="file" (change)="save_image($event)" name="images" id="files"
+                                        class="upload" />
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <br>
+                        <div class="row">
+                            <div class="col-xs-8">
+                                <label>Escoge el color de la prenda:</label>
+                                <div class="box-color">
+                                    <select class="input-text form-control" (change)="color($event)"
+                                        [(ngModel)]="colorSelected">
+                                        <option value="" disabled>COLOR</option>
+                                        <option *ngFor="let item of Producto.colores"
+                                            value="{{item.color}};{{item.nombre}}">
+                                            {{item.nombre}}
+                                        </option>
+                                    </select>
+
+                                </div>
+                            </div>
+                            <div class="col-xs-4">
+                                <div class="color" id="color">
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-success" (click)="post_image()">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal inmodal" id="modalImagenesMovil" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg" style="min-width:90%">
+        <div class="modal-content animated bounceInRight">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span
+                        class="sr-only">Close</span></button>
+                <i class="fa fa-mobile modal-icon"></i>
+                <br>
+                <h4 class="modal-title">{{Producto.nombre}}</h4>
+                <small class="font-bold">Galeria de imagenes para movil</small>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-7">
+                        <div class="row" *ngIf="images_movil.length == 0">
+                            <div class="col-lg-12" style="text-align: center;">
+                                <div class="spacer" style="height:20px;"></div>
+                                <i class="fa fa-square-o ico-bg"></i>
+                                <div class="spacer" style="height:20px;"></div>
+                                <p>No se econtraron imagenes registradas para este producto</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div *ngFor="let item of images_movil" style="float: left;margin-left:5px;">
+                                    <div class="content-image" style="width:120px;height:180px" title="{{item.color}}">
+                                        <a href="javascript:;" (click)="delete_image_movil(item)"
+                                            style="position: absolute;right:5px;top:5px;" title="Eliminar imagen">
+                                            <i class="fa fa-times-circle text-danger" style="font-size:16px;"></i>
+                                        </a>
+                                        <img src="{{item.url}}">
+                                    </div>
+                                    <label>Color: {{item.color}}</label>
+                                    <select class="input-text" (change)="colorUpdateMobil($event)" style="width:100%; ">
+                                        <option value="" disabled>COLOR</option>
+                                        <option *ngFor="let i of Producto.colores" value="{{i.nombre}};{{item.id}}">
+                                            {{i.nombre}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-5">
+                        <br>
+                        <div class="row">
+                            <div class="col-lg-12" style="text-align:center">
+                                <div class="spacer" style="height:20px;"></div>
+                                <div id="image_galeria_movil" class="animated bounceIn">
+                                    <div class="row">
+                                        <div class="col-lg-12" style="text-align: center;">
+                                            <i class="fa fa-image ico-bg"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="spacer" style="height:20px;"></div>
+                                <small>Recomendación: Imagen cuadrada, tamaño recomendado 680px X 1020px.<br> Esta
+                                    Imagen hará parte de la galeria del producto en dispositivos moviles</small>
+                                <div class="spacer" style="height:20px;"></div>
+                                <div class="fileUpload btn btn-primary">
+                                    <span><i class="fa fa-image"></i> Seleccionar imagen</span>
+                                    <input type="file" (change)="save_image_movil($event)" name="images" id="files"
+                                        class="upload" />
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <br>
+                        <div class="row">
+                            <div class="col-xs-8">
+                                <label>Escoge el color de la prenda:</label>
+                                <div class="box-color">
+                                    <select class="input-text form-control" (change)="color($event)"
+                                        [(ngModel)]="colorSelected">
+                                        <option value="" disabled>COLOR</option>
+                                        <option *ngFor="let item of Producto.colores"
+                                            value="{{item.color}};{{item.nombre}}">
+                                            {{item.nombre}}
+                                        </option>
+                                    </select>
+
+                                </div>
+                            </div>
+                            <div class="col-xs-4">
+                                <div class="color" id="color">
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-success" (click)="post_image_movil()">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>

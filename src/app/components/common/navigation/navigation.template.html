@@ -4,65 +4,43 @@
             <li class="nav-header">
                 <div class="dropdown profile-element">
                     <span>
-                        <img src="assets/img/logo.png" style="width:90%; margin-left:-10px;">
+                        <img src="assets/img/logo.png" style="width:100%; margin-left:-10px;">
+                        <div class="spacer" style="height:20px;"></div>
                     </span>
                     <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                         <span class="block m-t-xs"> <strong class="font-bold">{{user.rol}}</strong> </span>
-                        <span class="text-muted text-xs block">@{{user.username}}</span>
+                        <span class="text-muted text-xs block">@{{user.usuario}}</span>
                     </a>
                 </div>
                 <div class="logo-element">
-                    A
+                    P
                 </div>
             </li>
             <li [ngClass]="{active: activeRoute('mainView')}">
-                <a [routerLink]="['/mainView']"><i class="fa fa-th-large"></i> <span class="nav-label"> <u>I</u>nicio</span></a>
+                <a [routerLink]="['/mainView']"><i class="fa fa-th-large"></i> <span class="nav-label">Pedidos</span></a>
             </li>
-            <!--<li [ngClass]="{active: activeRoute('clientes')}">
-                <a [routerLink]="['/clientes']"><i class="fa fa-smile-o"></i><span class="nav-label"> <u>C</u>lientes</span></a>
-            </li>-->
-            <li>
-                <a><i class="fa fa-pie-chart"></i> <span class="nav-label">Reportes</span> <span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level collapse">
-                    <li [ngClass]="{active: activeRoute('reportes/ventas')}">
-                        <a [routerLink]="['/reportes/ventas']"><span class="nav-label">Ventas</span></a>
-                    </li>
-                </ul>
+            <li [ngClass]="{active: activeRoute('ventas')}">
+                <a [routerLink]="['/ventas']"><i class="fa fa-dollar"></i> <span class="nav-label">Ventas</span></a>
             </li>
-            <li>
-                <a><i class="fa fa-cogs"></i> <span class="nav-label">Configuración</span> <span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level collapse">
-                    <li [ngClass]="{active: activeRoute('configuracion/encuentros')}">
-                        <a [routerLink]="['/configuracion/encuentros']"><span class="nav-label">Encuentros</span></a>
-                    </li>
-                    <li [ngClass]="{active: activeRoute('configuracion/oddtypes')}">
-                        <a [routerLink]="['/configuracion/oddtypes']"><span class="nav-label">Mercados</span></a>
-                    </li>
-                    <li [ngClass]="{active: activeRoute('franquicias')}">
-                        <a [routerLink]="['/franquicias']"><span class="nav-label"> Franquicia<u>s</u></span></a>
-                    </li>
-                    <li [ngClass]="{active: activeRoute('grupos')}">
-                        <a [routerLink]="['/grupos']"> <span class="nav-label"> <u>G</u>rupos</span></a>
-                    </li>
-                    <li [ngClass]="{active: activeRoute('perfiles')}">
-                        <a [routerLink]="['/perfiles']"> <span class="nav-label">Perfiles</span></a>
-                    </li>
-                </ul>
+            <li [ngClass]="{active: activeRoute('productos')}">
+                <a [routerLink]="['/productos']"><i class="fa fa-cube"></i> <span class="nav-label">Productos</span></a>
             </li>
-            <li>
-                <a><i class="fa fa-user"></i> <span class="nav-label"><u>U</u>suarios</span> <span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level collapse">
-                    <li [ngClass]="{active: activeRoute('usuarios/crear')}">
-                        <a [routerLink]="['/usuarios/crear']"><span class="nav-label"><u>C</u>rear Usuarios</span></a>
-                    </li>
-                    <li [ngClass]="{active: activeRoute('usuarios/consultar')}">
-                        <a [routerLink]="['/usuarios/consultar']"><span class="nav-label">Consultar Usuarios</span></a>
-                    </li>
-                    <li [ngClass]="{active: activeRoute('usuarios/crear/taquilleros')}">
-                        <a [routerLink]="['/usuarios/crear/taquilleros']"><span class="nav-label"><u>T</u>aquilleros</span></a>
-                    </li>
-                </ul>
+            <li [ngClass]="{active: activeRoute('clientes')}">
+                <a [routerLink]="['/clientes']"><i class="fa fa-user"></i> <span class="nav-label">Clientes</span></a>
             </li>
+            <li [ngClass]="{active: activeRoute('blog')}">
+                <a [routerLink]="['/blog']"><i class="fa fa-newspaper-o"></i> <span class="nav-label">Blog</span></a>
+            </li>
+            <li [ngClass]="{active: activeRoute('coleccion')}">
+                <a [routerLink]="['/coleccion']"><i class="fa fa-folder-open-o"></i> <span class="nav-label">Colecciones</span></a>
+            </li>
+            <li [ngClass]="{active: activeRoute('banner')}">
+                <a [routerLink]="['/banner']"><i class="fa fa-align-left"></i> <span class="nav-label">Banner</span></a>
+            </li>
+            <li [ngClass]="{active: activeRoute('configuracion')}">
+                <a [routerLink]="['/configuracion']"><i class="fa fa-cogs"></i> <span class="nav-label">configuración</span></a>
+            </li>
+            <!--
             <li>
                 <a><i class="fa fa-money"></i> <span class="nav-label"><u>R</u>ecargas</span> <span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level collapse">
@@ -73,33 +51,10 @@
                         <a [routerLink]="['/recargas/historial']"><span class="nav-label">Historial</span></a>
                     </li>
                 </ul>
-            </li>
-            <li>
-                <a><i class="fa fa-circle-o-notch"></i> <span class="nav-label">Procesos</span> <span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level collapse">
-                    <li [ngClass]="{active: activeRoute('procesos/pago')}">
-                        <a [routerLink]="['/procesos/pago']"><i class="fa fa-dollar"></i> <span class="nav-label">Pagar ticket</span></a>
-                    </li>
-                    <li [ngClass]="{active: activeRoute('procesos/eliminar')}">
-                        <a [routerLink]="['/procesos/eliminar']"><i class="fa fa-trash"></i> <span class="nav-label">Eliminar ticket</span></a>
-                    </li>
-                </ul>
-            </li>
+            </li>-->
 
-            <li>
-                <a><i class="fa fa-ticket"></i> <span class="nav-label">Retir<u>o</u>s</span> <span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level collapse">
-                    <li [ngClass]="{active: activeRoute('retiros/solicitudes')}">
-                        <a [routerLink]="['/retiros/solicitudes']"><span class="nav-label">Solicitudes</span></a>
-                    </li>
-                    <li [ngClass]="{active: activeRoute('retiros/historial')}">
-                        <a [routerLink]="['/retiros/historial']"><span class="nav-label">Historial</span></a>
-                    </li>
-                </ul>
-            </li>
-            <li [ngClass]="{active: activeRoute('geotaquillas')}">
-                <a [routerLink]="['/geotaquillas']"><i class="fa fa-map-marker"></i> <span class="nav-label">Geotaquillas</span></a>
-            </li>
+
+
         </ul>
 
     </div>
