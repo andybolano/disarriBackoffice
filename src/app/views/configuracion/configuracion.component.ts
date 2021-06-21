@@ -67,7 +67,7 @@ export class configuracionComponent {
         if (this.User.passNueva == "" || !this.User.passNueva) {
             this.User.passNueva = "false";
         }
-        loading_show()
+        loading_show();
         this.configuracionService.update(this.User, (data: Result) => {
             loading_hide();
             if (data.isOk) {
@@ -79,6 +79,13 @@ export class configuracionComponent {
                 this.alertService.error(data.Mensaje);
             }
 
+        });
+
+        this.configuracionService.updateNumeroWhatsapp(this.User.numero_whatsapp, (data: Result) => {
+            loading_hide();
+            if (!data.isOk) {
+                this.alertService.error(data.Mensaje);
+            }
         });
 
     }
