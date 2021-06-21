@@ -13,6 +13,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { PipesModule } from './pipes.module';
+import { AboutComponent } from '../views/about/about.component';
 
 @NgModule({
     imports: [
@@ -24,15 +25,12 @@ import { PipesModule } from './pipes.module';
         mainViewComponent,
         productosComponent,
         blogComponent,
-    coleccionComponent,
-    configuracionComponent,
-    bannerComponent,
-    clientesComponent,
-    ventasComponent,
-    
-    
-    
-    
+        coleccionComponent,
+        configuracionComponent,
+        bannerComponent,
+        clientesComponent,
+        ventasComponent,
+        AboutComponent
     ],
     providers: [],
 })

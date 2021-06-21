@@ -5,7 +5,7 @@ import { Headers, RequestOptions } from '@angular/http';
 export class ServersService {
     constructor() { }
     //serverName: string = "http://localhost/deirisarri/api/public/index.php/api"
-    serverName: string = "https://deirisarri.co/api/public/api"
+    serverName: string = "https://disarri.lauchoit.com/api"
     storageGrupo(codigo_grupo) {
         localStorage.setItem('session_group', codigo_grupo);
     }

@@ -14,6 +14,7 @@ import { mainViewComponent } from "./views/main-view/main-view.component";
 import { loginComponent } from "./views/login/login.component";
 import { blankComponent } from "./components/common/layouts/blank.component";
 import { basicComponent } from "./components/common/layouts/basic.component";
+import { AboutComponent } from './views/about/about.component';
 
 
 export const ROUTES: Routes = [
@@ -32,6 +33,7 @@ export const ROUTES: Routes = [
       { path: 'banner', component: bannerComponent },
       { path: 'clientes', component: clientesComponent },
       { path: 'ventas', component: ventasComponent },
+      { path: 'about', component: AboutComponent },
     ]
   },
   {

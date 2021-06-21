@@ -34,11 +34,13 @@ export class configuracionComponent {
         envioBO: 0,
         envioBO_usd: 0,
         valor_min_cop: 0,
-        valor_min_usd: 0
+        valor_min_usd: 0,
+        numero_whatsapp: ""
     };
 
     ngOnInit() {
         this.get();
+        this.getNumeroWhatsapp();
     }
 
     get() {
@@ -81,4 +83,13 @@ export class configuracionComponent {
 
     }
 
+    getNumeroWhatsapp(){
+        this.configuracionService.getNumeroWhatsapp((response)=> {
+            if(response.isOk){
+                this.User.numero_whatsapp = response.Content.numero;
+            }else{
+                this.User.numero_whatsapp = "";
+            }
+        });
+    }
 }
