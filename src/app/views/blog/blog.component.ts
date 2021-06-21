@@ -1,5 +1,4 @@
 import { viewsModule } from './../../modules/view.module';
-
 import { element } from 'protractor';
 import { Component, OnInit } from '@angular/core';
 import { AlertService, BlogService } from "../../services/base.import";
@@ -11,6 +10,7 @@ declare var jQuery: any;
     selector: 'blogComponent',
     templateUrl: 'blog.template.html'
 })
+
 export class blogComponent {
 
     constructor(
