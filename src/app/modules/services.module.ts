@@ -16,7 +16,8 @@ import {
     ContactoService,
     TiendasService,
     CategoriasService,
-    SubcategoriasService
+    SubcategoriasService,
+    TagsService
 } from './../services/base.import';
 import { NgModule } from '@angular/core';
 import { ToastyModule } from 'ng2-toasty';
@@ -40,7 +41,8 @@ import { ToastyModule } from 'ng2-toasty';
         VentasService,
         TiendasService,
         CategoriasService,
-        SubcategoriasService
+        SubcategoriasService,
+        TagsService
     ]
 })
 export class ServicesModule { }

@@ -17,6 +17,7 @@ import { AboutComponent } from '../views/about/about.component';
 import { ContactoComponent } from '../views/contacto/contacto.component';
 import { TiendasComponent } from '../views/tiendas/tiendas.component';
 import { CategoriasComponent } from '../views/categorias/categorias.component';
+import { TagsComponent } from '../views/tags/tag.component';
 
 @NgModule({
     imports: [
@@ -36,7 +37,8 @@ import { CategoriasComponent } from '../views/categorias/categorias.component';
         AboutComponent,
         ContactoComponent,
         TiendasComponent,
-        CategoriasComponent
+        CategoriasComponent,
+        TagsComponent
     ],
     providers: [],
 })

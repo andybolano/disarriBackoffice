@@ -20,3 +20,4 @@ export * from './contacto.service';
 export * from './tiendas.service';
 export * from './categorias.service';
 export * from './subcategorias.service';
+export * from './tags.service';
