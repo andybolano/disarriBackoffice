@@ -18,3 +18,5 @@ export * from './ventas.service';
 export * from './about.service';
 export * from './contacto.service';
 export * from './tiendas.service';
+export * from './categorias.service';
+export * from './subcategorias.service';

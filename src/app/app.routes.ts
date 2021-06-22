@@ -17,11 +17,12 @@ import { basicComponent } from "./components/common/layouts/basic.component";
 import { AboutComponent } from './views/about/about.component';
 import { ContactoComponent } from './views/contacto/contacto.component';
 import { TiendasComponent } from './views/tiendas/tiendas.component';
+import { CategoriasComponent } from './views/categorias/categorias.component';
 
 
 export const ROUTES: Routes = [
   // Main redirect
-  { path: '', redirectTo: 'login', pathMatch: 'full' },
+  { path: '', redirectTo: 'login', pathMatch: 'full' }, 
 
   // App views
   {
@@ -38,6 +39,7 @@ export const ROUTES: Routes = [
       { path: 'about', component: AboutComponent },
       { path: 'contact', component: ContactoComponent },
       { path: 'tiendas', component: TiendasComponent },
+      { path: 'categorias', component: CategoriasComponent },
     ]
   },
   {

@@ -74,7 +74,7 @@ export class HttpCacheService {
 
     delete(timeout: number, url: string, data: any = null, callback: any) {
         timeout *= 1000;
-        let sign = "put" + url + JSON.stringify(data);
+        let sign = "delete" + url + JSON.stringify(data);
         console.log(this.cache[sign])
         if (this.cache[sign]) {            
             if (this.cache[sign].isValid()) {
