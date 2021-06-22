@@ -23,6 +23,6 @@ export class CategoriasService {
         let request = {
             categoria_id: categoriaId
         }
-        return this.http.delete(0, this.servers.serverName + '/categoria/', request, callback);
+        return this.http.post(0, this.servers.serverName + '/categoria/delete', request, callback);
     }
 }

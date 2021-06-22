@@ -23,6 +23,6 @@ export class SubcategoriasService {
         let request = {
             subcategoria_id: subcategoriaId
         }
-        return this.http.delete(0, this.servers.serverName + '/sub-categoria', request, callback);
+        return this.http.post(0, this.servers.serverName + '/sub-categoria/delete', request, callback);
     }
 }

@@ -23,6 +23,6 @@ export class TagsService {
         let request = {
             tag_id: tagId
         }
-        return this.http.delete(0, this.servers.serverName + '/tag/', request, callback);
+        return this.http.post(0, this.servers.serverName + '/tag/delete', request, callback);
     }
 }
