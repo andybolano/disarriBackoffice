@@ -18,6 +18,7 @@ import { ContactoComponent } from '../views/contacto/contacto.component';
 import { TiendasComponent } from '../views/tiendas/tiendas.component';
 import { CategoriasComponent } from '../views/categorias/categorias.component';
 import { TagsComponent } from '../views/tags/tag.component';
+import { SubcategoriasComponent } from '../views/subcategorias/subcategorias.component';
 
 @NgModule({
     imports: [
@@ -38,6 +39,7 @@ import { TagsComponent } from '../views/tags/tag.component';
         ContactoComponent,
         TiendasComponent,
         CategoriasComponent,
+        SubcategoriasComponent,
         TagsComponent
     ],
     providers: [],

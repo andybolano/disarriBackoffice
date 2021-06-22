@@ -19,6 +19,8 @@ import { ContactoComponent } from './views/contacto/contacto.component';
 import { TiendasComponent } from './views/tiendas/tiendas.component';
 import { CategoriasComponent } from './views/categorias/categorias.component';
 import { TagsComponent } from './views/tags/tag.component';
+import { SubcategoriasService } from './services/subcategorias.service';
+import { SubcategoriasComponent } from './views/subcategorias/subcategorias.component';
 
 
 export const ROUTES: Routes = [
@@ -41,6 +43,7 @@ export const ROUTES: Routes = [
       { path: 'contact', component: ContactoComponent },
       { path: 'tiendas', component: TiendasComponent },
       { path: 'categorias', component: CategoriasComponent },
+      { path: 'subcategorias', component: SubcategoriasComponent },
       { path: 'tags', component: TagsComponent },
     ]
   },

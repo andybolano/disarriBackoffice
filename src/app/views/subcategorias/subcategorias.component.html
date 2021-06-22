@@ -3,20 +3,20 @@
         <div class="col-lg-7">
             <img src="assets/img/icons/blog.png" class="icons">
             <h3 class="title">
-                Categorias
+                Subcategorias - {{categoria.name}}
             </h3>
             <ol class="breadcrumb">
                 <li>
                     <a>Inicio</a>
                 </li>
                 <li class="active">
-                    <strong>Categorias</strong>
+                    <strong>Subcategorias</strong>
                 </li>
             </ol>
         </div>
         <div class="col-lg-2" style="text-align:right">
             <div class="spacer" style="height:5px;"></div>
-            <button class="btn btn-success" (click)="nuevo()"><a href="#" data-toggle="modal" data-target="#modalCategoria" style="color:#FFFFFF" >Nueva categoria</a></button>
+            <button class="btn btn-success" (click)="nuevo()"><a href="#" data-toggle="modal" data-target="#modalSubcategoria" style="color:#FFFFFF" >Nueva subcategoria</a></button>
         </div>
         <div class="col-lg-3">
             <div class="input-group m-b" style="margin-top:3px;">
@@ -28,7 +28,7 @@
     <hr>
     <div class="row">
         <div class="col-lg-12">
-            <table class="table table-hover" [mfData]="categorias | dataFilter : filter" #mf="mfDataTable" [mfRowsOnPage]="10">
+            <table class="table table-hover" [mfData]="subcategorias | dataFilter : filter" #mf="mfDataTable" [mfRowsOnPage]="10">
                 <thead>
                     <tr class="text-nowrap">
 
@@ -50,8 +50,7 @@
                         <td>{{item.name}}</td>
                         <td>{{item.description}}</td>
                         <td>
-                            <a href="javascript:;" title="Ver subcategorias" (click)="verSubcategorias(item);"><i class="fa fa-search ico text-blue"></i></a> &nbsp;
-                            <a href="javascript:;" data-toggle="modal" data-target="#modalCategoria" title="Editar" (click)="editShow(item);"><i class="fa fa-edit ico text-warning"></i></a> &nbsp;
+                            <a href="javascript:;" data-toggle="modal" data-target="#modalSubcategoria" title="Editar" (click)="editShow(item);"><i class="fa fa-edit ico text-warning"></i></a> &nbsp;
                             <a href="javascript:;" title="Eliminar" (click)="delete(item.id)"><i class="fa fa-trash ico text-red"></i></a>
                         </td>
                     </tr>
@@ -70,20 +69,20 @@
 
             </div>
             <h3>
-                No se encontraron categorias registradas
+                No se encontraron subcategorias registradas
             </h3>
         </div>
     </div>
 </div>
-<div class="modal inmodal" id="modalCategoria" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal inmodal" id="modalSubcategoria" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-sm">
         <div class="modal-content animated bounceInRight">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
-                <h4 class="modal-title" *ngIf="!update">Nueva categoria</h4>
-                <small class="font-bold" *ngIf="!update">Crea una categoria</small>
+                <h4 class="modal-title" *ngIf="!update">Nueva subcategoria</h4>
+                <small class="font-bold" *ngIf="!update">Crea una subcategoria</small>
 
-                <h4 class="modal-title" *ngIf="update">{{categoria.name}}</h4>
+                <h4 class="modal-title" *ngIf="update">{{subcategoria.name}}</h4>
 
             </div>
             <div class="modal-body">
@@ -92,7 +91,7 @@
                         <div class="row">
                             <div class="col-lg-12">
                                 <label>Nombre:</label>
-                                <input type="text" class="form-control" placeholder="Ingresar nombre" [(ngModel)]="categoria.name">
+                                <input type="text" class="form-control" placeholder="Ingresar nombre" [(ngModel)]="subcategoria.name">
                                 <br>
                             </div>
                         </div>
@@ -102,7 +101,7 @@
                                 <textarea 
                                     class="form-control" 
                                     placeholder="Ingresar descripción" 
-                                    [(ngModel)]="categoria.description"
+                                    [(ngModel)]="subcategoria.description"
                                     rows="3">
                                 </textarea>
                                 <br>
@@ -114,7 +113,7 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-white" data-dismiss="modal">Cerrar</button>
                 <button type="button" class="btn btn-success" (click)="save()" *ngIf="!update" id="guardar">Guardar</button>
-                <button type="button" class="btn btn-danger" (click)="updateCategoria()" *ngIf="update" id="modificar">Actualizar</button>
+                <button type="button" class="btn btn-danger" (click)="updateSubcategoria()" *ngIf="update" id="modificar">Actualizar</button>
             </div>
         </div>
     </div>

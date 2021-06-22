@@ -1,41 +1,49 @@
 import { viewsModule } from '../../modules/view.module';
 import { element } from 'protractor';
 import { Component, OnInit } from '@angular/core';
-import { CategoriasService, AlertService, BlogService, SubcategoriasService } from "../../services/base.import";
+import { SubcategoriasService, AlertService, BlogService } from "../../services/base.import";
 import { Result } from '../../services/servers.service';
 import { loading_show, loading_hide } from '../../app.helpers';
 import swal from 'sweetalert2';
-import { ActivatedRoute, Router, Routes } from '@angular/router';
 declare var jQuery: any;
 
 @Component({
-  selector: 'app-categorias',
-  templateUrl: './categorias.component.html',
-  styleUrls: ['./categorias.component.css']
+  selector: 'app-subcategorias',
+  templateUrl: './subcategorias.component.html',
+  styleUrls: ['./subcategorias.component.css']
 })
-export class CategoriasComponent implements OnInit {
+export class SubcategoriasComponent implements OnInit {
 
-  public categorias: Array<any> = [];
+  public subcategorias: Array<any> = [];
   public update: boolean = false;
   public categoria: any = {};
+  public subcategoria: any = {};
 
   constructor(
-    private categoriasService: CategoriasService,
-    private alertService: AlertService,
-    private router: Router 
-  ) { 
-  }
+    private subcategoriasService: SubcategoriasService,
+    private alertService: AlertService
+  ) { }
 
   ngOnInit() {
-    this.getCategorias();
+    this.buscarInformacionCategoria();
+    this.getSubcategorias();
   }
 
-  getCategorias() {
+  buscarInformacionCategoria(){
+    let categoriaCadena = localStorage.getItem("categoria");
+    if(categoriaCadena != null && categoriaCadena != ""){
+      this.categoria = JSON.parse(categoriaCadena);
+      return;
+    }
+    history.back();
+  }
+
+  getSubcategorias() {
     loading_show();
-    this.categoriasService.get((response) => {
+    this.subcategoriasService.get(this.categoria.id, (response) => {
       loading_hide();
       if (response.isOk) {
-        this.categorias = response.Content;
+        this.subcategorias = response.Content;
       } else {
         this.alertService.error(response.Mensaje);
       }
@@ -44,7 +52,7 @@ export class CategoriasComponent implements OnInit {
 
   nuevo() {
     this.update = false;
-    this.categoria = {
+    this.subcategoria = {
       id: 0,
       name: "",
       description: ""
@@ -53,24 +61,24 @@ export class CategoriasComponent implements OnInit {
 
   save() {
 
-    if (!this.categoria.name || this.categoria.name == "") {
+    if (!this.subcategoria.name || this.subcategoria.name == "") {
       this.alertService.warning("Ingresar nombre!");
       return;
     }
 
-    if (!this.categoria.description || this.categoria.description == "") {
+    if (!this.subcategoria.description || this.subcategoria.description == "") {
       this.alertService.warning("Ingresar descripción!");
       return;
     }
 
     loading_show();
-    this.categoriasService.post(this.categoria, (data: Result) => {
+    this.subcategoriasService.post(this.subcategoria, (data: Result) => {
       loading_hide();
       if (data.isOk) {
         this.nuevo();
         this.alertService.success(data.Mensaje);
-        jQuery('#modalCategoria').modal('hide');
-        this.getCategorias();
+        jQuery('#modalSubcategoria').modal('hide');
+        this.getSubcategorias();
       } else {
         this.alertService.error(data.Mensaje);
       }
@@ -84,7 +92,7 @@ export class CategoriasComponent implements OnInit {
 
     swal({
       title: 'Esta seguro?',
-      text: "Desea realmente eliminar esta categoria? ",
+      text: "Desea realmente eliminar esta subcategoria? ",
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
@@ -95,7 +103,7 @@ export class CategoriasComponent implements OnInit {
     }).then(() => {
 
       loading_show();
-      this.categoriasService.delete(id, (data: Result) => {
+      this.subcategoriasService.delete(id, (data: Result) => {
         loading_hide();
         if (data.isOk) {
           swal(
@@ -103,7 +111,7 @@ export class CategoriasComponent implements OnInit {
             data.Mensaje,
             'success'
           )
-          this.getCategorias();
+          this.getSubcategorias();
         }
 
       });
@@ -113,38 +121,33 @@ export class CategoriasComponent implements OnInit {
 
   editShow(item) {
     this.update = true;
-    this.categoria = item;
+    this.subcategoria = item;
 
   }
 
-  updateCategoria() {
-    if (!this.categoria.name || this.categoria.name == "") {
+  updateSubcategoria() {
+    if (!this.subcategoria.name || this.subcategoria.name == "") {
       this.alertService.warning("Ingresar nombre!");
       return;
     }
 
-    if (!this.categoria.description || this.categoria.description == "") {
+    if (!this.subcategoria.description || this.subcategoria.description == "") {
       this.alertService.warning("Ingresar descripción!");
       return;
     }
 
     loading_show();
-    this.categoriasService.put(this.categoria.id, this.categoria, (data: Result) => {
+    this.subcategoriasService.put(this.subcategoria.id, this.subcategoria, (data: Result) => {
       loading_hide();
       if (data.isOk) {
         this.nuevo();
         this.alertService.success(data.Mensaje);
-        jQuery('#modalCategoria').modal('hide');
-        this.getCategorias();
+        jQuery('#modalSubcategoria').modal('hide');
+        this.getSubcategorias();
       } else {
         this.alertService.error(data.Mensaje);
       }
     });
-  }
-
-  verSubcategorias(item: any){
-    localStorage.setItem("categoria", JSON.stringify(item));
-    this.router.navigate(['/subcategorias']);
   }
 
 }

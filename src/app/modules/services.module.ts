@@ -40,9 +40,12 @@ import { ToastyModule } from 'ng2-toasty';
         ClientesService,
         VentasService,
         TiendasService,
-        CategoriasService,
         SubcategoriasService,
+        CategoriasService,
         TagsService
+    ],
+    entryComponents: [
+        
     ]
 })
 export class ServicesModule { }
