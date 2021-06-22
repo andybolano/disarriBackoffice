@@ -15,6 +15,7 @@ import { FormsModule } from '@angular/forms';
 import { PipesModule } from './pipes.module';
 import { AboutComponent } from '../views/about/about.component';
 import { ContactoComponent } from '../views/contacto/contacto.component';
+import { TiendasComponent } from '../views/tiendas/tiendas.component';
 
 @NgModule({
     imports: [
@@ -32,7 +33,8 @@ import { ContactoComponent } from '../views/contacto/contacto.component';
         clientesComponent,
         ventasComponent,
         AboutComponent,
-        ContactoComponent
+        ContactoComponent,
+        TiendasComponent
     ],
     providers: [],
 })

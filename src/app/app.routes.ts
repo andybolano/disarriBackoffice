@@ -16,6 +16,7 @@ import { blankComponent } from "./components/common/layouts/blank.component";
 import { basicComponent } from "./components/common/layouts/basic.component";
 import { AboutComponent } from './views/about/about.component';
 import { ContactoComponent } from './views/contacto/contacto.component';
+import { TiendasComponent } from './views/tiendas/tiendas.component';
 
 
 export const ROUTES: Routes = [
@@ -36,6 +37,7 @@ export const ROUTES: Routes = [
       { path: 'ventas', component: ventasComponent },
       { path: 'about', component: AboutComponent },
       { path: 'contact', component: ContactoComponent },
+      { path: 'tiendas', component: TiendasComponent },
     ]
   },
   {

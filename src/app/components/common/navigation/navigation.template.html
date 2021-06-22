@@ -46,6 +46,9 @@
             <li [ngClass]="{active: activeRoute('contact')}">
                 <a [routerLink]="['/contact']"><i class="fa fa-address-card"></i> <span class="nav-label">Contacto</span></a>
             </li>
+            <li [ngClass]="{active: activeRoute('tiendas')}"> 
+                <a [routerLink]="['/tiendas']"><i class="fa fa-shopping-basket"></i> <span class="nav-label">Tiendas</span></a>
+            </li>
             <!--
             <li>
                 <a><i class="fa fa-money"></i> <span class="nav-label"><u>R</u>ecargas</span> <span class="fa arrow"></span></a>
@@ -58,9 +61,6 @@
                     </li>
                 </ul>
             </li>-->
-
-
-
         </ul>
 
     </div>
