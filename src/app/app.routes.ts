@@ -21,6 +21,7 @@ import { CategoriasComponent } from './views/categorias/categorias.component';
 import { TagsComponent } from './views/tags/tag.component';
 import { SubcategoriasService } from './services/subcategorias.service';
 import { SubcategoriasComponent } from './views/subcategorias/subcategorias.component';
+import { CodigosDescuentosComponent } from './views/codigos-descuento/codigos-descuento.component';
 
 
 export const ROUTES: Routes = [
@@ -45,6 +46,7 @@ export const ROUTES: Routes = [
       { path: 'categorias', component: CategoriasComponent },
       { path: 'subcategorias', component: SubcategoriasComponent },
       { path: 'tags', component: TagsComponent },
+      { path: 'codigos-descuentos', component: CodigosDescuentosComponent },
     ]
   },
   {

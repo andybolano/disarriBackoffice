@@ -17,7 +17,8 @@ import {
     TiendasService,
     CategoriasService,
     SubcategoriasService,
-    TagsService
+    TagsService,
+    CodigosDescuentosService
 } from './../services/base.import';
 import { NgModule } from '@angular/core';
 import { ToastyModule } from 'ng2-toasty';
@@ -42,7 +43,8 @@ import { ToastyModule } from 'ng2-toasty';
         TiendasService,
         SubcategoriasService,
         CategoriasService,
-        TagsService
+        TagsService,
+        CodigosDescuentosService
     ],
     entryComponents: [
         

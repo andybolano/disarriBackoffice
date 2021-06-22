@@ -19,6 +19,7 @@ import { TiendasComponent } from '../views/tiendas/tiendas.component';
 import { CategoriasComponent } from '../views/categorias/categorias.component';
 import { TagsComponent } from '../views/tags/tag.component';
 import { SubcategoriasComponent } from '../views/subcategorias/subcategorias.component';
+import { CodigosDescuentosComponent } from '../views/codigos-descuento/codigos-descuento.component';
 
 @NgModule({
     imports: [
@@ -40,7 +41,8 @@ import { SubcategoriasComponent } from '../views/subcategorias/subcategorias.com
         TiendasComponent,
         CategoriasComponent,
         SubcategoriasComponent,
-        TagsComponent
+        TagsComponent,
+        CodigosDescuentosComponent
     ],
     providers: [],
 })
