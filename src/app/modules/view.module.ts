@@ -14,6 +14,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { PipesModule } from './pipes.module';
 import { AboutComponent } from '../views/about/about.component';
+import { ContactoComponent } from '../views/contacto/contacto.component';
 
 @NgModule({
     imports: [
@@ -30,7 +31,8 @@ import { AboutComponent } from '../views/about/about.component';
         bannerComponent,
         clientesComponent,
         ventasComponent,
-        AboutComponent
+        AboutComponent,
+        ContactoComponent
     ],
     providers: [],
 })

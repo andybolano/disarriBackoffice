@@ -12,7 +12,8 @@ import {
     ConfiguracionService,
     BannerService,
     ClientesService,
-    VentasService
+    VentasService,
+    ContactoService
 } from './../services/base.import';
 import { NgModule } from '@angular/core';
 import { ToastyModule } from 'ng2-toasty';
@@ -28,6 +29,7 @@ import { ToastyModule } from 'ng2-toasty';
         AuthenticationService,
         BlogService,
         AboutService,
+        ContactoService,
         ColeccionService,
         ConfiguracionService,
         BannerService,
