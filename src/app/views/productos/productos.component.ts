@@ -47,7 +47,9 @@ export class productosComponent {
         compra_min: 1,
         categoria_id: null,
         subcategoria_id: null,
-        tags_id: []
+        tags_id: [],
+        image_medidas_escritorio: "",
+        image_medidas_movil: ""
     };
 
 
@@ -103,7 +105,9 @@ export class productosComponent {
             compra_min: 1,
             categoria_id: null,
             subcategoria_id: null,
-            tags_id: []
+            tags_id: [],
+            image_medidas_escritorio: "",
+            image_medidas_movil: ""
         }
     }
 
@@ -748,4 +752,13 @@ export class productosComponent {
         });
     }
 
+    viewMedidasPc(item) {
+        this.Producto = item.propiedades;
+        this.Producto.image_medidas_escritorio = "/assets/img/tallas-esc.png";
+    }
+
+    viewMedidasMovil(item) {
+        this.Producto = item.propiedades;
+        this.Producto.image_medidas_movil = "/assets/img/tallas-mov.png";
+    }
 }

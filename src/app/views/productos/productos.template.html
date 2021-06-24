@@ -51,6 +51,7 @@
                             <mfDefaultSorter by="propiedades.orden">Orden</mfDefaultSorter>
                         </th>
                         <th style="text-align:center;">Opciones</th>
+                        <th style="text-align:center;">Medidas</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -79,7 +80,7 @@
                             <input class="form-control" [(ngModel)]="item.propiedades.orden"
                                 (change)="changeOrden(item.propiedades.id,item.propiedades.orden)">
                         </td>
-                        <td style="text-align:center" style="width:15%;">
+                        <td style="text-align:center; width:15%;">
                             <a href="javascript:;" data-toggle="modal" data-target="#modalStock" title="Stock"
                                 (click)="viewStock(item);"><i class="fa fa-calculator ico text-green"></i></a> &nbsp;
                             <a href="javascript:;" data-toggle="modal" data-target="#modalImagenes"
@@ -92,6 +93,13 @@
                                 (click)="editShow(item);"><i class="fa fa-edit ico text-warning"></i></a> &nbsp;
                             <a href="javascript:;" title="Eliminar" (click)="delete(item.propiedades.id)"><i
                                     class="fa fa-trash ico text-red"></i></a>
+                        </td>
+                        <td style="text-align:center;">
+                            <a href="javascript:;" data-toggle="modal" data-target="#modalMedidasPc" title="Medidas pc"
+                                (click)="viewMedidasPc(item);"><i class="fa fa-image ico text-blue"></i></a> &nbsp;
+                            <a href="javascript:;" data-toggle="modal" data-target="#modalMedidasMovil"
+                                title="Medidas movil" (click)="viewMedidasMovil(item);"><i
+                                    class="fa fa-mobile ico text-red" style="font-size:22px;"></i></a> &nbsp;
                         </td>
                     </tr>
                 </tbody>
@@ -349,11 +357,10 @@
                                 <label>Categoria:</label>
                                 <div class="input-group m-b">
                                     <span class="input-group-addon">$</span>
-                                    <select 
-                                        class="form-control" 
-                                        [(ngModel)]="Producto.categoria_id"
+                                    <select class="form-control" [(ngModel)]="Producto.categoria_id"
                                         (change)="getSubcategorias()">
-                                        <option [value]="categoria.id" *ngFor="let categoria of categorias">{{categoria.name}}</option>
+                                        <option [value]="categoria.id" *ngFor="let categoria of categorias">
+                                            {{categoria.name}}</option>
                                     </select>
                                 </div>
                                 <br>
@@ -362,16 +369,15 @@
                                 <label>Subcategoria:</label>
                                 <div class="input-group m-b">
                                     <span class="input-group-addon">$</span>
-                                    <select 
-                                        class="form-control" 
-                                        [(ngModel)]="Producto.subcategoria_id">
-                                        <option [value]="subcategoria.id" *ngFor="let subcategoria of subcategorias">{{subcategoria.name}}</option>
+                                    <select class="form-control" [(ngModel)]="Producto.subcategoria_id">
+                                        <option [value]="subcategoria.id" *ngFor="let subcategoria of subcategorias">
+                                            {{subcategoria.name}}</option>
                                     </select>
                                 </div>
                                 <br>
                             </div>
                             <div class="col-lg-4">
-                                
+
                             </div>
                             <div class="col-lg-12">
                                 <label>Tags</label>
@@ -626,6 +632,78 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-white" data-dismiss="modal">Cerrar</button>
                 <button type="button" class="btn btn-success" (click)="post_image_movil()">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal inmodal" id="modalMedidasPc" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content animated bounceInRight">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span
+                        class="sr-only">Close</span></button>
+                <i class="fa fa-laptop modal-icon"></i>
+                <br>
+                <h4 class="modal-title">{{Producto.nombre}}</h4>
+                <small class="font-bold">Medidas de producto para pc's</small>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-3" style="text-align:center">
+                        <br><br><br>
+                        <small>Recomendación: Seleccione una imagen cuadrada que se agusta a la pantalla de escritorio.<br><br> Si carga una imagen de medidas esta se mostrara en la tienda</small>
+                        <div class="spacer" style="height:20px;"></div>
+                        <div class="fileUpload btn btn-primary">
+                            <span><i class="fa fa-image"></i> Seleccionar imagen</span>
+                            <input type="file" (change)="save_image_medidas_escritorio($event)" name="images" id="files"
+                                class="upload" />
+                        </div>
+                    </div>
+                    <div class="col-lg-9" style="text-align: center;">
+                        <img src="{{Producto.image_medidas_escritorio}}" style="width: 100%;">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-success" (click)="post_image_medidas_escritprio()">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal inmodal" id="modalMedidasMovil" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content animated bounceInRight">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span
+                        class="sr-only">Close</span></button>
+                <i class="fa fa-laptop modal-icon"></i>
+                <br>
+                <h4 class="modal-title">{{Producto.nombre}}</h4>
+                <small class="font-bold">Medidas de producto para moviles</small>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-6" style="text-align:center">
+                        <br><br><br>
+                        <small>Recomendación: Seleccione una imagen cuadrada que se agusta a la pantalla de escritorio.<br><br> Si carga una imagen de medidas esta se mostrara en la tienda</small>
+                        <div class="spacer" style="height:20px;"></div>
+                        <div class="fileUpload btn btn-primary">
+                            <span><i class="fa fa-image"></i> Seleccionar imagen</span>
+                            <input type="file" (change)="save_image_medidas_movil($event)" name="images" id="files"
+                                class="upload" />
+                        </div>
+                    </div>
+                    <div class="col-lg-6" style="text-align: center;">
+                        <img src="{{Producto.image_medidas_movil}}" style="width: 100%;">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-success" (click)="post_image_medidas_movil()">Guardar</button>
             </div>
         </div>
     </div>
