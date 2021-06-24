@@ -1,7 +1,7 @@
 
 import { element } from 'protractor';
 import { Component, OnInit } from '@angular/core';
-import { AlertService, ProductosService } from "../../services/base.import";
+import { AlertService, CategoriasService, ProductosService, SubcategoriasService, TagsService } from "../../services/base.import";
 import { Result } from './../../services/servers.service';
 import { loading_show, loading_hide } from '../../app.helpers';
 import swal from 'sweetalert2';
@@ -12,23 +12,21 @@ declare var jQuery: any;
 })
 export class productosComponent {
 
-    constructor(
-        private productosService: ProductosService,
-        private alertService: AlertService
-    ) {
 
-    }
-
-
-    ngOnInit() {
-        jQuery('#tallas').tagsinput('refresh');
-        this.getProductos();
-
-    }
     public filter = "";
     public productos = [];
     public images = [];
     public images_movil = [];
+    public categorias = [];
+    public subcategorias = [];
+    public tags = [];
+    public entradas = [];
+    public salidas = [];
+    Stock: any = {};
+    public colorSelected = "";
+    files: FileList;
+    files_imgs: FileList;
+    public update = false;
     public Producto = {
         id: 0,
         nombre: "",
@@ -43,18 +41,33 @@ export class productosComponent {
         ],
         precio: 0,
         precio_usd: 0,
+        precio_ant: 0,
+        precio_ant_usd: 0,
         image: "",
-        compra_min: 1
+        compra_min: 1,
+        categoria_id: null,
+        subcategoria_id: null,
+        tags_id: []
+    };
+
+
+    constructor(
+        private productosService: ProductosService,
+        private alertService: AlertService,
+        private categoriasService: CategoriasService,
+        private subcategoriasService: SubcategoriasService,
+        private tagsService: TagsService,
+    ) {
 
     }
-    public entradas = [];
-    public salidas = [];
-    Stock: any = {};
-    public colorSelected = "";
-    files: FileList;
-    files_imgs: FileList;
 
-    public update = false;
+
+    ngOnInit() {
+        jQuery('#tallas').tagsinput('refresh');
+        this.getProductos();
+        this.getCategorias();
+        this.getTags();
+    }
 
     addColor() {
         let num = Math.floor(Math.random() * 10000);
@@ -68,7 +81,6 @@ export class productosComponent {
     deleteDescuento(index) {
         this.Producto.descuentos.splice(index, 1);
     }
-
 
     init_producto() {
         this.Producto = {
@@ -85,12 +97,15 @@ export class productosComponent {
             ],
             precio: 0,
             precio_usd: 0,
+            precio_ant: 0,
+            precio_ant_usd: 0,
             image: "",
-            compra_min: 1
+            compra_min: 1,
+            categoria_id: null,
+            subcategoria_id: null,
+            tags_id: []
         }
     }
-
-
 
     deleteColor(index) {
         this.Producto.colores.splice(index, 1);
@@ -208,7 +223,12 @@ export class productosComponent {
             descripcion: this.Producto.descripcion,
             colores: this.Producto.colores,
             compra_min: this.Producto.compra_min,
-            descuentos: this.Producto.descuentos
+            descuentos: this.Producto.descuentos,
+            precio_ant: this.Producto.precio_ant,
+            precio_ant_usd: this.Producto.precio_ant_usd,
+            categoria_id: Number(this.Producto.categoria_id),
+            subcategoria_id: Number(this.Producto.subcategoria_id),
+            tags_id: this.tags.filter(o=> o.seleccionado).map(o=> o.id)
         }
 
         formData.append('producto', JSON.stringify(object));
@@ -480,7 +500,12 @@ export class productosComponent {
             colores: this.Producto.colores,
             imagen: this.Producto.image,
             compra_min: this.Producto.compra_min,
-            descuentos: this.Producto.descuentos
+            descuentos: this.Producto.descuentos,
+            precio_ant: this.Producto.precio_ant,
+            precio_ant_usd: this.Producto.precio_ant_usd,
+            categoria_id: Number(this.Producto.categoria_id),
+            subcategoria_id: Number(this.Producto.subcategoria_id),
+            tags_id: this.tags.filter(o=> o.seleccionado).map(o=> o.id)
         }
 
         formData.append('producto', JSON.stringify(object));
@@ -687,5 +712,40 @@ export class productosComponent {
         jQuery("#color").css("background-color", color[0]);
     }
 
+    getCategorias() {
+        loading_show();
+        this.categoriasService.get((response) => {
+            loading_hide();
+            if (response.isOk) {
+                this.categorias = response.Content;
+            } else {
+                this.alertService.error(response.Mensaje);
+            }
+        });
+    }
+
+    getSubcategorias() {
+        loading_show();
+        this.subcategoriasService.get(this.Producto.categoria_id, (response) => {
+            loading_hide();
+            if (response.isOk) {
+                this.subcategorias = response.Content;
+            } else {
+                this.alertService.error(response.Mensaje);
+            }
+        });
+    }
+
+    getTags() {
+        loading_show();
+        this.tagsService.get((response) => {
+            loading_hide();
+            if (response.isOk) {
+                this.tags = response.Content;
+            } else {
+                this.alertService.error(response.Mensaje);
+            }
+        });
+    }
 
 }

@@ -327,6 +327,62 @@
                                 </div>
                                 <br>
                             </div>
+                            <div class="col-lg-4">
+                                <label>Precio Anterior COP:</label>
+                                <div class="input-group m-b">
+                                    <span class="input-group-addon">$</span>
+                                    <input type="number" class="form-control" placeholder="0"
+                                        [(ngModel)]="Producto.precio_ant">
+                                </div>
+                                <br>
+                            </div>
+                            <div class="col-lg-4">
+                                <label>Precio Anterior USD:</label>
+                                <div class="input-group m-b">
+                                    <span class="input-group-addon">$</span>
+                                    <input type="number" class="form-control" placeholder="0"
+                                        [(ngModel)]="Producto.precio_ant_usd">
+                                </div>
+                                <br>
+                            </div>
+                            <div class="col-lg-6">
+                                <label>Categoria:</label>
+                                <div class="input-group m-b">
+                                    <span class="input-group-addon">$</span>
+                                    <select 
+                                        class="form-control" 
+                                        [(ngModel)]="Producto.categoria_id"
+                                        (change)="getSubcategorias()">
+                                        <option [value]="categoria.id" *ngFor="let categoria of categorias">{{categoria.name}}</option>
+                                    </select>
+                                </div>
+                                <br>
+                            </div>
+                            <div class="col-lg-6">
+                                <label>Subcategoria:</label>
+                                <div class="input-group m-b">
+                                    <span class="input-group-addon">$</span>
+                                    <select 
+                                        class="form-control" 
+                                        [(ngModel)]="Producto.subcategoria_id">
+                                        <option [value]="subcategoria.id" *ngFor="let subcategoria of subcategorias">{{subcategoria.name}}</option>
+                                    </select>
+                                </div>
+                                <br>
+                            </div>
+                            <div class="col-lg-4">
+                                
+                            </div>
+                            <div class="col-lg-12">
+                                <label>Tags</label>
+                            </div>
+                            <div class="col-lg-6" *ngFor="let tag of tags">
+                                <label style="font-weight: initial;">
+                                    <input type="checkbox" [(ngModel)]="tag.seleccionado">
+                                    {{tag.name}}
+                                </label>
+                            </div>
+                            <br>
                             <div class="col-lg-12">
                                 <label>Descripción:</label><br>
                                 <small>Obligación para este campo:</small>
