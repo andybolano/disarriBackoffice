@@ -85,11 +85,11 @@ export class ProductosService {
   }
 
   saveMedidasEscritorio(object, callback: any) {
-    return this.http.post(0, this.servers.serverName + '/medidas/escritorio', object, callback);
+    return this.http.post(0, this.servers.serverName + '/producto/medidas/escritorio', object, callback);
   }
 
   saveMedidasMovil(object, callback: any) {
-    return this.http.post(0, this.servers.serverName + '/medidas/escritorio', object, callback);
+    return this.http.post(0, this.servers.serverName + '/producto/medidas/movil', object, callback);
   }
 
 }
