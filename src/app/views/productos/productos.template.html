@@ -641,7 +641,7 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content animated bounceInRight">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span
+                <button type="button" class="close" data-dismiss="modal" (click)="files_medidas_escritorio = null"><span aria-hidden="true">×</span><span
                         class="sr-only">Close</span></button>
                 <i class="fa fa-laptop modal-icon"></i>
                 <br>
@@ -660,14 +660,26 @@
                                 class="upload" />
                         </div>
                     </div>
-                    <div class="col-lg-9" style="text-align: center;">
-                        <img src="{{Producto.image_medidas_escritorio}}" style="width: 100%;">
+                    <div class="col-lg-9" style="text-align: center;" *ngIf="files_medidas_escritorio == null">
+                        <div class="row" *ngIf="Producto.image_medidas_escritorio == null || Producto.image_medidas_escritorio == ''">
+                            <div class="spacer" style="height:20px;"></div>
+                            <div class="spacer" style="height:20px;"></div>
+                            <div class="col-lg-12" style="text-align: center;">
+                                <i class="fa fa-image ico-bg"></i>
+                            </div>
+                        </div>
+                        <img *ngIf="Producto.image_medidas_escritorio != null && Producto.image_medidas_escritorio != ''" src="{{Producto.image_medidas_escritorio}}" style="width: 100%;">
+                    </div>
+                    <div class="col-lg-9" *ngIf="files_medidas_escritorio != null">
+                        <div id="image_medidas_escritorio" class="animated bounceIn">
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-white" data-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-success" (click)="post_image_medidas_escritprio()">Guardar</button>
+                <button type="button" class="btn btn-white" (click)="files_medidas_escritorio = null" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-success" *ngIf="files_medidas_escritorio != null" (click)="post_medidas_escritorio()">Guardar</button>
+                <button type="button" class="btn btn-success" *ngIf="files_medidas_escritorio != null" (click)="files_medidas_escritorio = null">Restablecer</button>
             </div>
         </div>
     </div>
@@ -677,7 +689,7 @@
     <div class="modal-dialog">
         <div class="modal-content animated bounceInRight">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span
+                <button type="button" class="close" data-dismiss="modal" (click)="files_medidas_movil = null"><span aria-hidden="true">×</span><span
                         class="sr-only">Close</span></button>
                 <i class="fa fa-laptop modal-icon"></i>
                 <br>
@@ -688,7 +700,7 @@
                 <div class="row">
                     <div class="col-lg-6" style="text-align:center">
                         <br><br><br>
-                        <small>Recomendación: Seleccione una imagen cuadrada que se agusta a la pantalla de escritorio.<br><br> Si carga una imagen de medidas esta se mostrara en la tienda</small>
+                        <small>Recomendación: Seleccione una imagen cuadrada que se agusta a la pantalla de movil.<br><br> Si carga una imagen de medidas esta se mostrara en la tienda</small>
                         <div class="spacer" style="height:20px;"></div>
                         <div class="fileUpload btn btn-primary">
                             <span><i class="fa fa-image"></i> Seleccionar imagen</span>
@@ -696,14 +708,26 @@
                                 class="upload" />
                         </div>
                     </div>
-                    <div class="col-lg-6" style="text-align: center;">
-                        <img src="{{Producto.image_medidas_movil}}" style="width: 100%;">
+                    <div class="col-lg-6" style="text-align: center;" *ngIf="files_medidas_movil == null">
+                        <div class="row" *ngIf="Producto.image_medidas_movil == null || Producto.image_medidas_movil == ''">
+                            <div class="spacer" style="height:20px;"></div>
+                            <div class="spacer" style="height:20px;"></div>
+                            <div class="col-lg-12" style="text-align: center;">
+                                <i class="fa fa-image ico-bg"></i>
+                            </div>
+                        </div>
+                        <img *ngIf="Producto.image_medidas_movil != null && Producto.image_medidas_movil != ''" src="{{Producto.image_medidas_movil}}" style="width: 100%;">
+                    </div>
+                    <div class="col-lg-6" *ngIf="files_medidas_movil != null">
+                        <div id="image_medidas_movil" class="animated bounceIn">
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-white" data-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-success" (click)="post_image_medidas_movil()">Guardar</button>
+                <button type="button" class="btn btn-white" (click)="files_medidas_movil = null" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-success" *ngIf="files_medidas_movil != null" (click)="post_medidas_movil()">Guardar</button>
+                <button type="button" class="btn btn-success" *ngIf="files_medidas_movil != null" (click)="files_medidas_movil = null">Restablecer</button>
             </div>
         </div>
     </div>

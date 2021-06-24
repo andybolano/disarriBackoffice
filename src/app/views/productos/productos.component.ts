@@ -26,6 +26,8 @@ export class productosComponent {
     public colorSelected = "";
     files: FileList;
     files_imgs: FileList;
+    files_medidas_escritorio: FileList;
+    files_medidas_movil: FileList;
     public update = false;
     public Producto = {
         id: 0,
@@ -566,7 +568,6 @@ export class productosComponent {
             })(f);
             reader.readAsDataURL(f);
         }
-
     }
 
     post_image() {
@@ -754,11 +755,96 @@ export class productosComponent {
 
     viewMedidasPc(item) {
         this.Producto = item.propiedades;
-        this.Producto.image_medidas_escritorio = "/assets/img/tallas-esc.png";
     }
 
     viewMedidasMovil(item) {
         this.Producto = item.propiedades;
-        this.Producto.image_medidas_movil = "/assets/img/tallas-mov.png";
     }
+    
+    save_image_medidas_escritorio(event: any) {
+
+        this.files_medidas_escritorio = event.target.files;
+        for (var i = 0, f; f = this.files_medidas_escritorio[i]; i++) {
+            if (!f.type.match('image.*')) {
+                continue;
+            }
+            var reader = new FileReader();
+            reader.onload = (function (theFile) {
+                return function (e) {
+                    document.getElementById("image_medidas_escritorio").innerHTML = ['<img class="animated bounceIn" style="width:100%;" src="', e.target.result, '" />'].join('');
+                };
+            })(f);
+            reader.readAsDataURL(f);
+        }
+
+    }
+
+    post_medidas_escritorio() {
+        if (this.files_medidas_escritorio == null) {
+            this.alertService.error("Cargar una imagen de la prenda");
+            return;
+        }
+
+        var formData = new FormData();
+        formData.append('imagen', this.files_medidas_escritorio[0]);
+        formData.append('producto', JSON.stringify(this.Producto.id));
+
+        loading_show();
+        this.productosService.saveMedidasEscritorio(formData, (data: Result) => {
+            loading_hide();
+            if (data.isOk) {
+                this.alertService.success(data.Mensaje);
+                jQuery('#modalMedidasPc').modal('hide');
+                this.files_medidas_escritorio = null;
+            } else {
+                this.alertService.error(data.Mensaje);
+            }
+
+        });
+    }
+
+    save_image_medidas_movil(event: any) {
+
+        this.files_medidas_movil = event.target.files;
+        for (var i = 0, f; f = this.files_medidas_movil[i]; i++) {
+            if (!f.type.match('image.*')) {
+                continue;
+            }
+            var reader = new FileReader();
+            reader.onload = (function (theFile) {
+                return function (e) {
+                    document.getElementById("image_medidas_movil").innerHTML = ['<img class="animated bounceIn" style="width:100%;" src="', e.target.result, '" />'].join('');
+                };
+            })(f);
+            reader.readAsDataURL(f);
+        }
+
+    }
+
+    post_medidas_movil() {
+        if (this.files_medidas_movil == null) {
+            this.alertService.error("Cargar una imagen de la prenda");
+            return;
+        }
+
+        var formData = new FormData();
+        formData.append('imagen', this.files_medidas_movil[0]);
+        formData.append('producto', JSON.stringify(this.Producto.id));
+
+        loading_show();
+        this.productosService.saveMedidasEscritorio(formData, (data: Result) => {
+            loading_hide();
+            if (data.isOk) {
+                this.alertService.success(data.Mensaje);
+                jQuery('#modalMedidasMovil').modal('hide');
+                this.files_medidas_movil = null;
+            } else {
+                this.alertService.error(data.Mensaje);
+            }
+
+        });
+    }
+
+    
+    
 }
