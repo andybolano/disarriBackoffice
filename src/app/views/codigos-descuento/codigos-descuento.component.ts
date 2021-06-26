@@ -24,7 +24,7 @@ export class CodigosDescuentosComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    //this.getCodigosDescuentos();
+    this.getCodigosDescuentos();
   }
 
   getCodigosDescuentos() {
@@ -45,7 +45,7 @@ export class CodigosDescuentosComponent implements OnInit {
       id: 0,
       code: "",
       description: "",
-      intial_date: "",
+      initial_date: "",
       end_date: "",
       percentage: 0
     };
@@ -59,7 +59,7 @@ export class CodigosDescuentosComponent implements OnInit {
     }
 
 
-    if (!this.codigoDescuento.intial_date || this.codigoDescuento.intial_date == "") {
+    if (!this.codigoDescuento.initial_date || this.codigoDescuento.initial_date == "") {
       this.alertService.warning("Ingresar fecha Inicial!");
       return;
     }
@@ -125,7 +125,7 @@ export class CodigosDescuentosComponent implements OnInit {
 
   updateCodigoDescuento() {
 
-        
+
     if (!this.codigoDescuento.code || this.codigoDescuento.code == "") {
       this.alertService.warning("Ingresar Código!");
       return;
@@ -137,7 +137,7 @@ export class CodigosDescuentosComponent implements OnInit {
     }
 
 
-    if (!this.codigoDescuento.intial_date || this.codigoDescuento.intial_date == "") {
+    if (!this.codigoDescuento.initial_date || this.codigoDescuento.initial_date == "") {
       this.alertService.warning("Ingresar fecha Inicial!");
       return;
     }
