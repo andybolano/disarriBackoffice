@@ -495,7 +495,6 @@ export class productosComponent {
 
         var tallas = jQuery('#tallas').val().split(",");
 
-
         var object = {
             id: this.Producto.id,
             nombre: this.Producto.nombre.toUpperCase(),
@@ -509,8 +508,8 @@ export class productosComponent {
             descuentos: this.Producto.descuentos,
             precio_ant: this.Producto.precio_ant,
             precio_ant_usd: this.Producto.precio_ant_usd,
-            categoria_id: Number(this.Producto.categoria_id),
-            subcategoria_id: Number(this.Producto.subcategoria_id),
+            categoria_id: this.Producto.categoria_id,
+            subcategoria_id: this.Producto.subcategoria_id,
             tags_id: this.tags.filter(o=> o.seleccionado).map(o=> o.id)
         }
 
