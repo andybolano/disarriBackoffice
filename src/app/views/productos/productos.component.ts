@@ -5,6 +5,7 @@ import { AlertService, CategoriasService, ProductosService, SubcategoriasService
 import { Result } from './../../services/servers.service';
 import { loading_show, loading_hide } from '../../app.helpers';
 import swal from 'sweetalert2';
+import { throttleTime } from 'rxjs/operator/throttleTime';
 declare var jQuery: any;
 @Component({
     selector: 'productosComponent',
@@ -51,7 +52,8 @@ export class productosComponent {
         subcategoria_id: null,
         tags_id: [],
         image_medidas_escritorio: "",
-        image_medidas_movil: ""
+        image_medidas_movil: "",
+        tags: []
     };
 
 
@@ -68,9 +70,9 @@ export class productosComponent {
 
     ngOnInit() {
         jQuery('#tallas').tagsinput('refresh');
-        this.getProductos();
-        this.getCategorias();
         this.getTags();
+        this.getCategorias();
+        this.getProductos();
     }
 
     addColor() {
@@ -109,7 +111,8 @@ export class productosComponent {
             subcategoria_id: null,
             tags_id: [],
             image_medidas_escritorio: "",
-            image_medidas_movil: ""
+            image_medidas_movil: "",
+            tags: []
         }
     }
 
@@ -219,25 +222,39 @@ export class productosComponent {
         formData.append('imagen', this.files[0]);
         var tallas = jQuery('#tallas').val().split(",");
 
+        formData.append('nombre', this.Producto.nombre.toUpperCase());
 
+        tallas.forEach((item,index) => {
+            formData.append('tallas[]', item);
+        });
 
-        var object = {
-            nombre: this.Producto.nombre.toUpperCase(),
-            tallas: tallas,
-            precio: this.Producto.precio,
-            precio_usd: this.Producto.precio_usd,
-            descripcion: this.Producto.descripcion,
-            colores: this.Producto.colores,
-            compra_min: this.Producto.compra_min,
-            descuentos: this.Producto.descuentos,
-            precio_ant: this.Producto.precio_ant,
-            precio_ant_usd: this.Producto.precio_ant_usd,
-            categoria_id: this.Producto.categoria_id,
-            subcategoria_id: this.Producto.subcategoria_id,
-            tags_id: this.tags.filter(o=> o.seleccionado).map(o=> o.id)
-        }
+        formData.append('precio', this.Producto.precio.toString());
+        formData.append('precio_usd', this.Producto.precio_usd.toString());
+        formData.append('descripcion', this.Producto.descripcion);
 
-        formData.append('producto', JSON.stringify(object));
+        this.Producto.colores.forEach((item, index) => {
+            formData.append(`colores[${index}][nombre]`, item.nombre);
+            formData.append(`colores[${index}][color]`, item.color.toString());
+        });
+
+        formData.append('imagen', this.Producto.image);
+
+        formData.append('compra_min', this.Producto.compra_min.toString());
+
+        this.Producto.descuentos.forEach((item, index)=>{
+            formData.append(`descuentos[${index}][cantidad]`, item.cantidad);
+            formData.append(`descuentos[${index}][descuento]`, item.descuento);
+        });
+
+        formData.append('precio_ant', this.Producto.precio_ant.toString());
+        formData.append('precio_ant_usd', this.Producto.precio_ant_usd.toString());
+        formData.append('categoria_id', this.Producto.categoria_id.toString());
+        formData.append('subcategoria_id', this.Producto.subcategoria_id.toString());
+
+        this.tags.filter(o => o.seleccionado).map(o => o.id).forEach((item, index)=>{
+            formData.append(`tags_id[]`, item);
+        });
+
         loading_show();
         this.productosService.save(formData, (data: Result) => {
             loading_hide();
@@ -377,6 +394,14 @@ export class productosComponent {
 
 
         jQuery('#tallas').tagsinput('refresh');
+
+        this.getSubcategorias();
+
+        this.tags.forEach((item, index)=> {
+            item.seleccionado = false;
+            let tagEnProducto = this.Producto.tags.find(t=> t.id == item.id);
+            if(tagEnProducto != null) item.seleccionado = true;
+        });
     }
 
     viewImagenes(item) {
@@ -495,25 +520,40 @@ export class productosComponent {
 
         var tallas = jQuery('#tallas').val().split(",");
 
-        var object = {
-            id: this.Producto.id,
-            nombre: this.Producto.nombre.toUpperCase(),
-            tallas: tallas,
-            precio: this.Producto.precio,
-            precio_usd: this.Producto.precio_usd,
-            descripcion: this.Producto.descripcion,
-            colores: this.Producto.colores,
-            imagen: this.Producto.image,
-            compra_min: this.Producto.compra_min,
-            descuentos: this.Producto.descuentos,
-            precio_ant: this.Producto.precio_ant,
-            precio_ant_usd: this.Producto.precio_ant_usd,
-            categoria_id: this.Producto.categoria_id,
-            subcategoria_id: this.Producto.subcategoria_id,
-            tags_id: this.tags.filter(o=> o.seleccionado).map(o=> o.id)
-        }
+        formData.append('id', this.Producto.id.toString());
+        formData.append('nombre', this.Producto.nombre.toUpperCase());
 
-        formData.append('producto', JSON.stringify(object));
+        tallas.forEach((item,index) => {
+            formData.append('tallas[]', item);
+        });
+
+        formData.append('precio', this.Producto.precio.toString());
+        formData.append('precio_usd', this.Producto.precio_usd.toString());
+        formData.append('descripcion', this.Producto.descripcion);
+
+        this.Producto.colores.forEach((item, index) => {
+            formData.append(`colores[${index}][nombre]`, item.nombre);
+            formData.append(`colores[${index}][color]`, item.color.toString());
+        });
+
+        formData.append('imagen', this.Producto.image);
+
+        formData.append('compra_min', this.Producto.compra_min.toString());
+
+        this.Producto.descuentos.forEach((item, index)=>{
+            formData.append(`descuentos[${index}][cantidad]`, item.cantidad);
+            formData.append(`descuentos[${index}][descuento]`, item.descuento);
+        });
+
+        formData.append('precio_ant', this.Producto.precio_ant.toString());
+        formData.append('precio_ant_usd', this.Producto.precio_ant_usd.toString());
+        formData.append('categoria_id', this.Producto.categoria_id.toString());
+        formData.append('subcategoria_id', this.Producto.subcategoria_id.toString());
+
+        this.tags.filter(o => o.seleccionado).map(o => o.id).forEach((item, index)=>{
+            formData.append(`tags_id[]`, item);
+        });
+
         loading_show();
         this.productosService.updateProducto(formData, (data: Result) => {
             loading_hide();
@@ -759,7 +799,7 @@ export class productosComponent {
     viewMedidasMovil(item) {
         this.Producto = item.propiedades;
     }
-    
+
     save_image_medidas_escritorio(event: any) {
 
         this.files_medidas_escritorio = event.target.files;
@@ -844,6 +884,6 @@ export class productosComponent {
         });
     }
 
-    
-    
+
+
 }
