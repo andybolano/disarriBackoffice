@@ -37,9 +37,11 @@
                         <th>
                             <mfDefaultSorter by="propiedades.id">Id</mfDefaultSorter>
                         </th>
-
                         <th>
                             <mfDefaultSorter by="propiedades.nombre">Nombre</mfDefaultSorter>
+                        </th>
+                        <th>
+                            <mfDefaultSorter by="propiedades.nombre">Categoria</mfDefaultSorter>
                         </th>
                         <th>
                             <mfDefaultSorter by="propiedades.estado">Estado</mfDefaultSorter>
@@ -58,6 +60,7 @@
                     <tr *ngFor="let item of mf.data">
                         <td>{{item.propiedades.id}}</td>
                         <td>{{item.propiedades.nombre}}</td>
+                        <td>{{item.propiedades.category != null ? item.propiedades.category.name : ""}}</td>
                         <!--<td>{{item.descripcion}}</td>-->
                         <!--<td>{{item.created_at | date:'yMMMdjms'}}</td>-->
                         <td>

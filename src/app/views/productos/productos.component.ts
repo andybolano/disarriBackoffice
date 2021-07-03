@@ -208,6 +208,10 @@ export class productosComponent {
             this.alertService.warning('Por favor ingresar la descripcion del producto');
             return;
         }
+        if (!this.Producto.categoria_id || this.Producto.categoria_id == "") {
+            this.alertService.warning('Por favor ingresar la categoria del producto');
+            return;
+        }
         if (!this.files) {
             this.alertService.warning('Por favor cargar la imagen del producto');
             return;
@@ -222,38 +226,41 @@ export class productosComponent {
         formData.append('imagen', this.files[0]);
         var tallas = jQuery('#tallas').val().split(",");
 
-        formData.append('nombre', this.Producto.nombre.toUpperCase());
 
-        tallas.forEach((item,index) => {
-            formData.append('tallas[]', item);
-        });
 
-        formData.append('precio', this.Producto.precio.toString());
-        formData.append('precio_usd', this.Producto.precio_usd.toString());
+        formData.append('nombre', this.Producto.nombre != null ? this.Producto.nombre.toUpperCase() : "");
+        if(tallas != null){
+            tallas.forEach((item,index) => {
+                formData.append('tallas[]', item);
+            });
+        }
+        formData.append('precio', this.Producto.precio != null ? this.Producto.precio.toString() : "");
+        formData.append('precio_usd', this.Producto.precio_usd != null ? this.Producto.precio_usd.toString() : "");
         formData.append('descripcion', this.Producto.descripcion);
-
-        this.Producto.colores.forEach((item, index) => {
-            formData.append(`colores[${index}][nombre]`, item.nombre);
-            formData.append(`colores[${index}][color]`, item.color.toString());
-        });
-
+        if(this.Producto.colores != null){
+            this.Producto.colores.forEach((item, index) => {
+                formData.append(`colores[${index}][nombre]`, item.nombre);
+                formData.append(`colores[${index}][color]`, item.color != null ? item.color.toString() : "");
+            });
+        }
         formData.append('imagen', this.Producto.image);
+        formData.append('compra_min', this.Producto.compra_min != null ? this.Producto.compra_min.toString() : "");
+        if(this.Producto.descuentos != null){
+            this.Producto.descuentos.forEach((item, index)=>{
+                formData.append(`descuentos[${index}][cantidad]`, item.cantidad);
+                formData.append(`descuentos[${index}][descuento]`, item.descuento);
+            });
+        }
+        formData.append('precio_ant', this.Producto.precio_ant != null ? this.Producto.precio_ant.toString() : "");
+        formData.append('precio_ant_usd', this.Producto.precio_ant_usd != null ? this.Producto.precio_ant_usd.toString() : "");
+        formData.append('categoria_id', this.Producto.categoria_id != null ? this.Producto.categoria_id.toString() : null);
+        formData.append('subcategoria_id', this.Producto.subcategoria_id != null ? this.Producto.subcategoria_id.toString() : null);
+        if(this.tags != null){
+            this.tags.filter(o => o.seleccionado).map(o => o.id).forEach((item, index)=>{
+                formData.append(`tags_id[]`, item);
+            });
+        }
 
-        formData.append('compra_min', this.Producto.compra_min.toString());
-
-        this.Producto.descuentos.forEach((item, index)=>{
-            formData.append(`descuentos[${index}][cantidad]`, item.cantidad);
-            formData.append(`descuentos[${index}][descuento]`, item.descuento);
-        });
-
-        formData.append('precio_ant', this.Producto.precio_ant.toString());
-        formData.append('precio_ant_usd', this.Producto.precio_ant_usd.toString());
-        formData.append('categoria_id', this.Producto.categoria_id.toString());
-        formData.append('subcategoria_id', this.Producto.subcategoria_id.toString());
-
-        this.tags.filter(o => o.seleccionado).map(o => o.id).forEach((item, index)=>{
-            formData.append(`tags_id[]`, item);
-        });
 
         loading_show();
         this.productosService.save(formData, (data: Result) => {
@@ -370,7 +377,7 @@ export class productosComponent {
     editShow(item) {
         this.update = true;
         this.Producto = item.propiedades;
-        if (item.colores.length == 0) {
+        if (item.colores == null || item.colores.length == 0) {
             this.Producto.colores = [{ nombre: "", color: 0 }]
         } else {
             this.Producto.colores = item.colores;
@@ -503,6 +510,11 @@ export class productosComponent {
             this.alertService.warning('Por favor ingresar la descripcion del producto');
             return;
         }
+        if (!this.Producto.categoria_id || this.Producto.categoria_id == "") {
+            this.alertService.warning('Por favor ingresar la categoria del producto');
+            return;
+        }
+        
 
         let colores = this.Producto.colores;
         this.Producto.colores = [];
@@ -520,39 +532,40 @@ export class productosComponent {
 
         var tallas = jQuery('#tallas').val().split(",");
 
-        formData.append('id', this.Producto.id.toString());
-        formData.append('nombre', this.Producto.nombre.toUpperCase());
-
-        tallas.forEach((item,index) => {
-            formData.append('tallas[]', item);
-        });
-
-        formData.append('precio', this.Producto.precio.toString());
-        formData.append('precio_usd', this.Producto.precio_usd.toString());
+        formData.append('id', this.Producto.id != null ? this.Producto.id.toString() : "");
+        formData.append('nombre', this.Producto.nombre != null ? this.Producto.nombre.toUpperCase() : "");
+        if(tallas != null){
+            tallas.forEach((item,index) => {
+                formData.append('tallas[]', item);
+            });
+        }
+        formData.append('precio', this.Producto.precio != null ? this.Producto.precio.toString() : "");
+        formData.append('precio_usd', this.Producto.precio_usd != null ? this.Producto.precio_usd.toString() : "");
         formData.append('descripcion', this.Producto.descripcion);
-
-        this.Producto.colores.forEach((item, index) => {
-            formData.append(`colores[${index}][nombre]`, item.nombre);
-            formData.append(`colores[${index}][color]`, item.color.toString());
-        });
-
+        if(this.Producto.colores != null){
+            this.Producto.colores.forEach((item, index) => {
+                formData.append(`colores[${index}][nombre]`, item.nombre);
+                formData.append(`colores[${index}][color]`, item.color != null ? item.color.toString() : "");
+            });
+        }
         formData.append('imagen', this.Producto.image);
-
-        formData.append('compra_min', this.Producto.compra_min.toString());
-
-        this.Producto.descuentos.forEach((item, index)=>{
-            formData.append(`descuentos[${index}][cantidad]`, item.cantidad);
-            formData.append(`descuentos[${index}][descuento]`, item.descuento);
-        });
-
-        formData.append('precio_ant', this.Producto.precio_ant.toString());
-        formData.append('precio_ant_usd', this.Producto.precio_ant_usd.toString());
-        formData.append('categoria_id', this.Producto.categoria_id.toString());
-        formData.append('subcategoria_id', this.Producto.subcategoria_id.toString());
-
-        this.tags.filter(o => o.seleccionado).map(o => o.id).forEach((item, index)=>{
-            formData.append(`tags_id[]`, item);
-        });
+        formData.append('compra_min', this.Producto.compra_min != null ? this.Producto.compra_min.toString() : "");
+        if(this.Producto.descuentos != null){
+            this.Producto.descuentos.forEach((item, index)=>{
+                formData.append(`descuentos[${index}][cantidad]`, item.cantidad);
+                formData.append(`descuentos[${index}][descuento]`, item.descuento);
+            });
+        }
+        formData.append('precio_ant', this.Producto.precio_ant != null ? this.Producto.precio_ant.toString() : "");
+        formData.append('precio_ant_usd', this.Producto.precio_ant_usd != null ? this.Producto.precio_ant_usd.toString() : "");
+        formData.append('categoria_id', this.Producto.categoria_id != null ? this.Producto.categoria_id.toString() : null);
+        formData.append('subcategoria_id', this.Producto.subcategoria_id != null ? this.Producto.subcategoria_id.toString() : null);
+        if(this.tags != null){
+            this.tags.filter(o => o.seleccionado).map(o => o.id).forEach((item, index)=>{
+                formData.append(`tags_id[]`, item);
+            });
+        }
+        
 
         loading_show();
         this.productosService.updateProducto(formData, (data: Result) => {
@@ -826,7 +839,7 @@ export class productosComponent {
 
         var formData = new FormData();
         formData.append('imagen', this.files_medidas_escritorio[0]);
-        formData.append('producto', JSON.stringify(this.Producto.id));
+        formData.append('producto_id', JSON.stringify(this.Producto.id));
 
         loading_show();
         this.productosService.saveMedidasEscritorio(formData, (data: Result) => {
@@ -868,10 +881,10 @@ export class productosComponent {
 
         var formData = new FormData();
         formData.append('imagen', this.files_medidas_movil[0]);
-        formData.append('producto', JSON.stringify(this.Producto.id));
+        formData.append('producto_id', JSON.stringify(this.Producto.id));
 
         loading_show();
-        this.productosService.saveMedidasEscritorio(formData, (data: Result) => {
+        this.productosService.saveMedidasMovil(formData, (data: Result) => {
             loading_hide();
             if (data.isOk) {
                 this.alertService.success(data.Mensaje);
