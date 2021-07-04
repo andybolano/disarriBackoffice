@@ -253,8 +253,8 @@ export class productosComponent {
         }
         formData.append('precio_ant', this.Producto.precio_ant != null ? this.Producto.precio_ant.toString() : "");
         formData.append('precio_ant_usd', this.Producto.precio_ant_usd != null ? this.Producto.precio_ant_usd.toString() : "");
-        formData.append('categoria_id', this.Producto.categoria_id != null ? this.Producto.categoria_id.toString() : null);
-        formData.append('subcategoria_id', this.Producto.subcategoria_id != null ? this.Producto.subcategoria_id.toString() : null);
+        formData.append('categoria_id', this.Producto.categoria_id != null ? this.Producto.categoria_id.toString() : "");
+        formData.append('subcategoria_id', this.Producto.subcategoria_id != null ? this.Producto.subcategoria_id.toString() : "");
         if(this.tags != null){
             this.tags.filter(o => o.seleccionado).map(o => o.id).forEach((item, index)=>{
                 formData.append(`tags_id[]`, item);
@@ -409,6 +409,7 @@ export class productosComponent {
             let tagEnProducto = this.Producto.tags.find(t=> t.id == item.id);
             if(tagEnProducto != null) item.seleccionado = true;
         });
+        this.files = null;
     }
 
     viewImagenes(item) {
@@ -448,7 +449,7 @@ export class productosComponent {
     }
 
     nuevo() {
-
+        this.files = null;
         document.getElementById("image").innerHTML = '<div class="row">' +
             '<div class="col-lg-12" style="text-align: center;">' +
             '<i class="fa fa-image ico-bg"></i>' +
@@ -524,9 +525,7 @@ export class productosComponent {
             this.Producto.colores.push({ nombre: nombre_color, color: jQuery('#color_' + i).val() });
         }
 
-        if (!this.files) {
-
-        } else {
+        if (this.files != null) {
             formData.append('imagen', this.files[0]);
         }
 
@@ -558,8 +557,8 @@ export class productosComponent {
         }
         formData.append('precio_ant', this.Producto.precio_ant != null ? this.Producto.precio_ant.toString() : "");
         formData.append('precio_ant_usd', this.Producto.precio_ant_usd != null ? this.Producto.precio_ant_usd.toString() : "");
-        formData.append('categoria_id', this.Producto.categoria_id != null ? this.Producto.categoria_id.toString() : null);
-        formData.append('subcategoria_id', this.Producto.subcategoria_id != null ? this.Producto.subcategoria_id.toString() : null);
+        formData.append('categoria_id', this.Producto.categoria_id != null ? this.Producto.categoria_id.toString() : "");
+        formData.append('subcategoria_id', this.Producto.subcategoria_id != null ? this.Producto.subcategoria_id.toString() : "");
         if(this.tags != null){
             this.tags.filter(o => o.seleccionado).map(o => o.id).forEach((item, index)=>{
                 formData.append(`tags_id[]`, item);
@@ -787,6 +786,7 @@ export class productosComponent {
             loading_hide();
             if (response.isOk) {
                 this.subcategorias = response.Content;
+                this.subcategorias.push({id: "", name: ""});
             } else {
                 this.alertService.error(response.Mensaje);
             }
@@ -806,10 +806,12 @@ export class productosComponent {
     }
 
     viewMedidasPc(item) {
+        this.files_medidas_escritorio = null;
         this.Producto = item.propiedades;
     }
 
     viewMedidasMovil(item) {
+        this.files_medidas_movil = null;
         this.Producto = item.propiedades;
     }
 
@@ -848,6 +850,7 @@ export class productosComponent {
                 this.alertService.success(data.Mensaje);
                 jQuery('#modalMedidasPc').modal('hide');
                 this.files_medidas_escritorio = null;
+                this.getProductos();
             } else {
                 this.alertService.error(data.Mensaje);
             }
@@ -890,6 +893,7 @@ export class productosComponent {
                 this.alertService.success(data.Mensaje);
                 jQuery('#modalMedidasMovil').modal('hide');
                 this.files_medidas_movil = null;
+                this.getProductos();
             } else {
                 this.alertService.error(data.Mensaje);
             }
