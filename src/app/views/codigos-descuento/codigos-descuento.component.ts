@@ -14,6 +14,7 @@ declare var jQuery: any;
 })
 export class CodigosDescuentosComponent implements OnInit {
 
+  public filter = "";
   public codigosDescuentos: Array<any> = [];
   public update: boolean = false;
   public codigoDescuento: any = {};

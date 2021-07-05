@@ -14,6 +14,7 @@ declare var jQuery: any;
 })
 export class SubcategoriasComponent implements OnInit {
 
+  public filter = "";
   public subcategorias: Array<any> = [];
   public update: boolean = false;
   public categoria: any = {};

@@ -13,7 +13,8 @@ declare var jQuery: any;
   styleUrls: ['./tag.component.css']
 })
 export class TagsComponent implements OnInit {
-
+  
+  public filter = "";
   public tags: Array<any> = [];
   public update: boolean = false;
   public tag: any = {};
