@@ -34,11 +34,13 @@ export class configuracionComponent {
         envioBO: 0,
         envioBO_usd: 0,
         valor_min_cop: 0,
-        valor_min_usd: 0
+        valor_min_usd: 0,
+        numero_whatsapp: ""
     };
 
     ngOnInit() {
         this.get();
+        this.getNumeroWhatsapp();
     }
 
     get() {
@@ -65,7 +67,7 @@ export class configuracionComponent {
         if (this.User.passNueva == "" || !this.User.passNueva) {
             this.User.passNueva = "false";
         }
-        loading_show()
+        loading_show();
         this.configuracionService.update(this.User, (data: Result) => {
             loading_hide();
             if (data.isOk) {
@@ -79,6 +81,22 @@ export class configuracionComponent {
 
         });
 
+        this.configuracionService.updateNumeroWhatsapp(this.User.numero_whatsapp, (data: Result) => {
+            loading_hide();
+            if (!data.isOk) {
+                this.alertService.error(data.Mensaje);
+            }
+        });
+
     }
 
+    getNumeroWhatsapp(){
+        this.configuracionService.getNumeroWhatsapp((response)=> {
+            if(response.isOk){
+                this.User.numero_whatsapp = response.Content.numero;
+            }else{
+                this.User.numero_whatsapp = "";
+            }
+        });
+    }
 }

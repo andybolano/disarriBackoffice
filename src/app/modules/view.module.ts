@@ -13,6 +13,13 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { PipesModule } from './pipes.module';
+import { AboutComponent } from '../views/about/about.component';
+import { ContactoComponent } from '../views/contacto/contacto.component';
+import { TiendasComponent } from '../views/tiendas/tiendas.component';
+import { CategoriasComponent } from '../views/categorias/categorias.component';
+import { TagsComponent } from '../views/tags/tag.component';
+import { SubcategoriasComponent } from '../views/subcategorias/subcategorias.component';
+import { CodigosDescuentosComponent } from '../views/codigos-descuento/codigos-descuento.component';
 
 @NgModule({
     imports: [
@@ -24,15 +31,18 @@ import { PipesModule } from './pipes.module';
         mainViewComponent,
         productosComponent,
         blogComponent,
-    coleccionComponent,
-    configuracionComponent,
-    bannerComponent,
-    clientesComponent,
-    ventasComponent,
-    
-    
-    
-    
+        coleccionComponent,
+        configuracionComponent,
+        bannerComponent,
+        clientesComponent,
+        ventasComponent,
+        AboutComponent,
+        ContactoComponent,
+        TiendasComponent,
+        CategoriasComponent,
+        SubcategoriasComponent,
+        TagsComponent,
+        CodigosDescuentosComponent
     ],
     providers: [],
 })

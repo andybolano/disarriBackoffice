@@ -12,4 +12,16 @@ export class ConfiguracionService {
         return this.http.post(0, this.servers.serverName + '/user/update',object, callback);
     }
 
+    getNumeroWhatsapp(callback: any) {
+        return this.http.get(0, this.servers.serverName + '/data-shared/phone', callback);
+    }
+
+    updateNumeroWhatsapp(numerowhatsapp: string, callback: any) {
+        var request = {
+            numero_whatsapp: numerowhatsapp
+        };
+
+        return this.http.post(0, this.servers.serverName + '/data-shared/phone', request, callback);
+    }
+
 }

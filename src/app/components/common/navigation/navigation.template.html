@@ -40,7 +40,25 @@
             <li [ngClass]="{active: activeRoute('configuracion')}">
                 <a [routerLink]="['/configuracion']"><i class="fa fa-cogs"></i> <span class="nav-label">configuración</span></a>
             </li>
-            <!--
+            <li [ngClass]="{active: activeRoute('about')}">
+                <a [routerLink]="['/about']"><i class="fa fa-address-card"></i> <span class="nav-label">About</span></a>
+            </li>
+            <li [ngClass]="{active: activeRoute('contact')}">
+                <a [routerLink]="['/contact']"><i class="fa fa-address-card"></i> <span class="nav-label">Contacto</span></a>
+            </li>
+            <li [ngClass]="{active: activeRoute('tiendas')}"> 
+                <a [routerLink]="['/tiendas']"><i class="fa fa-shopping-basket"></i> <span class="nav-label">Tiendas</span></a>
+            </li>
+            <li [ngClass]="{active: activeRoute('categorias')}"> 
+                <a [routerLink]="['/categorias']"><i class="fa fa-list"></i> <span class="nav-label">Categorias</span></a>
+            </li>
+            <li [ngClass]="{active: activeRoute('tags')}"> 
+                <a [routerLink]="['/tags']"><i class="fa fa-list-alt"></i> <span class="nav-label">Tags</span></a>
+            </li>
+            <li [ngClass]="{active: activeRoute('codigos-descuentos')}"> 
+                <a [routerLink]="['/codigos-descuentos']"><i class="fa fa-gift"></i> <span class="nav-label">Códigos descuentos</span></a>
+            </li>
+            <!-- 
             <li>
                 <a><i class="fa fa-money"></i> <span class="nav-label"><u>R</u>ecargas</span> <span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level collapse">
@@ -52,9 +70,6 @@
                     </li>
                 </ul>
             </li>-->
-
-
-
         </ul>
 
     </div>

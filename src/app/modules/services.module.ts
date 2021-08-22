@@ -1,20 +1,27 @@
 
 
-import { 
-    AlertService, 
-    AuthenticationService ,
-    ProductosService, 
-    HttpCacheService, 
+import {
+    AlertService,
+    AuthenticationService,
+    ProductosService,
+    HttpCacheService,
     ServersService,
-     BlogService,
-     ColeccionService,
-     ConfiguracionService,
-     BannerService,
-      ClientesService,
-      VentasService
+    BlogService,
+    AboutService,
+    ColeccionService,
+    ConfiguracionService,
+    BannerService,
+    ClientesService,
+    VentasService,
+    ContactoService,
+    TiendasService,
+    CategoriasService,
+    SubcategoriasService,
+    TagsService,
+    CodigosDescuentosService
 } from './../services/base.import';
 import { NgModule } from '@angular/core';
-import {ToastyModule} from 'ng2-toasty';
+import { ToastyModule } from 'ng2-toasty';
 
 
 @NgModule({
@@ -22,16 +29,25 @@ import {ToastyModule} from 'ng2-toasty';
     providers: [
         ServersService,
         HttpCacheService,
-        ProductosService, 
-        AlertService, 
+        ProductosService,
+        AlertService,
         AuthenticationService,
         BlogService,
+        AboutService,
+        ContactoService,
         ColeccionService,
         ConfiguracionService,
         BannerService,
         ClientesService,
-        VentasService
-  
+        VentasService,
+        TiendasService,
+        SubcategoriasService,
+        CategoriasService,
+        TagsService,
+        CodigosDescuentosService
+    ],
+    entryComponents: [
+        
     ]
 })
 export class ServicesModule { }

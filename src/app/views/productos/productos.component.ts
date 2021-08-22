@@ -1,10 +1,11 @@
 
 import { element } from 'protractor';
 import { Component, OnInit } from '@angular/core';
-import { AlertService, ProductosService } from "../../services/base.import";
+import { AlertService, CategoriasService, ProductosService, SubcategoriasService, TagsService } from "../../services/base.import";
 import { Result } from './../../services/servers.service';
 import { loading_show, loading_hide } from '../../app.helpers';
 import swal from 'sweetalert2';
+import { throttleTime } from 'rxjs/operator/throttleTime';
 declare var jQuery: any;
 @Component({
     selector: 'productosComponent',
@@ -12,23 +13,23 @@ declare var jQuery: any;
 })
 export class productosComponent {
 
-    constructor(
-        private productosService: ProductosService,
-        private alertService: AlertService
-    ) {
 
-    }
-
-
-    ngOnInit() {
-        jQuery('#tallas').tagsinput('refresh');
-        this.getProductos();
-
-    }
     public filter = "";
     public productos = [];
     public images = [];
     public images_movil = [];
+    public categorias = [];
+    public subcategorias = [];
+    public tags = [];
+    public entradas = [];
+    public salidas = [];
+    Stock: any = {};
+    public colorSelected = "";
+    files: FileList;
+    files_imgs: FileList;
+    files_medidas_escritorio: FileList;
+    files_medidas_movil: FileList;
+    public update = false;
     public Producto = {
         id: 0,
         nombre: "",
@@ -43,18 +44,36 @@ export class productosComponent {
         ],
         precio: 0,
         precio_usd: 0,
+        precio_ant: 0,
+        precio_ant_usd: 0,
         image: "",
-        compra_min: 1
+        compra_min: 1,
+        categoria_id: null,
+        subcategoria_id: null,
+        tags_id: [],
+        image_medidas_escritorio: "",
+        image_medidas_movil: "",
+        tags: []
+    };
+
+
+    constructor(
+        private productosService: ProductosService,
+        private alertService: AlertService,
+        private categoriasService: CategoriasService,
+        private subcategoriasService: SubcategoriasService,
+        private tagsService: TagsService,
+    ) {
 
     }
-    public entradas = [];
-    public salidas = [];
-    Stock: any = {};
-    public colorSelected = "";
-    files: FileList;
-    files_imgs: FileList;
 
-    public update = false;
+
+    ngOnInit() {
+        jQuery('#tallas').tagsinput('refresh');
+        this.getTags();
+        this.getCategorias();
+        this.getProductos();
+    }
 
     addColor() {
         let num = Math.floor(Math.random() * 10000);
@@ -68,7 +87,6 @@ export class productosComponent {
     deleteDescuento(index) {
         this.Producto.descuentos.splice(index, 1);
     }
-
 
     init_producto() {
         this.Producto = {
@@ -85,12 +103,18 @@ export class productosComponent {
             ],
             precio: 0,
             precio_usd: 0,
+            precio_ant: 0,
+            precio_ant_usd: 0,
             image: "",
-            compra_min: 1
+            compra_min: 1,
+            categoria_id: null,
+            subcategoria_id: null,
+            tags_id: [],
+            image_medidas_escritorio: "",
+            image_medidas_movil: "",
+            tags: []
         }
     }
-
-
 
     deleteColor(index) {
         this.Producto.colores.splice(index, 1);
@@ -184,6 +208,10 @@ export class productosComponent {
             this.alertService.warning('Por favor ingresar la descripcion del producto');
             return;
         }
+        if (!this.Producto.categoria_id || this.Producto.categoria_id == "") {
+            this.alertService.warning('Por favor ingresar la categoria del producto');
+            return;
+        }
         if (!this.files) {
             this.alertService.warning('Por favor cargar la imagen del producto');
             return;
@@ -200,18 +228,40 @@ export class productosComponent {
 
 
 
-        var object = {
-            nombre: this.Producto.nombre.toUpperCase(),
-            tallas: tallas,
-            precio: this.Producto.precio,
-            precio_usd: this.Producto.precio_usd,
-            descripcion: this.Producto.descripcion,
-            colores: this.Producto.colores,
-            compra_min: this.Producto.compra_min,
-            descuentos: this.Producto.descuentos
+        formData.append('nombre', this.Producto.nombre != null ? this.Producto.nombre.toUpperCase() : "");
+        if(tallas != null){
+            tallas.forEach((item,index) => {
+                formData.append('tallas[]', item);
+            });
+        }
+        formData.append('precio', this.Producto.precio != null ? this.Producto.precio.toString() : "");
+        formData.append('precio_usd', this.Producto.precio_usd != null ? this.Producto.precio_usd.toString() : "");
+        formData.append('descripcion', this.Producto.descripcion);
+        if(this.Producto.colores != null){
+            this.Producto.colores.forEach((item, index) => {
+                formData.append(`colores[${index}][nombre]`, item.nombre);
+                formData.append(`colores[${index}][color]`, item.color != null ? item.color.toString() : "");
+            });
+        }
+        formData.append('imagen', this.Producto.image);
+        formData.append('compra_min', this.Producto.compra_min != null ? this.Producto.compra_min.toString() : "");
+        if(this.Producto.descuentos != null){
+            this.Producto.descuentos.forEach((item, index)=>{
+                formData.append(`descuentos[${index}][cantidad]`, item.cantidad);
+                formData.append(`descuentos[${index}][descuento]`, item.descuento);
+            });
+        }
+        formData.append('precio_ant', this.Producto.precio_ant != null ? this.Producto.precio_ant.toString() : "");
+        formData.append('precio_ant_usd', this.Producto.precio_ant_usd != null ? this.Producto.precio_ant_usd.toString() : "");
+        formData.append('categoria_id', this.Producto.categoria_id != null ? this.Producto.categoria_id.toString() : "");
+        formData.append('subcategoria_id', this.Producto.subcategoria_id != null ? this.Producto.subcategoria_id.toString() : "");
+        if(this.tags != null){
+            this.tags.filter(o => o.seleccionado).map(o => o.id).forEach((item, index)=>{
+                formData.append(`tags_id[]`, item);
+            });
         }
 
-        formData.append('producto', JSON.stringify(object));
+
         loading_show();
         this.productosService.save(formData, (data: Result) => {
             loading_hide();
@@ -327,7 +377,7 @@ export class productosComponent {
     editShow(item) {
         this.update = true;
         this.Producto = item.propiedades;
-        if (item.colores.length == 0) {
+        if (item.colores == null || item.colores.length == 0) {
             this.Producto.colores = [{ nombre: "", color: 0 }]
         } else {
             this.Producto.colores = item.colores;
@@ -351,6 +401,15 @@ export class productosComponent {
 
 
         jQuery('#tallas').tagsinput('refresh');
+
+        this.getSubcategorias();
+
+        this.tags.forEach((item, index)=> {
+            item.seleccionado = false;
+            let tagEnProducto = this.Producto.tags.find(t=> t.id == item.id);
+            if(tagEnProducto != null) item.seleccionado = true;
+        });
+        this.files = null;
     }
 
     viewImagenes(item) {
@@ -390,7 +449,7 @@ export class productosComponent {
     }
 
     nuevo() {
-
+        this.files = null;
         document.getElementById("image").innerHTML = '<div class="row">' +
             '<div class="col-lg-12" style="text-align: center;">' +
             '<i class="fa fa-image ico-bg"></i>' +
@@ -452,6 +511,11 @@ export class productosComponent {
             this.alertService.warning('Por favor ingresar la descripcion del producto');
             return;
         }
+        if (!this.Producto.categoria_id || this.Producto.categoria_id == "") {
+            this.alertService.warning('Por favor ingresar la categoria del producto');
+            return;
+        }
+        
 
         let colores = this.Producto.colores;
         this.Producto.colores = [];
@@ -461,29 +525,47 @@ export class productosComponent {
             this.Producto.colores.push({ nombre: nombre_color, color: jQuery('#color_' + i).val() });
         }
 
-        if (!this.files) {
-
-        } else {
+        if (this.files != null) {
             formData.append('imagen', this.files[0]);
         }
 
         var tallas = jQuery('#tallas').val().split(",");
 
-
-        var object = {
-            id: this.Producto.id,
-            nombre: this.Producto.nombre.toUpperCase(),
-            tallas: tallas,
-            precio: this.Producto.precio,
-            precio_usd: this.Producto.precio_usd,
-            descripcion: this.Producto.descripcion,
-            colores: this.Producto.colores,
-            imagen: this.Producto.image,
-            compra_min: this.Producto.compra_min,
-            descuentos: this.Producto.descuentos
+        formData.append('id', this.Producto.id != null ? this.Producto.id.toString() : "");
+        formData.append('nombre', this.Producto.nombre != null ? this.Producto.nombre.toUpperCase() : "");
+        if(tallas != null){
+            tallas.forEach((item,index) => {
+                formData.append('tallas[]', item);
+            });
         }
+        formData.append('precio', this.Producto.precio != null ? this.Producto.precio.toString() : "");
+        formData.append('precio_usd', this.Producto.precio_usd != null ? this.Producto.precio_usd.toString() : "");
+        formData.append('descripcion', this.Producto.descripcion);
+        if(this.Producto.colores != null){
+            this.Producto.colores.forEach((item, index) => {
+                formData.append(`colores[${index}][nombre]`, item.nombre);
+                formData.append(`colores[${index}][color]`, item.color != null ? item.color.toString() : "");
+            });
+        }
+        formData.append('imagen', this.Producto.image);
+        formData.append('compra_min', this.Producto.compra_min != null ? this.Producto.compra_min.toString() : "");
+        if(this.Producto.descuentos != null){
+            this.Producto.descuentos.forEach((item, index)=>{
+                formData.append(`descuentos[${index}][cantidad]`, item.cantidad);
+                formData.append(`descuentos[${index}][descuento]`, item.descuento);
+            });
+        }
+        formData.append('precio_ant', this.Producto.precio_ant != null ? this.Producto.precio_ant.toString() : "");
+        formData.append('precio_ant_usd', this.Producto.precio_ant_usd != null ? this.Producto.precio_ant_usd.toString() : "");
+        formData.append('categoria_id', this.Producto.categoria_id != null ? this.Producto.categoria_id.toString() : "");
+        formData.append('subcategoria_id', this.Producto.subcategoria_id != null ? this.Producto.subcategoria_id.toString() : "");
+        if(this.tags != null){
+            this.tags.filter(o => o.seleccionado).map(o => o.id).forEach((item, index)=>{
+                formData.append(`tags_id[]`, item);
+            });
+        }
+        
 
-        formData.append('producto', JSON.stringify(object));
         loading_show();
         this.productosService.updateProducto(formData, (data: Result) => {
             loading_hide();
@@ -537,7 +619,6 @@ export class productosComponent {
             })(f);
             reader.readAsDataURL(f);
         }
-
     }
 
     post_image() {
@@ -686,6 +767,140 @@ export class productosComponent {
         var color = event.target.value.split(";");
         jQuery("#color").css("background-color", color[0]);
     }
+
+    getCategorias() {
+        loading_show();
+        this.categoriasService.get((response) => {
+            loading_hide();
+            if (response.isOk) {
+                this.categorias = response.Content;
+            } else {
+                this.alertService.error(response.Mensaje);
+            }
+        });
+    }
+
+    getSubcategorias() {
+        loading_show();
+        this.subcategoriasService.get(this.Producto.categoria_id, (response) => {
+            loading_hide();
+            if (response.isOk) {
+                this.subcategorias = response.Content;
+                this.subcategorias.push({id: "", name: ""});
+            } else {
+                this.alertService.error(response.Mensaje);
+            }
+        });
+    }
+
+    getTags() {
+        loading_show();
+        this.tagsService.get((response) => {
+            loading_hide();
+            if (response.isOk) {
+                this.tags = response.Content;
+            } else {
+                this.alertService.error(response.Mensaje);
+            }
+        });
+    }
+
+    viewMedidasPc(item) {
+        this.files_medidas_escritorio = null;
+        this.Producto = item.propiedades;
+    }
+
+    viewMedidasMovil(item) {
+        this.files_medidas_movil = null;
+        this.Producto = item.propiedades;
+    }
+
+    save_image_medidas_escritorio(event: any) {
+
+        this.files_medidas_escritorio = event.target.files;
+        for (var i = 0, f; f = this.files_medidas_escritorio[i]; i++) {
+            if (!f.type.match('image.*')) {
+                continue;
+            }
+            var reader = new FileReader();
+            reader.onload = (function (theFile) {
+                return function (e) {
+                    document.getElementById("image_medidas_escritorio").innerHTML = ['<img class="animated bounceIn" style="width:100%;" src="', e.target.result, '" />'].join('');
+                };
+            })(f);
+            reader.readAsDataURL(f);
+        }
+
+    }
+
+    post_medidas_escritorio() {
+        if (this.files_medidas_escritorio == null) {
+            this.alertService.error("Cargar una imagen de la prenda");
+            return;
+        }
+
+        var formData = new FormData();
+        formData.append('imagen', this.files_medidas_escritorio[0]);
+        formData.append('producto_id', JSON.stringify(this.Producto.id));
+
+        loading_show();
+        this.productosService.saveMedidasEscritorio(formData, (data: Result) => {
+            loading_hide();
+            if (data.isOk) {
+                this.alertService.success(data.Mensaje);
+                jQuery('#modalMedidasPc').modal('hide');
+                this.files_medidas_escritorio = null;
+                this.getProductos();
+            } else {
+                this.alertService.error(data.Mensaje);
+            }
+
+        });
+    }
+
+    save_image_medidas_movil(event: any) {
+
+        this.files_medidas_movil = event.target.files;
+        for (var i = 0, f; f = this.files_medidas_movil[i]; i++) {
+            if (!f.type.match('image.*')) {
+                continue;
+            }
+            var reader = new FileReader();
+            reader.onload = (function (theFile) {
+                return function (e) {
+                    document.getElementById("image_medidas_movil").innerHTML = ['<img class="animated bounceIn" style="width:100%;" src="', e.target.result, '" />'].join('');
+                };
+            })(f);
+            reader.readAsDataURL(f);
+        }
+
+    }
+
+    post_medidas_movil() {
+        if (this.files_medidas_movil == null) {
+            this.alertService.error("Cargar una imagen de la prenda");
+            return;
+        }
+
+        var formData = new FormData();
+        formData.append('imagen', this.files_medidas_movil[0]);
+        formData.append('producto_id', JSON.stringify(this.Producto.id));
+
+        loading_show();
+        this.productosService.saveMedidasMovil(formData, (data: Result) => {
+            loading_hide();
+            if (data.isOk) {
+                this.alertService.success(data.Mensaje);
+                jQuery('#modalMedidasMovil').modal('hide');
+                this.files_medidas_movil = null;
+                this.getProductos();
+            } else {
+                this.alertService.error(data.Mensaje);
+            }
+
+        });
+    }
+
 
 
 }

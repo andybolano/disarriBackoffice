@@ -37,9 +37,11 @@
                         <th>
                             <mfDefaultSorter by="propiedades.id">Id</mfDefaultSorter>
                         </th>
-
                         <th>
                             <mfDefaultSorter by="propiedades.nombre">Nombre</mfDefaultSorter>
+                        </th>
+                        <th>
+                            <mfDefaultSorter by="propiedades.nombre">Categoria</mfDefaultSorter>
                         </th>
                         <th>
                             <mfDefaultSorter by="propiedades.estado">Estado</mfDefaultSorter>
@@ -51,12 +53,14 @@
                             <mfDefaultSorter by="propiedades.orden">Orden</mfDefaultSorter>
                         </th>
                         <th style="text-align:center;">Opciones</th>
+                        <th style="text-align:center;">Medidas</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr *ngFor="let item of mf.data">
                         <td>{{item.propiedades.id}}</td>
                         <td>{{item.propiedades.nombre}}</td>
+                        <td>{{item.propiedades.category != null ? item.propiedades.category.name : ""}}</td>
                         <!--<td>{{item.descripcion}}</td>-->
                         <!--<td>{{item.created_at | date:'yMMMdjms'}}</td>-->
                         <td>
@@ -79,7 +83,7 @@
                             <input class="form-control" [(ngModel)]="item.propiedades.orden"
                                 (change)="changeOrden(item.propiedades.id,item.propiedades.orden)">
                         </td>
-                        <td style="text-align:center" style="width:15%;">
+                        <td style="text-align:center; width:15%;">
                             <a href="javascript:;" data-toggle="modal" data-target="#modalStock" title="Stock"
                                 (click)="viewStock(item);"><i class="fa fa-calculator ico text-green"></i></a> &nbsp;
                             <a href="javascript:;" data-toggle="modal" data-target="#modalImagenes"
@@ -92,6 +96,13 @@
                                 (click)="editShow(item);"><i class="fa fa-edit ico text-warning"></i></a> &nbsp;
                             <a href="javascript:;" title="Eliminar" (click)="delete(item.propiedades.id)"><i
                                     class="fa fa-trash ico text-red"></i></a>
+                        </td>
+                        <td style="text-align:center;">
+                            <a href="javascript:;" data-toggle="modal" data-target="#modalMedidasPc" title="Medidas pc"
+                                (click)="viewMedidasPc(item);"><i class="fa fa-image ico text-blue"></i></a> &nbsp;
+                            <a href="javascript:;" data-toggle="modal" data-target="#modalMedidasMovil"
+                                title="Medidas movil" (click)="viewMedidasMovil(item);"><i
+                                    class="fa fa-mobile ico text-red" style="font-size:22px;"></i></a> &nbsp;
                         </td>
                     </tr>
                 </tbody>
@@ -327,6 +338,60 @@
                                 </div>
                                 <br>
                             </div>
+                            <div class="col-lg-4">
+                                <label>Precio Anterior COP:</label>
+                                <div class="input-group m-b">
+                                    <span class="input-group-addon">$</span>
+                                    <input type="number" class="form-control" placeholder="0"
+                                        [(ngModel)]="Producto.precio_ant">
+                                </div>
+                                <br>
+                            </div>
+                            <div class="col-lg-4">
+                                <label>Precio Anterior USD:</label>
+                                <div class="input-group m-b">
+                                    <span class="input-group-addon">$</span>
+                                    <input type="number" class="form-control" placeholder="0"
+                                        [(ngModel)]="Producto.precio_ant_usd">
+                                </div>
+                                <br>
+                            </div>
+                            <div class="col-lg-6">
+                                <label>Categoria:</label>
+                                <div class="input-group m-b">
+                                    <span class="input-group-addon">$</span>
+                                    <select class="form-control" [(ngModel)]="Producto.categoria_id"
+                                        (change)="getSubcategorias()">
+                                        <option [value]="categoria.id" *ngFor="let categoria of categorias">
+                                            {{categoria.name}}</option>
+                                    </select>
+                                </div>
+                                <br>
+                            </div>
+                            <div class="col-lg-6">
+                                <label>Subcategoria:</label>
+                                <div class="input-group m-b">
+                                    <span class="input-group-addon">$</span>
+                                    <select class="form-control" [(ngModel)]="Producto.subcategoria_id">
+                                        <option [value]="subcategoria.id" *ngFor="let subcategoria of subcategorias">
+                                            {{subcategoria.name}}</option>
+                                    </select>
+                                </div>
+                                <br>
+                            </div>
+                            <div class="col-lg-4">
+
+                            </div>
+                            <div class="col-lg-12">
+                                <label>Tags</label>
+                            </div>
+                            <div class="col-lg-6" *ngFor="let tag of tags">
+                                <label style="font-weight: initial;">
+                                    <input type="checkbox" [(ngModel)]="tag.seleccionado">
+                                    {{tag.name}}
+                                </label>
+                            </div>
+                            <br>
                             <div class="col-lg-12">
                                 <label>Descripción:</label><br>
                                 <small>Obligación para este campo:</small>
@@ -570,6 +635,102 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-white" data-dismiss="modal">Cerrar</button>
                 <button type="button" class="btn btn-success" (click)="post_image_movil()">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal inmodal" id="modalMedidasPc" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content animated bounceInRight">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" (click)="files_medidas_escritorio = null"><span aria-hidden="true">×</span><span
+                        class="sr-only">Close</span></button>
+                <i class="fa fa-laptop modal-icon"></i>
+                <br>
+                <h4 class="modal-title">{{Producto.nombre}}</h4>
+                <small class="font-bold">Medidas de producto para pc's</small>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-3" style="text-align:center">
+                        <br><br><br>
+                        <small>Recomendación: Seleccione una imagen cuadrada que se agusta a la pantalla de escritorio.<br><br> Si carga una imagen de medidas esta se mostrara en la tienda</small>
+                        <div class="spacer" style="height:20px;"></div>
+                        <div class="fileUpload btn btn-primary">
+                            <span><i class="fa fa-image"></i> Seleccionar imagen</span>
+                            <input type="file" (change)="save_image_medidas_escritorio($event)" name="images" id="files"
+                                class="upload" />
+                        </div>
+                    </div>
+                    <div class="col-lg-9" style="text-align: center;" *ngIf="files_medidas_escritorio == null">
+                        <div class="row" *ngIf="Producto.image_medidas_escritorio == null || Producto.image_medidas_escritorio == ''">
+                            <div class="spacer" style="height:20px;"></div>
+                            <div class="spacer" style="height:20px;"></div>
+                            <div class="col-lg-12" style="text-align: center;">
+                                <i class="fa fa-image ico-bg"></i>
+                            </div>
+                        </div>
+                        <img *ngIf="Producto.image_medidas_escritorio != null && Producto.image_medidas_escritorio != ''" src="{{Producto.image_medidas_escritorio}}" style="width: 100%;">
+                    </div>
+                    <div class="col-lg-9" *ngIf="files_medidas_escritorio != null">
+                        <div id="image_medidas_escritorio" class="animated bounceIn">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" (click)="files_medidas_escritorio = null" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-success" *ngIf="files_medidas_escritorio != null" (click)="post_medidas_escritorio()">Guardar</button>
+                <button type="button" class="btn btn-success" *ngIf="files_medidas_escritorio != null" (click)="files_medidas_escritorio = null">Restablecer</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal inmodal" id="modalMedidasMovil" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content animated bounceInRight">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" (click)="files_medidas_movil = null"><span aria-hidden="true">×</span><span
+                        class="sr-only">Close</span></button>
+                <i class="fa fa-laptop modal-icon"></i>
+                <br>
+                <h4 class="modal-title">{{Producto.nombre}}</h4>
+                <small class="font-bold">Medidas de producto para moviles</small>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-6" style="text-align:center">
+                        <br><br><br>
+                        <small>Recomendación: Seleccione una imagen cuadrada que se agusta a la pantalla de movil.<br><br> Si carga una imagen de medidas esta se mostrara en la tienda</small>
+                        <div class="spacer" style="height:20px;"></div>
+                        <div class="fileUpload btn btn-primary">
+                            <span><i class="fa fa-image"></i> Seleccionar imagen</span>
+                            <input type="file" (change)="save_image_medidas_movil($event)" name="images" id="files"
+                                class="upload" />
+                        </div>
+                    </div>
+                    <div class="col-lg-6" style="text-align: center;" *ngIf="files_medidas_movil == null">
+                        <div class="row" *ngIf="Producto.image_medidas_movil == null || Producto.image_medidas_movil == ''">
+                            <div class="spacer" style="height:20px;"></div>
+                            <div class="spacer" style="height:20px;"></div>
+                            <div class="col-lg-12" style="text-align: center;">
+                                <i class="fa fa-image ico-bg"></i>
+                            </div>
+                        </div>
+                        <img *ngIf="Producto.image_medidas_movil != null && Producto.image_medidas_movil != ''" src="{{Producto.image_medidas_movil}}" style="width: 100%;">
+                    </div>
+                    <div class="col-lg-6" *ngIf="files_medidas_movil != null">
+                        <div id="image_medidas_movil" class="animated bounceIn">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" (click)="files_medidas_movil = null" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-success" *ngIf="files_medidas_movil != null" (click)="post_medidas_movil()">Guardar</button>
+                <button type="button" class="btn btn-success" *ngIf="files_medidas_movil != null" (click)="files_medidas_movil = null">Restablecer</button>
             </div>
         </div>
     </div>

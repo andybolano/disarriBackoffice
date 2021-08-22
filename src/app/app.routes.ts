@@ -14,11 +14,19 @@ import { mainViewComponent } from "./views/main-view/main-view.component";
 import { loginComponent } from "./views/login/login.component";
 import { blankComponent } from "./components/common/layouts/blank.component";
 import { basicComponent } from "./components/common/layouts/basic.component";
+import { AboutComponent } from './views/about/about.component';
+import { ContactoComponent } from './views/contacto/contacto.component';
+import { TiendasComponent } from './views/tiendas/tiendas.component';
+import { CategoriasComponent } from './views/categorias/categorias.component';
+import { TagsComponent } from './views/tags/tag.component';
+import { SubcategoriasService } from './services/subcategorias.service';
+import { SubcategoriasComponent } from './views/subcategorias/subcategorias.component';
+import { CodigosDescuentosComponent } from './views/codigos-descuento/codigos-descuento.component';
 
 
 export const ROUTES: Routes = [
   // Main redirect
-  { path: '', redirectTo: 'login', pathMatch: 'full' },
+  { path: '', redirectTo: 'login', pathMatch: 'full' }, 
 
   // App views
   {
@@ -32,6 +40,13 @@ export const ROUTES: Routes = [
       { path: 'banner', component: bannerComponent },
       { path: 'clientes', component: clientesComponent },
       { path: 'ventas', component: ventasComponent },
+      { path: 'about', component: AboutComponent },
+      { path: 'contact', component: ContactoComponent },
+      { path: 'tiendas', component: TiendasComponent },
+      { path: 'categorias', component: CategoriasComponent },
+      { path: 'subcategorias', component: SubcategoriasComponent },
+      { path: 'tags', component: TagsComponent },
+      { path: 'codigos-descuentos', component: CodigosDescuentosComponent },
     ]
   },
   {
