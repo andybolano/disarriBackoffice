@@ -29,16 +29,18 @@ export class AboutComponent implements OnInit {
     jQuery('#summernote').summernote({
       toolbar: [
         // [groupName, [list of button]]
+        ['fontname', ['GothamBook']],
         ['style', ['bold', 'italic', 'underline', 'clear']],
-        ['font', ['strikethrough', 'superscript', 'subscript']],
+        ['font', ['GothamBook']],
         ['fontsize', ['fontsize']],
         ['color', ['color']],
         ['para', ['ul', 'ol', 'paragraph']],
         ['height', ['300']],
-
       ],
       height: 280
     });
+
+    jQuery('#summernote').summernote('fontName', 'GothamBook');
   }
 
   getAbout() {

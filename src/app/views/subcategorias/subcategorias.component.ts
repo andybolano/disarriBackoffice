@@ -1,7 +1,5 @@
-import { viewsModule } from '../../modules/view.module';
-import { element } from 'protractor';
 import { Component, OnInit } from '@angular/core';
-import { SubcategoriasService, AlertService, BlogService } from "../../services/base.import";
+import { SubcategoriasService, AlertService } from "../../services/base.import";
 import { Result } from '../../services/servers.service';
 import { loading_show, loading_hide } from '../../app.helpers';
 import swal from 'sweetalert2';
@@ -46,6 +44,7 @@ export class SubcategoriasComponent implements OnInit {
       if (response.isOk) {
         this.subcategorias = response.Content;
       } else {
+        this.subcategorias = [];
         this.alertService.error(response.Mensaje);
       }
     });
@@ -56,7 +55,8 @@ export class SubcategoriasComponent implements OnInit {
     this.subcategoria = {
       id: 0,
       name: "",
-      description: ""
+      description: "",
+      categoria_id: 0
     };
   }
 
@@ -72,6 +72,7 @@ export class SubcategoriasComponent implements OnInit {
       return;
     }
 
+    this.subcategoria.categoria_id = this.categoria.id;
     loading_show();
     this.subcategoriasService.post(this.subcategoria, (data: Result) => {
       loading_hide();

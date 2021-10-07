@@ -37,9 +37,7 @@
             <li [ngClass]="{active: activeRoute('banner')}">
                 <a [routerLink]="['/banner']"><i class="fa fa-align-left"></i> <span class="nav-label">Banner</span></a>
             </li>
-            <li [ngClass]="{active: activeRoute('configuracion')}">
-                <a [routerLink]="['/configuracion']"><i class="fa fa-cogs"></i> <span class="nav-label">configuración</span></a>
-            </li>
+          
             <li [ngClass]="{active: activeRoute('about')}">
                 <a [routerLink]="['/about']"><i class="fa fa-address-card"></i> <span class="nav-label">About</span></a>
             </li>
@@ -57,6 +55,9 @@
             </li>
             <li [ngClass]="{active: activeRoute('codigos-descuentos')}"> 
                 <a [routerLink]="['/codigos-descuentos']"><i class="fa fa-gift"></i> <span class="nav-label">Códigos descuentos</span></a>
+            </li>
+            <li [ngClass]="{active: activeRoute('configuracion')}">
+                <a [routerLink]="['/configuracion']"><i class="fa fa-cogs"></i> <span class="nav-label">configuración</span></a>
             </li>
             <!-- 
             <li>

@@ -221,6 +221,10 @@ export class productosComponent {
         let nombre_color = "";
         for (let i = 0; i < colores.length; i++) {
             nombre_color = jQuery('#nombre_' + i).val().replace(/\s/g, "_");
+            if(!nombre_color){
+                this.alertService.warning('Ingresar nombre de color');
+                return;
+            }
             this.Producto.colores.push({ nombre: nombre_color, color: jQuery('#color_' + i).val() });
         }
         formData.append('imagen', this.files[0]);

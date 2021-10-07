@@ -46,6 +46,15 @@ export class mainViewComponent {
     viewPedido(item){
      this.Pedido = item;
      this.envio_ = item.envio;
+     loading_show();
+     this.ventasService.getProductosVenta(item.id,(data: Result) => {
+         loading_hide();
+         if (data.isOk) {
+             console.log(data)
+             this.productos = data.Content;
+         }
+
+     });
     }
 
       

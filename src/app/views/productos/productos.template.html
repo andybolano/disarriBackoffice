@@ -9,7 +9,7 @@
                 <li>
                     <a>Inicio</a>
                 </li>
-                <li class="active">
+            <li class="active">
                     <strong>productos</strong>
                 </li>
             </ol>
@@ -359,7 +359,6 @@
                             <div class="col-lg-6">
                                 <label>Categoria:</label>
                                 <div class="input-group m-b">
-                                    <span class="input-group-addon">$</span>
                                     <select class="form-control" [(ngModel)]="Producto.categoria_id"
                                         (change)="getSubcategorias()">
                                         <option [value]="categoria.id" *ngFor="let categoria of categorias">
@@ -371,7 +370,6 @@
                             <div class="col-lg-6">
                                 <label>Subcategoria:</label>
                                 <div class="input-group m-b">
-                                    <span class="input-group-addon">$</span>
                                     <select class="form-control" [(ngModel)]="Producto.subcategoria_id">
                                         <option [value]="subcategoria.id" *ngFor="let subcategoria of subcategorias">
                                             {{subcategoria.name}}</option>
@@ -391,7 +389,11 @@
                                     {{tag.name}}
                                 </label>
                             </div>
-                            <br>
+                          
+                            
+                        </div>
+                        <br>
+                        <div class="row">
                             <div class="col-lg-12">
                                 <label>Descripción:</label><br>
                                 <small>Obligación para este campo:</small>
