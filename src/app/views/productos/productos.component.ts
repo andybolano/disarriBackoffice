@@ -38,6 +38,7 @@ export class productosComponent {
         descuentos: [],
         colores: [
             {
+                id_color:0,
                 nombre: "",
                 color: 0
             }
@@ -77,7 +78,7 @@ export class productosComponent {
 
     addColor() {
         let num = Math.floor(Math.random() * 10000);
-        this.Producto.colores.push({ nombre: "", color: num });
+        this.Producto.colores.push({ id_color:0, nombre: "", color: num });
     }
 
     addDescuento() {
@@ -97,6 +98,7 @@ export class productosComponent {
             descuentos: [],
             colores: [
                 {
+                    id_color:0,
                     nombre: "",
                     color: 0
                 }
@@ -225,7 +227,7 @@ export class productosComponent {
                 this.alertService.warning('Ingresar nombre de color');
                 return;
             }
-            this.Producto.colores.push({ nombre: nombre_color, color: jQuery('#color_' + i).val() });
+            this.Producto.colores.push({ id_color:0,nombre: nombre_color, color: jQuery('#color_' + i).val() });
         }
         formData.append('imagen', this.files[0]);
         var tallas = jQuery('#tallas').val().split(",");
@@ -382,7 +384,7 @@ export class productosComponent {
         this.update = true;
         this.Producto = item.propiedades;
         if (item.colores == null || item.colores.length == 0) {
-            this.Producto.colores = [{ nombre: "", color: 0 }]
+            this.Producto.colores = [{ id_color:0, nombre: "", color: 0 }]
         } else {
             this.Producto.colores = item.colores;
         }
@@ -526,7 +528,7 @@ export class productosComponent {
         let nombre_color = "";
         for (let i = 0; i < colores.length; i++) {
             nombre_color = jQuery('#nombre_' + i).val().replace(/\s/g, "_");
-            this.Producto.colores.push({ nombre: nombre_color, color: jQuery('#color_' + i).val() });
+            this.Producto.colores.push({ id_color:colores[i].id_color ,nombre: nombre_color, color: jQuery('#color_' + i).val() });
         }
 
         if (this.files != null) {
@@ -547,6 +549,7 @@ export class productosComponent {
         formData.append('descripcion', this.Producto.descripcion);
         if(this.Producto.colores != null){
             this.Producto.colores.forEach((item, index) => {
+                formData.append(`colores[${index}][id_color]`, item.id_color.toString());
                 formData.append(`colores[${index}][nombre]`, item.nombre);
                 formData.append(`colores[${index}][color]`, item.color != null ? item.color.toString() : "");
             });
