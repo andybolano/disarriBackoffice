@@ -1,5 +1,6 @@
 
 
+
 import {
     AlertService,
     AuthenticationService,
@@ -18,7 +19,8 @@ import {
     CategoriasService,
     SubcategoriasService,
     TagsService,
-    CodigosDescuentosService
+    CodigosDescuentosService,
+    ExcelService
 } from './../services/base.import';
 import { NgModule } from '@angular/core';
 import { ToastyModule } from 'ng2-toasty';
@@ -44,7 +46,8 @@ import { ToastyModule } from 'ng2-toasty';
         SubcategoriasService,
         CategoriasService,
         TagsService,
-        CodigosDescuentosService
+        CodigosDescuentosService,
+        ExcelService
     ],
     entryComponents: [
         

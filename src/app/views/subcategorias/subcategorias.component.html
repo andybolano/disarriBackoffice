@@ -41,6 +41,9 @@
                         <th>
                             <mfDefaultSorter by="item.description">Descripción</mfDefaultSorter>
                         </th>
+                        <th>
+                            <mfDefaultSorter by="item.orden">Orden</mfDefaultSorter>
+                        </th>
                         <th style="text-align:center;width:100px;">Opciones</th>
                     </tr>
                 </thead>
@@ -49,6 +52,10 @@
                         <td>{{item.id}}</td>
                         <td>{{item.name}}</td>
                         <td>{{item.description}}</td>
+                        <td style="width:10%">
+                            <input class="form-control" [(ngModel)]="item.orden"
+                                (change)="changeOrden(item.id,item.orden)">
+                        </td>
                         <td>
                             <a href="javascript:;" data-toggle="modal" data-target="#modalSubcategoria" title="Editar" (click)="editShow(item);"><i class="fa fa-edit ico text-warning"></i></a> &nbsp;
                             <a href="javascript:;" title="Eliminar" (click)="delete(item.id)"><i class="fa fa-trash ico text-red"></i></a>

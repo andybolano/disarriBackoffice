@@ -1,13 +1,13 @@
 
-import { viewsModule } from './../../modules/view.module';
 
-import { element } from 'protractor';
-import { Component, OnInit } from '@angular/core';
-import { AlertService, VentasService } from "../../services/base.import";
+
+
+import { Component } from '@angular/core';
+import { AlertService, ExcelService, VentasService } from "../../services/base.import";
 import { Result } from './../../services/servers.service';
 import { loading_show, loading_hide } from '../../app.helpers';
 import swal from 'sweetalert2';
-declare var jQuery: any;
+
 @Component({
     selector: 'ventasComponent',
     templateUrl: 'ventas.template.html'
@@ -16,7 +16,8 @@ export class ventasComponent {
 
     constructor(
         private alertService: AlertService,
-        private ventasService: VentasService
+        private ventasService: VentasService,
+        private excel: ExcelService
     ) {
 
     }
@@ -117,6 +118,11 @@ export class ventasComponent {
                 this.data = data.Content;
             }
         });
+    }
+
+
+    downloadExcel(): void{
+        this.excel.exportAsExcelFile(this.data , `ventas_${this.fechaDesde}-${this.fechaHasta}`);
     }
 
     entregado(state: String, item: any) {

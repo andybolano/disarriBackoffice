@@ -25,4 +25,8 @@ export class SubcategoriasService {
         }
         return this.http.post(0, this.servers.serverName + '/sub-categoria/delete', request, callback);
     }
+
+    updateOrden(object, callback: any) {
+        return this.http.post(0, this.servers.serverName + '/sub-categoria/update/orden', object, callback);
+    }
 }

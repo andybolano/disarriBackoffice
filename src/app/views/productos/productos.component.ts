@@ -222,7 +222,8 @@ export class productosComponent {
         this.Producto.colores = [];
         let nombre_color = "";
         for (let i = 0; i < colores.length; i++) {
-            nombre_color = jQuery('#nombre_' + i).val().replace(/\s/g, "_");
+           // nombre_color = jQuery('#nombre_' + i).val().replace(/\s/g, "_");
+           nombre_color = jQuery('#nombre_' + i).val();
             if(!nombre_color){
                 this.alertService.warning('Ingresar nombre de color');
                 return;
@@ -527,7 +528,7 @@ export class productosComponent {
         this.Producto.colores = [];
         let nombre_color = "";
         for (let i = 0; i < colores.length; i++) {
-            nombre_color = jQuery('#nombre_' + i).val().replace(/\s/g, "_");
+            nombre_color = jQuery('#nombre_' + i).val();
             this.Producto.colores.push({ id_color:colores[i].id_color ,nombre: nombre_color, color: jQuery('#color_' + i).val() });
         }
 

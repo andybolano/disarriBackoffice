@@ -152,4 +152,24 @@ export class SubcategoriasComponent implements OnInit {
     });
   }
 
+  changeOrden(id:number, orden:number): void{
+   
+    if (orden == 0) {
+        return;
+    }
+    var object = {
+        id: id,
+        orden: orden
+    }
+
+    loading_show();
+    this.subcategoriasService.updateOrden(object, (data: Result) => {
+        loading_hide();
+        if (data.isOk) {
+            this.alertService.success('Orden cambiado correctamente')
+        }
+
+    });
+  }
+
 }

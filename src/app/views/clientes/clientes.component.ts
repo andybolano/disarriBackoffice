@@ -1,20 +1,20 @@
-import { viewsModule } from './../../modules/view.module';
-
-import { element } from 'protractor';
-import { Component, OnInit } from '@angular/core';
-import { AlertService, ClientesService } from "../../services/base.import";
+import { Component} from '@angular/core';
+import { AlertService, ClientesService, ExcelService } from "../../services/base.import";
 import { Result } from './../../services/servers.service';
 import { loading_show, loading_hide } from '../../app.helpers';
-import swal from 'sweetalert2';
-declare var jQuery: any;
+
 @Component({
     selector: 'clientesComponent',
     templateUrl: 'clientes.template.html'
 })
 export class clientesComponent {
+    
+  
+    fileName:string = "Clientes";
     constructor(
         private alertService: AlertService,
-        private clientesService: ClientesService
+        private clientesService: ClientesService,
+        private excel: ExcelService
     ) {
 
     }
@@ -24,6 +24,10 @@ export class clientesComponent {
 
     ngOnInit() {
        this.getAll();
+    }
+
+    downloadExcel(): void{
+        this.excel.exportAsExcelFile(this.clientes, this.fileName);
     }
 
     getAll(){

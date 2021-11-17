@@ -22,3 +22,4 @@ export * from './categorias.service';
 export * from './subcategorias.service';
 export * from './tags.service';
 export * from './codigos-descuentos.service';
+export * from './excel.service';
