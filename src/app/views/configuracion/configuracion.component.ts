@@ -36,9 +36,9 @@ export class configuracionComponent {
         valor_min_cop: 0,
         valor_min_usd: 0,
         numero_whatsapp: "",
-        dias_IN:0,
-        dias_LO:0,
-        dias_CO:0
+        dias_IN:"",
+        dias_LO:"",
+        dias_CO:""
     };
 
     ngOnInit() {

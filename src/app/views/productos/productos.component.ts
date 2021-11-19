@@ -26,6 +26,7 @@ export class productosComponent {
     Stock: any = {};
     public colorSelected = "";
     files: FileList;
+    fileHover: FileList;
     files_imgs: FileList;
     files_medidas_escritorio: FileList;
     files_medidas_movil: FileList;
@@ -48,6 +49,7 @@ export class productosComponent {
         precio_ant: 0,
         precio_ant_usd: 0,
         image: "",
+        imagenHover:"",
         compra_min: 1,
         categoria_id: null,
         subcategoria_id: null,
@@ -108,6 +110,7 @@ export class productosComponent {
             precio_ant: 0,
             precio_ant_usd: 0,
             image: "",
+            imagenHover:"",
             compra_min: 1,
             categoria_id: null,
             subcategoria_id: null,
@@ -175,17 +178,29 @@ export class productosComponent {
         });
     }
 
-    getFiles(event: any) {
-        this.files = event.target.files;
+    getFiles(event: any, type:string) {
 
-        for (var i = 0, f; f = this.files[i]; i++) {
+        let files:FileList;
+        let id:string;
+        if(type === 'hover'){
+            this.fileHover = event.target.files;
+            id="image_hover";
+          
+        }else{
+            this.files = event.target.files;
+            id="image";
+        }
+    
+        files = event.target.files;
+
+        for (var i = 0, f; f = files[i]; i++) {
             if (!f.type.match('image.*')) {
                 continue;
             }
             var reader = new FileReader();
             reader.onload = (function (theFile) {
                 return function (e) {
-                    document.getElementById("image").innerHTML = ['<img class="animated bounceIn" style="width:60%;" src="', e.target.result, '" />'].join('');
+                    document.getElementById(id).innerHTML = ['<img class="animated bounceIn" style="width:60%;" src="', e.target.result, '" />'].join('');
                 };
             })(f);
             reader.readAsDataURL(f);
@@ -218,6 +233,10 @@ export class productosComponent {
             this.alertService.warning('Por favor cargar la imagen del producto');
             return;
         }
+        if (!this.fileHover) {
+            this.alertService.warning('Por favor cargar la imagen del hover producto');
+            return;
+        }
         let colores = this.Producto.colores;
         this.Producto.colores = [];
         let nombre_color = "";
@@ -231,6 +250,7 @@ export class productosComponent {
             this.Producto.colores.push({ id_color:0,nombre: nombre_color, color: jQuery('#color_' + i).val() });
         }
         formData.append('imagen', this.files[0]);
+        formData.append('imagenHover', this.fileHover[0]);
         var tallas = jQuery('#tallas').val().split(",");
 
 
@@ -251,6 +271,7 @@ export class productosComponent {
             });
         }
         formData.append('imagen', this.Producto.image);
+        formData.append('imagenHover', this.Producto.imagenHover);
         formData.append('compra_min', this.Producto.compra_min != null ? this.Producto.compra_min.toString() : "");
         if(this.Producto.descuentos != null){
             this.Producto.descuentos.forEach((item, index)=>{
@@ -401,6 +422,7 @@ export class productosComponent {
         let tallas = "";
         jQuery('#tallas').tagsinput('removeAll');
         document.getElementById("image").innerHTML = ['<img class="animated bounceIn" style="width:60%;" src="' + item.propiedades.image + '" />'].join('');
+        document.getElementById("image_hover").innerHTML = ['<img class="animated bounceIn" style="width:60%;" src="' + item.propiedades.imagenHover + '" />'].join('');
         for (let i = 0; i < item.tallas.length; i++) {
             jQuery('#tallas').tagsinput('add', item.tallas[i].talla);
         }
@@ -534,6 +556,10 @@ export class productosComponent {
 
         if (this.files != null) {
             formData.append('imagen', this.files[0]);
+        }
+
+        if(this.fileHover != null){
+            formData.append('imagenHover', this.fileHover[0]);
         }
 
         var tallas = jQuery('#tallas').val().split(",");

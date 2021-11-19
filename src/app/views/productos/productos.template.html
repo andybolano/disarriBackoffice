@@ -403,7 +403,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-6">
+                    <div class="col-lg-3">
                         <div class="row">
                             <div class="col-lg-12" style="text-align:center">
                                 <div class="spacer" style="height:20px;"></div>
@@ -420,7 +420,30 @@
                                 <div class="spacer" style="height:20px;"></div>
                                 <div class="fileUpload btn btn-primary">
                                     <span><i class="fa fa-image"></i> Seleccionar imagen</span>
-                                    <input type="file" (change)="getFiles($event)" name="images" id="files"
+                                    <input type="file" (change)="getFiles($event, 'principal')" name="images" id="files"
+                                        class="upload" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="row">
+                            <div class="col-lg-12" style="text-align:center">
+                                <div class="spacer" style="height:20px;"></div>
+                                <div id="image_hover" class="animated bounceIn">
+                                    <div class="row">
+                                        <div class="col-lg-12" style="text-align: center;">
+                                            <i class="fa fa-image ico-bg"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="spacer" style="height:20px;"></div>
+                                <small>Recomendacion: Imagen horizontal, tamaño recomendado 287px X 430px.<br> Esta
+                                    Imagen será la *imagen en el efecto hover* del producto</small>
+                                <div class="spacer" style="height:20px;"></div>
+                                <div class="fileUpload btn btn-primary">
+                                    <span><i class="fa fa-image"></i> Seleccionar imagen</span>
+                                    <input type="file" (change)="getFiles($event, 'hover')" name="images" id="files"
                                         class="upload" />
                                 </div>
                             </div>
